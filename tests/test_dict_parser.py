@@ -4,9 +4,9 @@ import pytest
 import sys
 import logging
 
-from tools import TempStringLogger
 from . import context
-from generic_parser.dict_parser import ParameterError, Parameter, DictParser
+from dict_parser import ParameterError, Parameter, DictParser
+from tools import TempStringLogger
 
 
 def test_deep_dict():
