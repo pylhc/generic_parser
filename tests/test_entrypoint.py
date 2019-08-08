@@ -13,7 +13,7 @@ from generic_parser.entrypoint_parser import (EntryPointParameters,
                                               OptionsError, split_arguments,
                                               create_parameter_help, save_options_to_config
                                               )
-from tools import silence, print_dict_tree, TempStringLogger
+from generic_parser.tools import silence, print_dict_tree, TempStringLogger
 
 LOG = logging.getLogger(__name__)
 
