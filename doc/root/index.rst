@@ -1,18 +1,18 @@
 Generic Parser Modules
 **************************
 
-.. automodule:: entrypoint_parser
+.. automodule:: generic_parser.entrypoint_parser
     :members:
 
 
-.. automodule:: dict_parser
+.. automodule:: generic_parser.dict_parser
     :members:
 
 
-.. automodule:: entry_datatypes
+.. automodule:: generic_parser.entry_datatypes
     :members:
 
 
-.. automodule:: tools
+.. automodule:: generic_parser.tools
     :members:
 
