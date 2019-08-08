@@ -1,4 +1,4 @@
 # Expose the main functionalities
-from entrypoint_parser import EntryPoint, EntryPointParameters, entrypoint
-from tools import DotDict
+from generic_parser.entrypoint_parser import EntryPoint, EntryPointParameters, entrypoint
+from generic_parser.tools import DotDict
 __version__ = "1.0.0"
