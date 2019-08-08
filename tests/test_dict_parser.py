@@ -5,8 +5,8 @@ import sys
 import logging
 
 from . import context
-from dict_parser import ParameterError, Parameter, DictParser
-from tools import TempStringLogger
+from generic_parser.dict_parser import ParameterError, Parameter, DictParser
+from generic_parser.tools import TempStringLogger
 
 
 def test_deep_dict():

@@ -6,13 +6,13 @@ import tempfile
 import pytest
 
 from . import context
-from dict_parser import ParameterError, ArgumentError
-from entry_datatypes import get_multi_class, DictAsString, BoolOrString, BoolOrList
-from entrypoint_parser import (EntryPointParameters,
-                               entrypoint, EntryPoint,
-                               OptionsError, split_arguments,
-                               create_parameter_help, save_options_to_config
-                               )
+from generic_parser.dict_parser import ParameterError, ArgumentError
+from generic_parser.entry_datatypes import get_multi_class, DictAsString, BoolOrString, BoolOrList
+from generic_parser.entrypoint_parser import (EntryPointParameters,
+                                              entrypoint, EntryPoint,
+                                              OptionsError, split_arguments,
+                                              create_parameter_help, save_options_to_config
+                                              )
 from tools import silence, print_dict_tree, TempStringLogger
 
 LOG = logging.getLogger(__name__)

@@ -2,7 +2,7 @@ from io import StringIO
 import pytest
 
 from . import context
-from tools import DotDict, print_dict_tree
+from generic_parser.tools import DotDict, print_dict_tree
 
 
 def test_dot_dict(simple_dict):
