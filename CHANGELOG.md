@@ -1,8 +1,8 @@
 # Generic-Parser Changelog
 
-## Version 1.0.1
+## Version 1.0.3
  - Fixed:
-   - Import bug in \_\_init\_\_ 
+   - Imports (as with the last two patches)
 
 ## Version 1.0.0
  - Initial Release
