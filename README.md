@@ -1,4 +1,4 @@
-# TFS-Pandas
+# Generic Parser
 [![Travis (.com)](https://img.shields.io/travis/com/pylhc/generic_parser.svg?style=popout)](https://travis-ci.com/pylhc/generic_parser/)
 [![Code Climate coverage](https://img.shields.io/codeclimate/coverage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
 [![Code Climate maintainability (percentage)](https://img.shields.io/codeclimate/maintainability-percentage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
