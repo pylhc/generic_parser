@@ -135,8 +135,8 @@ from configparser import ConfigParser
 from inspect import getfullargspec
 from functools import wraps
 
-from tools import DotDict, silence, unformatted_console_logging
-from dict_parser import ParameterError, ArgumentError, DictParser
+from generic_parser.tools import DotDict, silence, unformatted_console_logging
+from generic_parser.dict_parser import ParameterError, ArgumentError, DictParser
 
 import logging
 LOG = logging.getLogger(__name__)

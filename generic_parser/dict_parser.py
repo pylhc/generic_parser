@@ -6,7 +6,7 @@ import argparse
 import copy
 import logging
 
-from tools import DotDict, _TC
+from generic_parser.tools import DotDict, _TC
 
 LOG = logging.getLogger(__name__)
 
