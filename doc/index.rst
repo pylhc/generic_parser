@@ -1,10 +1,7 @@
-.. omc3 documentation master file, created by
-   sphinx-quickstart on Tue Oct  8 13:32:26 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. generic-parser documentation master file
 
-Welcome to pyLHC's documentation!
-=====================================
+Welcome to the documentation of the Generic Parser!
+===================================================
 
 Contents:
 
