@@ -284,10 +284,10 @@ def test_dict_as_string_class():
 def test_bool_or_str_class():
     assert isinstance(True, BoolOrString)
     assert isinstance("myString", BoolOrString)
-    assert BoolOrString("True") == True
-    assert BoolOrString("1") == True
-    assert BoolOrString(True) == True
-    assert BoolOrString(1) == True
+    assert BoolOrString("True") is True
+    assert BoolOrString("1") is True
+    assert BoolOrString(True) is True
+    assert BoolOrString(1) is True
     assert BoolOrString("myString") == "myString"
     assert issubclass(bool, BoolOrString)
     assert issubclass(str, BoolOrString)
@@ -297,10 +297,10 @@ def test_bool_or_str_class():
 def test_bool_or_list_class():
     assert isinstance(True, BoolOrList)
     assert isinstance([], BoolOrList)
-    assert BoolOrList("False") == False
-    assert BoolOrList("0") == False
-    assert BoolOrList(False) == False
-    assert BoolOrList(0) == False
+    assert BoolOrList("False") is False
+    assert BoolOrList("0") is False
+    assert BoolOrList(False) is False
+    assert BoolOrList(0) is False
     assert BoolOrList("[1, 2]") == [1, 2]
     assert issubclass(bool, BoolOrList)
     assert issubclass(list, BoolOrList)
@@ -347,16 +347,16 @@ def test_bool_or_str():
         return opt
 
     opt = fun(bos=True)
-    assert opt.bos == True
+    assert opt.bos is True
 
     opt = fun(bos='myString')
     assert opt.bos == 'myString'
 
     opt = fun(["--bos", "False"])
-    assert opt.bos == False
+    assert opt.bos is False
 
     opt = fun(["--bos", "1"])
-    assert opt.bos == True
+    assert opt.bos is True
 
     opt = fun(["--bos", "myString"])
     assert opt.bos == "myString"
@@ -381,7 +381,7 @@ def test_bool_or_str_cfg():
             f.write("[Section]\nbos1 = 'myString'\nbos2 = True")
         opt = fun(entry_cfg=cfg_file)
     assert opt.bos1 == 'myString'
-    assert opt.bos2 == True
+    assert opt.bos2 is True
 
 
 def test_bool_or_list():
@@ -390,7 +390,7 @@ def test_bool_or_list():
         return opt
 
     opt = fun(bol=True)
-    assert opt.bol == True
+    assert opt.bol is True
 
     opt = fun(bol=[1, 2])
     assert opt.bol == [1, 2]
@@ -399,10 +399,10 @@ def test_bool_or_list():
     assert opt.bol == [1, 2]
 
     opt = fun(["--bol", "0"])
-    assert opt.bol == False
+    assert opt.bol is False
 
     opt = fun(["--bol", "True"])
-    assert opt.bol == True
+    assert opt.bol is True
 
 
 def test_bool_or_list_cfg():
@@ -417,7 +417,7 @@ def test_bool_or_list_cfg():
             f.write("[Section]\nbol1 = 1,2\nbol2 = True")
         opt = fun(entry_cfg=cfg_file)
     assert opt.bol1 == [1, 2]
-    assert opt.bol2 == True
+    assert opt.bol2 is True
 
 
 # Test the Helpers #################################################################
@@ -467,7 +467,8 @@ def test_create_param_help_other():
 def get_simple_params():
     """ Parameters as a list of dicts, to test this behaviour as well."""
     return [{"name": "arg1", "flags": "--a1", },
-            {"name": "arg2", "flags": "--a2", },]
+            {"name": "arg2", "flags": "--a2", }
+            ]
 
 
 def get_testing_params():
@@ -520,7 +521,6 @@ def get_other_params():
         "arg4": dict(flags="--arg4", help="...heeeeeeeeelp.", default=4,),
     })
     return args
-
 
 
 # Example Wrapped Functions ####################################################

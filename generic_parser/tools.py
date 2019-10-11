@@ -163,4 +163,3 @@ class TempStringLogger:
     def get_log(self):
         """ Get the log as string. """
         return self.stream.getvalue()
-
