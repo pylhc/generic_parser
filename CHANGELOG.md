@@ -1,5 +1,8 @@
 # Generic-Parser Changelog
 
+## Version 1.0.4
+ * remove .idea files
+
 ## Version 1.0.3
  - Fixed:
    * pep8 errors and warnings
