@@ -1,5 +1,8 @@
 # Generic-Parser Changelog
 
+## Version 1.0.5
+ * Re-release of 1.0.4 on pypi due to release errors
+
 ## Version 1.0.4
  * remove .idea files
 
