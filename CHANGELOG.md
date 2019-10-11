@@ -1,5 +1,12 @@
 # Generic-Parser Changelog
 
+## Version 1.0.3
+ - Fixed:
+   * pep8 errors and warnings
+   * typo in logging
+ * Enhancement:
+   * Flags default to name if not set 
+
 ## Version 1.0.2
  - Fixed:
    - Imports everywhere
