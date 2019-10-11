@@ -125,7 +125,7 @@ def unformatted_console_logging():
 
     new_handler = logging.StreamHandler(sys.stdout)
     new_handler.setLevel(logging.NOTSET)
-    new_handler.setFormatter(logging.Formatter("(%message)s"))
+    new_handler.setFormatter(logging.Formatter("%(message)s"))
     root_logger.addHandler(new_handler)
 
     yield
