@@ -330,7 +330,9 @@ class EntryPoint(object):
                                      "As entrypoint does not use 'const', the use is prohibited.")
 
             if param.get("flags", None) is None:
-                raise ParameterError(f"Parameter '{arg_name:s}' does not have flags.")
+                # if flags aren't supplied, it defaults to the name
+                LOG.debug(f'Missing flags parameter. Defaulting to --{arg_name}')
+                param['flags'] = [f'--{arg_name}']
 
     def _read_config(self, cfgfile_path, section=None):
         """ Get content from config file"""

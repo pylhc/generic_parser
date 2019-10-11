@@ -69,11 +69,6 @@ def test_wrong_param_creation_name():
         EntryPoint([{"flags": "--flag"}])
 
 
-def test_wrong_param_creation_flags():
-    with pytest.raises(ParameterError):
-        EntryPoint([{"name": "test"}])
-
-
 def test_wrong_param_creation_other():
     with pytest.raises(TypeError):
         EntryPoint([{"name": "test", "flags": "--flag", "other": "unknown"}])
@@ -85,6 +80,32 @@ def test_choices_not_iterable():
         EntryPoint([{"name": "test", "flags": "--flag",
                      "choices": 3,
                      }])
+
+
+def test_missing_flag_replaced_by_name():
+    ep = EntryPoint([{"name": "test"}])
+
+    assert len(ep.parameter[0]) == 2
+    assert ep.parameter[0]['flags'] == ['--test']
+    assert ep.parameter[0]['name'] == 'test'
+
+
+def test_missing_flag_replaced_by_name_in_multiple_lists():
+    ep = EntryPoint([{"name": "test"},
+                     {"name": "thermos_coffee"},
+                     {"name": "tee_kessel", "flags": ['--tee_kessel']}])
+
+    assert len(ep.parameter[0]) == 2
+    assert ep.parameter[0]['flags'] == ['--test']
+    assert ep.parameter[0]['name'] == 'test'
+
+    assert len(ep.parameter[1]) == 2
+    assert ep.parameter[1]['flags'] == ['--thermos_coffee']
+    assert ep.parameter[1]['name'] == 'thermos_coffee'
+
+    assert len(ep.parameter[2]) == 2
+    assert ep.parameter[2]['flags'] == ['--tee_kessel']
+    assert ep.parameter[2]['name'] == 'tee_kessel'
 
 
 # Argument Tests
