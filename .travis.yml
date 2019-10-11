@@ -7,6 +7,8 @@ email:
     on_failure: always
 python:
  - "3.6"
+install:
+  - pip install -U --upgrade-strategy eager -r requirements.txt # always use the newest version of packages
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
