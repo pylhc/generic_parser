@@ -352,7 +352,9 @@ class EntryPoint(object):
                                     " Please specify one!")
 
         items = cfgparse.items(section)
-        self.configparse = self._create_config_parser()  # clear the config parser, it keeps defaults between files
+
+        # clear the config parser, it keeps defaults between files
+        self.configparse = self._create_config_parser()
         return items
 
 

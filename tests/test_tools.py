@@ -21,13 +21,17 @@ def test_get_subdict(simple_dict):
 
 
 def test_print_tree(simple_dict):
+    def print_with_blank_line(s):
+        stream.write("\n" + s)
+
     name = "A Dict"
     stream = StringIO()
-    fun = lambda s: stream.write("\n" + s)
+    fun = print_with_blank_line
 
     print_dict_tree(simple_dict, name, print_fun=fun)
 
     text = stream.getvalue()
+
     # print(text)  # I'll leave it here, in case you want to see the dict
     assert name in text
     for l in simple_dict.keys():
@@ -39,4 +43,4 @@ def test_print_tree(simple_dict):
 
 @pytest.fixture()
 def simple_dict():
-    return dict(a=1, b='str', c=dict(e=[1,2,3]))
+    return dict(a=1, b='str', c=dict(e=[1, 2, 3]))
