@@ -5,7 +5,7 @@ env:
 stages:
   - test
   - name: package
-    if: branch = master AND tag IS present
+    if: tag =~ ^v\d+\.\d+\.\d+.*
 
 language: python
 email:
@@ -46,4 +46,3 @@ jobs:
         - python setup.py sdist bdist_wheel
         - twine check dist/* 
         - twine upload dist/*
-
