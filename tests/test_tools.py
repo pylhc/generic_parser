@@ -1,7 +1,6 @@
 from io import StringIO
 import pytest
 
-from . import context
 from generic_parser.tools import DotDict, print_dict_tree
 
 

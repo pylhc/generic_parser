@@ -24,13 +24,13 @@ jobs:
         - chmod +x ./cc-test-reporter
         - ./cc-test-reporter before-build
       script:
-       - pytest --cov-report xml --cov=generic_parser tests
+       - python setup.py test
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
     - stage: documentation
       install:
-        - pip install travis-sphinx sphinx_rtd_theme
+        - pip install '.[doc]'
       script:
        - travis-sphinx build --source=doc/ --nowarn
       after_success:
