@@ -4,7 +4,6 @@ import pytest
 import sys
 import logging
 
-from . import context
 from generic_parser.dict_parser import ParameterError, Parameter, DictParser
 from generic_parser.tools import TempStringLogger
 

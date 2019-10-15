@@ -5,7 +5,6 @@ import tempfile
 
 import pytest
 
-from . import context
 from generic_parser.dict_parser import ParameterError, ArgumentError
 from generic_parser.entry_datatypes import get_multi_class, DictAsString, BoolOrString, BoolOrList
 from generic_parser.entrypoint_parser import (EntryPointParameters,
