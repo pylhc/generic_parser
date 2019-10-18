@@ -9,16 +9,19 @@ stages:
   - name: package
     if: tag =~ ^v\d+\.\d+\.\d+.*
 
+# Default python version that will be inherited
+# Additional ones can be defined later
 language: python
+python: 3.6
+
 email:
-    on_success: always
-    on_failure: always
-python:
- - "3.6"
+  on_success: always
+  on_failure: always
 
 jobs:
   include:
-    - stage: test
+    - &test-stage
+      stage: test
       before_script:
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
@@ -27,6 +30,13 @@ jobs:
        - python setup.py test
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+    # Define additional python versions for tests
+    - <<: *test-stage
+      python: 3.7
+    
+    - <<: *test-stage
+      python: 3.8
 
     - stage: documentation
       install:
@@ -45,7 +55,6 @@ jobs:
           [distutils]
           index-servers=
               pypi
-
           [pypi]
             username: $PYPI_USERNAME
             password: $PYPI_PASSWORD
