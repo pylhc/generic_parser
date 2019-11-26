@@ -535,7 +535,7 @@ def add_to_arguments(args, entry_params=None, **kwargs):
 
         params = list2dict_param(entry_params)
         for key, value in kwargs.items():
-            flag = params[key]["flags"]
+            flag = params[key].get("flags", f"--{key}")
             if isinstance(flag, list):
                 flag = flag[0]
             if isinstance(value, list):
