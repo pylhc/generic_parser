@@ -106,7 +106,7 @@ Example with list of dictionaries:
 .. code-block:: python
 
     args = [
-        "dict(
+        dict(
             name="accel",
             flags=["-a", "--accel"],
             help="Which accelerator?",
@@ -159,12 +159,15 @@ class EntryPoint(object):
         # add argument dictionary to EntryPoint
         self.remainder = None
         self.parameter = dict2list_param(parameter)
-        self._check_parameter()
+        self._check_parameter()  # just simple checks for structure
 
         # add config-argparser
         self.configarg = self._create_config_argument()
 
         # create parsers from parameter
+        # this also ensures that the parameters are correctly defined,
+        # by tests in argparser and in Parameter(),
+        # which is used in dict_parser -> add parameter
         self.argparse = self._create_argument_parser()
         self.dictparse = self._create_dict_parser()  # also used for configfiles
 
@@ -219,13 +222,13 @@ class EntryPoint(object):
     def _create_argument_parser(self):
         """ Creates the ArgumentParser from parameter. """
         parser = ArgumentParser()
-        parser = add_params_to_generic(parser, self.parameter)
+        parser = _add_params_to_argument_parser(parser, self.parameter)
         return parser
 
     def _create_dict_parser(self):
         """ Creates the DictParser from parameter. """
         parser = DictParser(strict=self.strict)
-        parser = add_params_to_generic(parser, self.parameter)
+        parser = _add_params_to_dict_parser(parser, self.parameter)
         return parser
 
     def _create_config_parser(self):
@@ -479,11 +482,11 @@ class EntryPointParameters(DotDict):
                 optional_param += item_str + "\n"
 
         if required_param:
-            LOG.info("*--Required--*")
+            LOG.info("*--Required--*\n")
             LOG.info(required_param)
 
         if optional_param:
-            LOG.info("*--Optional--*")
+            LOG.info("*--Optional--*\n")
             LOG.info(optional_param)
 
 
@@ -546,49 +549,69 @@ def add_to_arguments(args, entry_params=None, **kwargs):
     return args
 
 
+# parameter adders ---
+
 def add_params_to_generic(parser, params):
     """ Adds entry-point style parameter to either
     ArgumentParser, DictParser or EntryPointParameters
     """
-    params = copy.deepcopy(params)
-    params = dict2list_param(params)
 
     if isinstance(parser, EntryPointParameters):
-        for param in params:
-            parser.add_parameter(**param)
+        parser = _add_params_to_entrypoint_parser(parser, params)
 
     elif isinstance(parser, ArgumentParser):
-        for param in params:
-            param["dest"] = param.pop("name", None)
-            flags = param.pop("flags", None)
-            if flags is None:
-                parser.add_argument(**param)
-            else:
-                if isinstance(flags, str):
-                    flags = [flags]
-                parser.add_argument(*flags, **param)
+        parser = _add_params_to_argument_parser(parser, params)
 
     elif isinstance(parser, DictParser):
-        for param in params:
-            if "nargs" in param:
-                param["subtype"] = param.get("type", None)
-                param["type"] = list
-
-            if "action" in param:
-                if param["action"] in ("store_true", "store_false"):
-                    param["type"] = bool
-                    param["default"] = not param["action"][6] == "t"
-                else:
-                    raise ParameterError(f"Action '{param['action']:s}' not allowed in EntryPoint")
-                param.pop("action")
-
-            param.pop("flags", None)
-
-            name = param.pop("name")
-            parser.add_parameter(name, **param)
+        parser = _add_params_to_dict_parser(parser, params)
     else:
         raise TypeError("Parser not recognised.")
     return parser
+
+
+def _add_params_to_entrypoint_parser(entry_parser, params):
+    params = dict2list_param(copy.deepcopy(params))
+    for param in params:
+        entry_parser.add_parameter(**param)
+    return entry_parser
+
+
+def _add_params_to_dict_parser(dict_parser, params):
+    params = dict2list_param(copy.deepcopy(params))
+    for param in params:
+        if "nargs" in param:
+            param["subtype"] = param.get("type", None)
+            param["type"] = list
+
+        if "action" in param:
+            if param["action"] in ("store_true", "store_false"):
+                param["type"] = bool
+                param["default"] = not param["action"][6] == "t"
+            else:
+                raise ParameterError(f"Action '{param['action']:s}' not allowed in EntryPoint")
+            param.pop("action")
+
+        param.pop("flags", None)
+
+        name = param.pop("name")
+        dict_parser.add_parameter(name, **param)
+    return dict_parser
+
+
+def _add_params_to_argument_parser(arg_parser, params):
+    params = dict2list_param(copy.deepcopy(params))
+    for param in params:
+        param["dest"] = param.pop("name", None)
+        flags = param.pop("flags", None)
+        if flags is None:
+            arg_parser.add_argument(**param)
+        else:
+            if isinstance(flags, str):
+                flags = [flags]
+            arg_parser.add_argument(*flags, **param)
+    return arg_parser
+
+# ---
 
 
 def split_arguments(args, *param_list):
@@ -615,7 +638,7 @@ def split_arguments(args, *param_list):
         # (as I don't know how to handle flags properly)
         for params in param_list:
             parser = argparse.ArgumentParser()
-            parser = add_params_to_generic(parser, params)
+            parser = _add_params_to_argument_parser(parser, params)
             this_args, args = parser.parse_known_args(args)
             split_args.append(DotDict(this_args.__dict__))
         split_args.append(args)

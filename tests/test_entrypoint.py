@@ -1,5 +1,4 @@
 import logging
-import os
 import sys
 
 import pytest
@@ -83,6 +82,16 @@ def test_choices_not_iterable():
                      }])
 
 
+def test_empty_list_default_for_nargs_plus():
+    with pytest.raises(ParameterError):
+        EntryPoint([{"name": "test", "nargs": "+", "default": []}])
+
+
+def test_wrong_length_default_for_nargs():
+    with pytest.raises(ParameterError):
+        EntryPoint([{"name": "test", "nargs": 2, "default": [1, 2, 3]}])
+
+
 def test_missing_flag_replaced_by_name():
     ep = EntryPoint([{"name": "test"}])
 
@@ -161,7 +170,7 @@ def test_as_argv():  # almost identical to above
 
 
 def test_as_config(tmp_output_dir):
-    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    cfg_file = tmp_output_dir / "config.ini"
     with open(cfg_file, "w") as f:
         f.write("\n".join([
             "[Section]",
@@ -178,7 +187,7 @@ def test_as_config(tmp_output_dir):
 
     # test config as commandline args
     opt2, unknown2 = paramtest_function(
-        ["--entry_cfg", cfg_file, "--section", "Section"]
+        ["--entry_cfg", str(cfg_file), "--section", "Section"]
     )
 
     assert opt1.name == "myname"
@@ -235,7 +244,7 @@ def test_save_options(tmp_output_dir):
         unknown="myfinalargument",
         unknoown=10,
     )
-    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    cfg_file = tmp_output_dir / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -250,7 +259,7 @@ def test_save_cli_options(tmp_output_dir):
          "--list", "4", "5", "6",
          "--other"]
     )
-    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    cfg_file = tmp_output_dir / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -263,7 +272,7 @@ def test_save_and_load_with_none(tmp_output_dir):
     with cli_args():  # name, int, list = None
         opt, unknown = paramtest_function()
 
-    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    cfg_file = tmp_output_dir / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -276,7 +285,7 @@ def test_save_and_load_with_none(tmp_output_dir):
 def test_save_and_load_with_none_explicit(tmp_output_dir):
     opt, unknown = paramtest_function(name=None, int=None, list=None)
 
-    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    cfg_file = tmp_output_dir / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -398,7 +407,7 @@ def test_bool_or_str(tmp_output_dir):
     opt = fun(["--bos", "myString"])
     assert opt.bos == "myString"
 
-    cfg_file = os.path.join(tmp_output_dir, "bos.ini")
+    cfg_file = tmp_output_dir / "bos.ini"
     with open(cfg_file, "w") as f:
         f.write("[Section]\nbos = 'myString'")
     opt = fun(entry_cfg=cfg_file)
@@ -411,7 +420,7 @@ def test_bool_or_str_cfg(tmp_output_dir):
     def fun(opt):
         return opt
 
-    cfg_file = os.path.join(tmp_output_dir, "bos.ini")
+    cfg_file = tmp_output_dir / "bos.ini"
     with open(cfg_file, "w") as f:
         f.write("[Section]\nbos1 = 'myString'\nbos2 = True")
     opt = fun(entry_cfg=cfg_file)
@@ -446,7 +455,7 @@ def test_bool_or_list_cfg(tmp_output_dir):
     def fun(opt):
         return opt
 
-    cfg_file = os.path.join(tmp_output_dir, "bol.ini")
+    cfg_file = tmp_output_dir / "bol.ini"
     with open(cfg_file, "w") as f:
         f.write("[Section]\nbol1 = 1,2\nbol2 = True")
     opt = fun(entry_cfg=cfg_file)

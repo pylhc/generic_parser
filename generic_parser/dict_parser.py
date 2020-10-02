@@ -423,6 +423,16 @@ class Parameter(object):
                 raise ParameterError(f"Parameter '{self.name:s}': " +
                                      "'type' needs to be 'list' if 'nargs' is given.")
 
+            if self.default is not None:  # default-type is checked above as self.type needs to be present
+                if (self.nargs == argparse.ONE_OR_MORE) and not len(self.default):
+                    raise ParameterError(f"Parameter '{self.name:s}': " +
+                                         f"Empty list as default not allowed for nargs='{self.nargs}'.")
+
+                if isinstance(self.nargs, int) and not (self.nargs == len(self.default)):
+                    raise ParameterError(f"Parameter '{self.name:s}': " +
+                                         f"Default value has wrong length (={len(self.default):d}) "
+                                         f"for given nargs={self.nargs:d}.")
+
         if self.choices:
             try:
                 [choice for choice in self.choices]
