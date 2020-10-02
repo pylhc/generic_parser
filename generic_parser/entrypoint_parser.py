@@ -166,8 +166,7 @@ class EntryPoint(object):
 
         # create parsers from parameter
         self.argparse = self._create_argument_parser()
-        self.dictparse = self._create_dict_parser()
-        self.configparse = self._create_config_parser()
+        self.dictparse = self._create_dict_parser()  # also used for configfiles
 
     def parse(self, *args, **kwargs):
         """ Parse whatever input parameter come.
@@ -336,7 +335,8 @@ class EntryPoint(object):
 
     def _read_config(self, cfgfile_path, section=None):
         """ Get content from config file"""
-        cfgparse = self.configparse
+        # create new config parser, as it keeps defaults between files
+        cfgparse = self._create_config_parser()
 
         with open(cfgfile_path) as config_file:
             cfgparse.read_file(config_file)
@@ -353,8 +353,7 @@ class EntryPoint(object):
 
         items = cfgparse.items(section)
 
-        # clear the config parser, it keeps defaults between files
-        self.configparse = self._create_config_parser()
+
         return items
 
 
@@ -668,20 +667,23 @@ def save_options_to_config(filepath, opt, unknown=None):
         unknown: unknown options (only safe for non-commandline parameters)
 
     """
-    def _check_for_string(key, value):
-        if isinstance(value, str):
+    def _to_key_value_str(key, value):
+        if value is None:
+            # return ''  # either: skip key completely
+            value = ''  # or empty as Nones (`allow_no_value` in ConfigParser)
+        elif isinstance(value, str):
             value = f'"{value}"'
         return f"{key}={value}\n"
 
     lines = "[DEFAULT]\n"
     for o in opt:
-        lines += _check_for_string(o, opt[o])
+        lines += _to_key_value_str(o, opt[o])
 
-    if unknown is not None:
+    if unknown is not None and len(unknown):
         lines += "; Unknown options --------------------------\n"
         if isinstance(unknown, dict):
             for o in unknown:
-                lines += _check_for_string(o, unknown[o])
+                lines += _to_key_value_str(o, unknown[o])
         else:
             lines += f"; {' '.join(unknown)}\n"
 

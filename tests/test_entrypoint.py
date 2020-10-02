@@ -1,9 +1,9 @@
 import logging
 import os
 import sys
-import tempfile
 
 import pytest
+from tests.conftest import cli_args
 
 from generic_parser.dict_parser import ParameterError, ArgumentError
 from generic_parser.entry_datatypes import get_multi_class, DictAsString, BoolOrString, BoolOrList
@@ -14,7 +14,9 @@ from generic_parser.entrypoint_parser import (EntryPointParameters,
                                               )
 from generic_parser.tools import silence, print_dict_tree, TempStringLogger
 
+
 LOG = logging.getLogger(__name__)
+DEBUG = False
 
 
 # Tests ########################################################################
@@ -147,27 +149,37 @@ def test_as_string():
     assert len(unknown) > 0
 
 
-def test_as_config():
-    with tempfile.TemporaryDirectory() as cwd:
-        cfg_file = os.path.join(cwd, "config.ini")
-        with open(cfg_file, "w") as f:
-            f.write("\n".join([
-                "[Section]",
-                "name = 'myname'",
-                "int = 3",
-                "list = [4, 5, 6]",
-                "unknown = 'other'",
-            ]))
+def test_as_argv():  # almost identical to above
+    with cli_args("--name", "myname", "--int", "3", "--list", "4", "5", "6",
+                  "--other"):
+        opt, unknown = paramtest_function()
+        assert opt.name == "myname"
+        assert opt.int == 3
+        assert len(opt.list) == 3
+        assert opt.list[1] == 5
+        assert len(unknown) > 0
 
-        # test config as kwarg
-        opt1, unknown1 = paramtest_function(
-            entry_cfg=cfg_file, section="Section"
-        )
 
-        # test config as commandline args
-        opt2, unknown2 = paramtest_function(
-            ["--entry_cfg", cfg_file, "--section", "Section"]
-        )
+def test_as_config(tmp_output_dir):
+    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    with open(cfg_file, "w") as f:
+        f.write("\n".join([
+            "[Section]",
+            "name = 'myname'",
+            "int = 3",
+            "list = [4, 5, 6]",
+            "unknown = 'other'",
+        ]))
+
+    # test config as kwarg
+    opt1, unknown1 = paramtest_function(
+        entry_cfg=cfg_file, section="Section"
+    )
+
+    # test config as commandline args
+    opt2, unknown2 = paramtest_function(
+        ["--entry_cfg", cfg_file, "--section", "Section"]
+    )
 
     assert opt1.name == "myname"
     assert opt1.int == 3
@@ -215,7 +227,7 @@ def test_not_enough_length():
 
 # Config Saver Test
 
-def test_save_options():
+def test_save_options(tmp_output_dir):
     opt, unknown = paramtest_function(
         name="myname",
         int=3,
@@ -223,32 +235,58 @@ def test_save_options():
         unknown="myfinalargument",
         unknoown=10,
     )
-    with tempfile.TemporaryDirectory() as cwd:
-        cfg_file = os.path.join(cwd, "config.ini")
-        save_options_to_config(cfg_file, opt, unknown)
-        opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
+    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    save_options_to_config(cfg_file, opt, unknown)
+    opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
-    _assert_dicts(opt, opt_load)
-    _assert_dicts(unknown, unknown_load)
+    _assert_dicts_equal(opt, opt_load)
+    _assert_dicts_equal(unknown, unknown_load)
 
 
-def test_save_cli_options():
+def test_save_cli_options(tmp_output_dir):
     opt, unknown = paramtest_function(
         ["--name", "myname",
          "--int", "3",
          "--list", "4", "5", "6",
          "--other"]
     )
-    with tempfile.TemporaryDirectory() as cwd:
-        cfg_file = os.path.join(cwd, "config.ini")
-        save_options_to_config(cfg_file, opt, unknown)
-        opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
+    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    save_options_to_config(cfg_file, opt, unknown)
+    opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
-    _assert_dicts(opt, opt_load)
+    _assert_dicts_equal(opt, opt_load)
     assert len(unknown_load) == 0
 
 
-def _assert_dicts(d1, d2):
+def test_save_and_load_with_none(tmp_output_dir):
+    # use cli_args in case we run in test-wrapper (e.g. pycharm)
+    with cli_args():  # name, int, list = None
+        opt, unknown = paramtest_function()
+
+    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    save_options_to_config(cfg_file, opt, unknown)
+    opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
+
+    _assert_dicts_equal(opt, opt_load)
+    assert len(unknown) == 0
+    assert len(unknown_load) == 0
+    assert all([val is None for val in opt.values()])
+
+
+def test_save_and_load_with_none_explicit(tmp_output_dir):
+    opt, unknown = paramtest_function(name=None, int=None, list=None)
+
+    cfg_file = os.path.join(tmp_output_dir, "config.ini")
+    save_options_to_config(cfg_file, opt, unknown)
+    opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
+
+    _assert_dicts_equal(opt, opt_load)
+    assert len(unknown) == 0
+    assert len(unknown_load) == 0
+    assert all([val is None for val in opt.values()])
+
+
+def _assert_dicts_equal(d1, d2):
     for key in d1:
         assert d1[key] == d2[key]
     assert len(d2) == len(d1)
@@ -340,7 +378,7 @@ def test_dict_as_string():
     assert opt.dict['str'] == 'hello'
 
 
-def test_bool_or_str():
+def test_bool_or_str(tmp_output_dir):
     @entrypoint([dict(flags="--bos", name="bos", type=BoolOrString)], strict=True)
     def fun(opt):
         return opt
@@ -360,25 +398,23 @@ def test_bool_or_str():
     opt = fun(["--bos", "myString"])
     assert opt.bos == "myString"
 
-    with tempfile.TemporaryDirectory() as cwd:
-        cfg_file = os.path.join(cwd, "bos.ini")
-        with open(cfg_file, "w") as f:
-            f.write("[Section]\nbos = 'myString'")
-        opt = fun(entry_cfg=cfg_file)
+    cfg_file = os.path.join(tmp_output_dir, "bos.ini")
+    with open(cfg_file, "w") as f:
+        f.write("[Section]\nbos = 'myString'")
+    opt = fun(entry_cfg=cfg_file)
     assert opt.bos == "myString"
 
 
-def test_bool_or_str_cfg():
+def test_bool_or_str_cfg(tmp_output_dir):
     @entrypoint([dict(flags="--bos1", name="bos1", type=BoolOrString),
                  dict(flags="--bos2", name="bos2", type=BoolOrString)], strict=True)
     def fun(opt):
         return opt
 
-    with tempfile.TemporaryDirectory() as cwd:
-        cfg_file = os.path.join(cwd, "bos.ini")
-        with open(cfg_file, "w") as f:
-            f.write("[Section]\nbos1 = 'myString'\nbos2 = True")
-        opt = fun(entry_cfg=cfg_file)
+    cfg_file = os.path.join(tmp_output_dir, "bos.ini")
+    with open(cfg_file, "w") as f:
+        f.write("[Section]\nbos1 = 'myString'\nbos2 = True")
+    opt = fun(entry_cfg=cfg_file)
     assert opt.bos1 == 'myString'
     assert opt.bos2 is True
 
@@ -404,17 +440,16 @@ def test_bool_or_list():
     assert opt.bol is True
 
 
-def test_bool_or_list_cfg():
+def test_bool_or_list_cfg(tmp_output_dir):
     @entrypoint([dict(flags="--bol1", name="bol1", type=BoolOrList),
                  dict(flags="--bol2", name="bol2", type=BoolOrList)], strict=True)
     def fun(opt):
         return opt
 
-    with tempfile.TemporaryDirectory() as cwd:
-        cfg_file = os.path.join(cwd, "bol.ini")
-        with open(cfg_file, "w") as f:
-            f.write("[Section]\nbol1 = 1,2\nbol2 = True")
-        opt = fun(entry_cfg=cfg_file)
+    cfg_file = os.path.join(tmp_output_dir, "bol.ini")
+    with open(cfg_file, "w") as f:
+        f.write("[Section]\nbol1 = 1,2\nbol2 = True")
+    opt = fun(entry_cfg=cfg_file)
     assert opt.bol1 == [1, 2]
     assert opt.bol2 is True
 

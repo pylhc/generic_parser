@@ -348,7 +348,10 @@ class DictParser(object):
 
         out = {}
         for name, value in items:
-            if name in self.dictionary:
+            if value == '':  # only needed if save_dict allows `key=`
+                out[name] = None  # type doesn't matter
+
+            elif name in self.dictionary:
                 arg = self.dictionary[name]
                 if arg.type == list:
                     value = evaluate(name, value)
@@ -360,6 +363,7 @@ class DictParser(object):
                 else:
                     value = evaluate(name, value)
                 out[name] = value
+
             else:
                 # could check self.strict here, but result is passed to get checked anyway
                 out[name] = evaluate(name, value)
