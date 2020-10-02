@@ -19,8 +19,6 @@ TEST_DEPENDENCIES = ['pytest>=5.2',
                      'attrs>=19.2.0'
                      ]
 
-# pytest-runner to be able to run pytest via setuptools
-SETUP_REQUIRES = ['pytest-runner']
 
 # Extra dependencies for tools
 EXTRA_DEPENDENCIES = {'doc': ['sphinx',
@@ -63,6 +61,5 @@ setup(
     packages=find_packages(include=('generic_parser',)),
     install_requires=DEPENDENCIES,
     tests_require=DEPENDENCIES + TEST_DEPENDENCIES,
-    extras_require=EXTRA_DEPENDENCIES,
-    setup_requires=SETUP_REQUIRES
+    extras_require=EXTRA_DEPENDENCIES
 )
