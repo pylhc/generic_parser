@@ -19,7 +19,7 @@ def about_package(init_posixpath: pathlib.Path) -> dict:
     """
     about_text: str = init_posixpath.read_text()
     return {
-        entry.split(" = ")[0]: entry.split(" = ")[1].strip('"')
+        entry.split(" = ")[0]: entry.split(" = ")[1].strip('"').strip("'")
         for entry in about_text.strip().split("\n")
         if entry.startswith("__")
     }
