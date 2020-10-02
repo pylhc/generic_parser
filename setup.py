@@ -22,7 +22,7 @@ EXTRA_DEPENDENCIES = {
                                'hypothesis>=4.36.2',
                                'attrs>=19.2.0'],
                       'doc': ['sphinx',
-                              'travis-sphinx', 
+                              'travis-sphinx',
                               'sphinx_rtd_theme']
                       }
 
