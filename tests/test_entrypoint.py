@@ -240,7 +240,7 @@ def test_optional_parameter_no_default_accepts_none():
         return opt
 
     opt = fun(foo=None)
-    assert opt.foo == None
+    assert opt.foo is None
 
 
 def test_optional_list_parameter_no_default_accepts_none():
@@ -249,7 +249,7 @@ def test_optional_list_parameter_no_default_accepts_none():
         return opt
 
     opt = fun(foo=None)
-    assert opt.foo == None
+    assert opt.foo is None
 
 
 def test_optional_parameter_default_accepts_none():
