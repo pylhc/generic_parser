@@ -56,6 +56,7 @@ setup(
     author=ABOUT_GENERIC_PARSER['__author__'],
     author_email=ABOUT_GENERIC_PARSER['__author_email__'],
     license=ABOUT_GENERIC_PARSER['__license__'],
+    python_requires=">=3.6",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
