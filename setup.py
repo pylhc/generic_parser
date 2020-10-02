@@ -1,19 +1,34 @@
-import os
 import pathlib
-import re
-from setuptools import setup, find_packages
 
-# The directory containing this file
-HERE = pathlib.Path(__file__).parent
+from setuptools import setup, find_packages
 
 # Name of the module
 MODULE_NAME = 'generic_parser'
 
+
+# The directory containing this file
+TOPLEVEL_DIR = pathlib.Path(__file__).parent.absolute()
+ABOUT_FILE = TOPLEVEL_DIR / MODULE_NAME / "__init__.py"
+README = TOPLEVEL_DIR / "README.md"
+
+
+def about_package(init_posixpath: pathlib.Path) -> dict:
+    """
+    Return package information defined with dunders in __init__.py as a dictionary, when
+    provided with a PosixPath to the __init__.py file.
+    """
+    about_text: str = init_posixpath.read_text()
+    return {
+        entry.split(" = ")[0]: entry.split(" = ")[1].strip('"')
+        for entry in about_text.strip().split("\n")
+        if entry.startswith("__")
+    }
+
+
+ABOUT_GENERIC_PARSER = about_package(ABOUT_FILE)
+
 # Dependencies for the module itself
 DEPENDENCIES = []
-
-
-
 
 # Extra dependencies for tools
 EXTRA_DEPENDENCIES = {
@@ -27,30 +42,20 @@ EXTRA_DEPENDENCIES = {
                       }
 
 # The text of the README file
-README = (HERE / "README.md").read_text()
-
-def get_version():
-    """ Reads package version number from package's __init__.py. """
-    with open(os.path.join(
-        os.path.dirname(__file__), MODULE_NAME, '__init__.py'
-    )) as init:
-        for line in init.readlines():
-            res = re.match(r'^__version__ = [\'"](.*)[\'"]$', line)
-            if res:
-                return res.group(1)
-
+with README.open("r") as docs:
+    long_description = docs.read()
 
 # This call to setup() does all the work
 setup(
-    name=MODULE_NAME.replace('_', '-'),
-    version=get_version(),
-    description="A parser for arguments and config-files that also allows direct python input.",
-    long_description=README,
+    name=ABOUT_GENERIC_PARSER['__title__'],
+    version=ABOUT_GENERIC_PARSER['__version__'],
+    description=ABOUT_GENERIC_PARSER['__description__'],
+    long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pylhc/generic_parser",
-    author="pyLHC",
-    author_email="pylhc@github.com",
-    license="MIT",
+    url=ABOUT_GENERIC_PARSER['__url__'],
+    author=ABOUT_GENERIC_PARSER['__author__'],
+    author_email=ABOUT_GENERIC_PARSER['__author_email__'],
+    license=ABOUT_GENERIC_PARSER['__license__'],
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
