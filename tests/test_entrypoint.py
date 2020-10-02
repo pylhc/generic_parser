@@ -261,7 +261,7 @@ def test_optional_parameter_default_accepts_none():
     assert opt.foo == 'test'
 
     opt = fun(foo=None)
-    assert opt.foo == None
+    assert opt.foo is None
 
 
 def test_required_parameter_does_not_accept_none():
