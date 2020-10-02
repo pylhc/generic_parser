@@ -595,21 +595,21 @@ def add_params_to_generic(parser, params):
     """ Adds entry-point style parameter to either
     ArgumentParser, DictParser or EntryPointParameters
     """
-
     if isinstance(parser, EntryPointParameters):
-        parser = _add_params_to_entrypoint_parser(parser, params)
+        parser = _add_params_to_entrypoint_parameters(parser, params)
 
     elif isinstance(parser, ArgumentParser):
         parser = _add_params_to_argument_parser(parser, params)
 
     elif isinstance(parser, DictParser):
         parser = _add_params_to_dict_parser(parser, params)
+
     else:
         raise TypeError("Parser not recognised.")
     return parser
 
 
-def _add_params_to_entrypoint_parser(entry_parser, params):
+def _add_params_to_entrypoint_parameters(entry_parser, params):
     params = dict2list_param(copy.deepcopy(params))
     for param in params:
         entry_parser.add_parameter(**param)
