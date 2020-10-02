@@ -12,16 +12,16 @@ MODULE_NAME = 'generic_parser'
 # Dependencies for the module itself
 DEPENDENCIES = []
 
-# Test dependencies that should only be installed for test purposes
-TEST_DEPENDENCIES = ['pytest>=5.2',
-                     'pytest-cov>=2.6',
-                     'hypothesis>=4.36.2',
-                     'attrs>=19.2.0'
-                     ]
+
 
 
 # Extra dependencies for tools
-EXTRA_DEPENDENCIES = {'doc': ['sphinx',
+EXTRA_DEPENDENCIES = {
+                      'test': ['pytest>=5.2',
+                               'pytest-cov>=2.6',
+                               'hypothesis>=4.36.2',
+                               'attrs>=19.2.0'],
+                      'doc': ['sphinx',
                               'travis-sphinx', 
                               'sphinx_rtd_theme']
                       }
@@ -60,6 +60,6 @@ setup(
     ],
     packages=find_packages(include=('generic_parser',)),
     install_requires=DEPENDENCIES,
-    tests_require=DEPENDENCIES + TEST_DEPENDENCIES,
+    tests_require=EXTRA_DEPENDENCIES['test'],
     extras_require=EXTRA_DEPENDENCIES
 )
