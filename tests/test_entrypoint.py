@@ -234,6 +234,45 @@ def test_not_enough_length():
         some_function(accel="LHCB1", anint=3, alist=[])
 
 
+def test_optional_parameter_no_default_accepts_none():
+    @entrypoint(dict(foo=dict(required=False)), strict=True)
+    def fun(opt):
+        return opt
+
+    opt = fun(foo=None)
+    assert opt.foo == None
+
+
+def test_optional_list_parameter_no_default_accepts_none():
+    @entrypoint(dict(foo=dict(required=False, nargs=3)), strict=True)
+    def fun(opt):
+        return opt
+
+    opt = fun(foo=None)
+    assert opt.foo == None
+
+
+def test_optional_parameter_default_accepts_none():
+    @entrypoint(dict(foo=dict(required=False, default='test')), strict=True)
+    def fun(opt):
+        return opt
+
+    opt = fun({})
+    assert opt.foo == 'test'
+
+    opt = fun(foo=None)
+    assert opt.foo == None
+
+
+def test_required_parameter_does_not_accept_none():
+    @entrypoint(dict(foo=dict(required=True)), strict=True)
+    def fun(opt):
+        return opt
+
+    with pytest.raises(ArgumentError):
+        fun(foo=None)
+
+
 # Config Saver Test
 
 def test_save_options(tmp_output_dir):
