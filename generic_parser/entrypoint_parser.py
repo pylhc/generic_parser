@@ -173,6 +173,7 @@ from argparse import ArgumentParser
 from configparser import ConfigParser
 from inspect import getfullargspec
 from functools import wraps
+from textwrap import wrap
 
 from generic_parser.tools import DotDict, silence, unformatted_console_logging
 from generic_parser.dict_parser import ParameterError, ArgumentError, DictParser
@@ -394,8 +395,6 @@ class EntryPoint(object):
                                     " Please specify one!")
 
         items = cfgparse.items(section)
-
-
         return items
 
 
@@ -476,57 +475,59 @@ class EntryPointParameters(DotDict):
 
     def help(self):
         """ Prints current help. Usable to paste into docstrings. """
-        optional_param = ""
-        required_param = ""
+        optional_params = []
+        required_params = []
+        space = " " * 4
 
         for name in sorted(self.keys()):
-            item_str = ""
             item = self[name]
             try:
-                name_type = f"- **{name}** *({item['type'].__name__})*"
+                name_and_type = f"- **{name}** *({item['type'].__name__})*:\n\n"
             except KeyError:
-                name_type = f"- **{name}**"
+                name_and_type = f"- **{name}**:\n\n"
 
             try:
-                item_str += f"{name_type}: {item['help']}"
+                help_str = f"{item['help']}"
             except KeyError:
-                item_str += f"{name_type}: -Help not available- "
+                help_str = "-No info available-"
 
-            item_str += "\n"
-            space = " " * 2
-
-            try:
-                item_str += f"\n{space}Flags: **{item['flags']}**"
-            except KeyError:
-                pass
+            help_str = "\n".join([f"{space}{line}" for line in wrap(help_str, 70)])
+            help_str = f"{help_str}\n\n"
 
             try:
-                item_str += f"\n{space}Choices: ``{item['choices']}``"
+                flags = f"{space}flags: **{item['flags']}**\n\n"
             except KeyError:
-                pass
+                flags = ''
 
             try:
-                item_str += f"\n{space}Default: ``{item['default']}``"
+                choices = f"{space}choices: ``{item['choices']}``\n\n"
             except KeyError:
-                pass
+                choices = ''
 
             try:
-                item_str += f"\n{space}Action: ``{item['action']}``"
+                default = f"{space}default: ``{item['default']}``\n\n"
             except KeyError:
-                pass
+                default = ''
+
+            try:
+                action = f"{space}action: ``{item['action']}``\n\n"
+            except KeyError:
+                action = ''
+
+            item_str = f"{name_and_type}{help_str}{flags}{choices}{default}{action}"
 
             if item.get("required", False):
-                required_param += item_str + "\n"
+                required_params.append(item_str)
             else:
-                optional_param += item_str + "\n"
+                optional_params.append(item_str)
 
-        if required_param:
+        if required_params:
             LOG.info("*--Required--*\n")
-            LOG.info(required_param)
+            LOG.info("\n".join(required_params))
 
-        if optional_param:
+        if optional_params:
             LOG.info("*--Optional--*\n")
-            LOG.info(optional_param)
+            LOG.info("\n".join(optional_params))
 
 
 # Public Helpers ###############################################################
@@ -732,7 +733,7 @@ def save_options_to_config(filepath, opt, unknown=None):
     def _to_key_value_str(key, value):
         if value is None:
             # return ''  # either: skip key completely
-            value = ''  # or empty as Nones (`allow_no_value` in ConfigParser)
+            value = ''  # or empty (see dict_parser._convert_config_items)
         elif isinstance(value, str):
             value = f'"{value}"'
         return f"{key}={value}\n"
