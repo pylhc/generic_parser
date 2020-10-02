@@ -1,13 +1,12 @@
 # Generic-Parser Changelog
 ## Version 1.0.7
- * fixed crash before proper error message for invalid choice of on non-string
+ * fixed crash before proper error message for invalid choice of non-string
  objects. 
  * fixed `None` write and read in config files.
  * added tests for list-lengths of default parameters.
  * improved `create_parameter_help` function.
  * some documentation fixed/additions.
  * switched to github actions for CI.
- * some code cleanup
  
 
 ## Version 1.0.6
