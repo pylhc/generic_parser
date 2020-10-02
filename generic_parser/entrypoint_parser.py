@@ -126,6 +126,45 @@ The **strict** option changes the behaviour for unknown parameters:
 Hence a wrapped function with ``strict=True`` must accept one input, with ``strict=False`` two.
 Default: ``False``
 
+
+Arguments:
+++++++++++++++++++++++++
+
+Arguments to a decorated function can be passed in multiple ways.
+Let's take the decorated example function::
+
+    @entrypoint(EntryPointParameters({"foo": {}, "bar": {}}), strict=True)
+    def entry_function(opt):
+        print(opt)
+
+
+Then the different ways to call it are.
+
+from python::
+
+    entry_function(foo='mark', bar='twain')  # keyword args
+
+    entry_function(dict(foo='mark', bar='twain'))  # dictionary
+    entry_function(entry_dict=dict(foo='mark', bar='twain'))  # dictionary
+
+    entry_function(['--foo', 'mark', '--bar', 'twain'])  # commandline args
+
+    entry_function(entry_cfg=Path('config.ini'))  # config file
+    entry_function(entry_cfg=Path('config.ini'), section='section')  # '[section]' in config file
+
+
+    entry_function(entry_json=Path('config.json'))  # json file
+    entry_function(entry_json=Path('config.json'), section='section')  # '[section]' in json file
+
+
+
+as commandline arguments from a `script.py` that calls ``entry_function()``::
+
+    python script.py --foo mark --bar twain
+    python script.py --entry_cfg config.ini
+    python script.py --entry_cfg config.ini --section section
+
+
 """
 import copy
 import json
