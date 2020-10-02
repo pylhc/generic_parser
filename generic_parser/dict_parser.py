@@ -130,7 +130,7 @@ class DictParser(object):
                                     f"Help: {param.help:s}")
 
         elif param.choices and opt not in param.choices:
-            raise ArgumentError(f"'{key:s}' needs to be one of '{param.choices:}', "
+            raise ArgumentError(f"'{key:s}' needs to be one of '{param.choices}', "
                                 f"instead it was {opt}.\n"
                                 f"Help: {param.help:s}")
         return opt
