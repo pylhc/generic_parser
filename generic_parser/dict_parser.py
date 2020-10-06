@@ -5,6 +5,7 @@ Dictionary Parser
 import argparse
 import copy
 import logging
+from pathlib import Path
 
 from generic_parser.tools import DotDict, _TC
 
@@ -339,16 +340,20 @@ class DictParser(object):
                 raise ArgumentError(f"Could not evaluate argument '{name:s}', unknown '{item:s}'")
 
         def eval_type(my_type, item):
-            if issubclass(my_type, str):
+            if issubclass(my_type, (str, Path)):
                 return my_type(item.strip("\'\""))
+
             if issubclass(my_type, bool):
                 return bool(eval(item))
-            else:
-                return my_type(item)
+
+            return my_type(item)
 
         out = {}
         for name, value in items:
-            if name in self.dictionary:
+            if value == '':  # only needed if save_dict allows `key=`
+                out[name] = None  # type doesn't matter
+
+            elif name in self.dictionary:
                 arg = self.dictionary[name]
                 if arg.type == list:
                     value = evaluate(name, value)
@@ -360,6 +365,7 @@ class DictParser(object):
                 else:
                     value = evaluate(name, value)
                 out[name] = value
+
             else:
                 # could check self.strict here, but result is passed to get checked anyway
                 out[name] = evaluate(name, value)
@@ -418,6 +424,16 @@ class Parameter(object):
             if not (self.type or self.type == list):
                 raise ParameterError(f"Parameter '{self.name:s}': " +
                                      "'type' needs to be 'list' if 'nargs' is given.")
+
+            if self.default is not None:  # default-type is checked above as self.type needs to be present
+                if (self.nargs == argparse.ONE_OR_MORE) and not len(self.default):
+                    raise ParameterError(f"Parameter '{self.name:s}': " +
+                                         f"Empty list as default not allowed for nargs='{self.nargs}'.")
+
+                if isinstance(self.nargs, int) and not (self.nargs == len(self.default)):
+                    raise ParameterError(f"Parameter '{self.name:s}': " +
+                                         f"Default value has wrong length (={len(self.default):d}) "
+                                         f"for given nargs={self.nargs:d}.")
 
         if self.choices:
             try:

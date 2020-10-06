@@ -106,7 +106,7 @@ Example with list of dictionaries:
 .. code-block:: python
 
     args = [
-        "dict(
+        dict(
             name="accel",
             flags=["-a", "--accel"],
             help="Which accelerator?",
@@ -126,6 +126,45 @@ The **strict** option changes the behaviour for unknown parameters:
 Hence a wrapped function with ``strict=True`` must accept one input, with ``strict=False`` two.
 Default: ``False``
 
+
+Arguments:
+++++++++++++++++++++++++
+
+Arguments to a decorated function can be passed in multiple ways.
+Let's take the decorated example function::
+
+    @entrypoint(EntryPointParameters({"foo": {}, "bar": {}}), strict=True)
+    def entry_function(opt):
+        print(opt)
+
+
+Then the different ways to call it are.
+
+from python::
+
+    entry_function(foo='mark', bar='twain')  # keyword args
+
+    entry_function(dict(foo='mark', bar='twain'))  # dictionary
+    entry_function(entry_dict=dict(foo='mark', bar='twain'))  # dictionary
+
+    entry_function(['--foo', 'mark', '--bar', 'twain'])  # commandline args
+
+    entry_function(entry_cfg=Path('config.ini'))  # config file
+    entry_function(entry_cfg=Path('config.ini'), section='section')  # '[section]' in config file
+
+
+    entry_function(entry_json=Path('config.json'))  # json file
+    entry_function(entry_json=Path('config.json'), section='section')  # '[section]' in json file
+
+
+
+as commandline arguments from a `script.py` that calls ``entry_function()``::
+
+    python script.py --foo mark --bar twain
+    python script.py --entry_cfg config.ini
+    python script.py --entry_cfg config.ini --section section
+
+
 """
 import copy
 import json
@@ -134,6 +173,8 @@ from argparse import ArgumentParser
 from configparser import ConfigParser
 from inspect import getfullargspec
 from functools import wraps
+from pathlib import Path
+from textwrap import wrap
 
 from generic_parser.tools import DotDict, silence, unformatted_console_logging
 from generic_parser.dict_parser import ParameterError, ArgumentError, DictParser
@@ -159,15 +200,17 @@ class EntryPoint(object):
         # add argument dictionary to EntryPoint
         self.remainder = None
         self.parameter = dict2list_param(parameter)
-        self._check_parameter()
+        self._check_parameter()  # just simple checks for structure
 
         # add config-argparser
         self.configarg = self._create_config_argument()
 
         # create parsers from parameter
+        # this also ensures that the parameters are correctly defined,
+        # by tests in argparser and in Parameter(),
+        # which is used in dict_parser -> add parameter
         self.argparse = self._create_argument_parser()
-        self.dictparse = self._create_dict_parser()
-        self.configparse = self._create_config_parser()
+        self.dictparse = self._create_dict_parser()  # also used for configfiles
 
     def parse(self, *args, **kwargs):
         """ Parse whatever input parameter come.
@@ -220,13 +263,13 @@ class EntryPoint(object):
     def _create_argument_parser(self):
         """ Creates the ArgumentParser from parameter. """
         parser = ArgumentParser()
-        parser = add_params_to_generic(parser, self.parameter)
+        parser = _add_params_to_argument_parser(parser, self.parameter)
         return parser
 
     def _create_dict_parser(self):
         """ Creates the DictParser from parameter. """
         parser = DictParser(strict=self.strict)
-        parser = add_params_to_generic(parser, self.parameter)
+        parser = _add_params_to_dict_parser(parser, self.parameter)
         return parser
 
     def _create_config_parser(self):
@@ -336,7 +379,8 @@ class EntryPoint(object):
 
     def _read_config(self, cfgfile_path, section=None):
         """ Get content from config file"""
-        cfgparse = self.configparse
+        # create new config parser, as it keeps defaults between files
+        cfgparse = self._create_config_parser()
 
         with open(cfgfile_path) as config_file:
             cfgparse.read_file(config_file)
@@ -352,9 +396,6 @@ class EntryPoint(object):
                                     " Please specify one!")
 
         items = cfgparse.items(section)
-
-        # clear the config parser, it keeps defaults between files
-        self.configparse = self._create_config_parser()
         return items
 
 
@@ -435,57 +476,59 @@ class EntryPointParameters(DotDict):
 
     def help(self):
         """ Prints current help. Usable to paste into docstrings. """
-        optional_param = ""
-        required_param = ""
+        optional_params = []
+        required_params = []
+        space = " " * 4
 
         for name in sorted(self.keys()):
-            item_str = ""
             item = self[name]
             try:
-                name_type = f"- **{name}** *({item['type'].__name__})*"
+                name_and_type = f"- **{name}** *({item['type'].__name__})*:\n\n"
             except KeyError:
-                name_type = f"- **{name}**"
+                name_and_type = f"- **{name}**:\n\n"
 
             try:
-                item_str += f"{name_type}: {item['help']}"
+                help_str = f"{item['help']}"
             except KeyError:
-                item_str += f"{name_type}: -Help not available- "
+                help_str = "-No info available-"
 
-            item_str += "\n"
-            space = " " * 2
-
-            try:
-                item_str += f"\n{space}Flags: **{item['flags']}**"
-            except KeyError:
-                pass
+            help_str = "\n".join([f"{space}{line}" for line in wrap(help_str, 70)])
+            help_str = f"{help_str}\n\n"
 
             try:
-                item_str += f"\n{space}Choices: ``{item['choices']}``"
+                flags = f"{space}flags: **{item['flags']}**\n\n"
             except KeyError:
-                pass
+                flags = ''
 
             try:
-                item_str += f"\n{space}Default: ``{item['default']}``"
+                choices = f"{space}choices: ``{item['choices']}``\n\n"
             except KeyError:
-                pass
+                choices = ''
 
             try:
-                item_str += f"\n{space}Action: ``{item['action']}``"
+                default = f"{space}default: ``{item['default']}``\n\n"
             except KeyError:
-                pass
+                default = ''
+
+            try:
+                action = f"{space}action: ``{item['action']}``\n\n"
+            except KeyError:
+                action = ''
+
+            item_str = f"{name_and_type}{help_str}{flags}{choices}{default}{action}"
 
             if item.get("required", False):
-                required_param += item_str + "\n"
+                required_params.append(item_str)
             else:
-                optional_param += item_str + "\n"
+                optional_params.append(item_str)
 
-        if required_param:
-            LOG.info("*--Required--*")
-            LOG.info(required_param)
+        if required_params:
+            LOG.info("*--Required--*\n")
+            LOG.info("\n".join(required_params))
 
-        if optional_param:
-            LOG.info("*--Optional--*")
-            LOG.info(optional_param)
+        if optional_params:
+            LOG.info("*--Optional--*\n")
+            LOG.info("\n".join(optional_params))
 
 
 # Public Helpers ###############################################################
@@ -547,49 +590,69 @@ def add_to_arguments(args, entry_params=None, **kwargs):
     return args
 
 
+# parameter adders ---
+
 def add_params_to_generic(parser, params):
     """ Adds entry-point style parameter to either
     ArgumentParser, DictParser or EntryPointParameters
     """
-    params = copy.deepcopy(params)
-    params = dict2list_param(params)
-
     if isinstance(parser, EntryPointParameters):
-        for param in params:
-            parser.add_parameter(**param)
+        parser = _add_params_to_entrypoint_parameters(parser, params)
 
     elif isinstance(parser, ArgumentParser):
-        for param in params:
-            param["dest"] = param.pop("name", None)
-            flags = param.pop("flags", None)
-            if flags is None:
-                parser.add_argument(**param)
-            else:
-                if isinstance(flags, str):
-                    flags = [flags]
-                parser.add_argument(*flags, **param)
+        parser = _add_params_to_argument_parser(parser, params)
 
     elif isinstance(parser, DictParser):
-        for param in params:
-            if "nargs" in param:
-                param["subtype"] = param.get("type", None)
-                param["type"] = list
+        parser = _add_params_to_dict_parser(parser, params)
 
-            if "action" in param:
-                if param["action"] in ("store_true", "store_false"):
-                    param["type"] = bool
-                    param["default"] = not param["action"][6] == "t"
-                else:
-                    raise ParameterError(f"Action '{param['action']:s}' not allowed in EntryPoint")
-                param.pop("action")
-
-            param.pop("flags", None)
-
-            name = param.pop("name")
-            parser.add_parameter(name, **param)
     else:
         raise TypeError("Parser not recognised.")
     return parser
+
+
+def _add_params_to_entrypoint_parameters(entry_parser, params):
+    params = dict2list_param(copy.deepcopy(params))
+    for param in params:
+        entry_parser.add_parameter(**param)
+    return entry_parser
+
+
+def _add_params_to_dict_parser(dict_parser, params):
+    params = dict2list_param(copy.deepcopy(params))
+    for param in params:
+        if "nargs" in param:
+            param["subtype"] = param.get("type", None)
+            param["type"] = list
+
+        if "action" in param:
+            if param["action"] in ("store_true", "store_false"):
+                param["type"] = bool
+                param["default"] = not param["action"][6] == "t"
+            else:
+                raise ParameterError(f"Action '{param['action']:s}' not allowed in EntryPoint")
+            param.pop("action")
+
+        param.pop("flags", None)
+
+        name = param.pop("name")
+        dict_parser.add_parameter(name, **param)
+    return dict_parser
+
+
+def _add_params_to_argument_parser(arg_parser, params):
+    params = dict2list_param(copy.deepcopy(params))
+    for param in params:
+        param["dest"] = param.pop("name", None)
+        flags = param.pop("flags", None)
+        if flags is None:
+            arg_parser.add_argument(**param)
+        else:
+            if isinstance(flags, str):
+                flags = [flags]
+            arg_parser.add_argument(*flags, **param)
+    return arg_parser
+
+# ---
 
 
 def split_arguments(args, *param_list):
@@ -616,7 +679,7 @@ def split_arguments(args, *param_list):
         # (as I don't know how to handle flags properly)
         for params in param_list:
             parser = argparse.ArgumentParser()
-            parser = add_params_to_generic(parser, params)
+            parser = _add_params_to_argument_parser(parser, params)
             this_args, args = parser.parse_known_args(args)
             split_args.append(DotDict(this_args.__dict__))
         split_args.append(args)
@@ -668,20 +731,24 @@ def save_options_to_config(filepath, opt, unknown=None):
         unknown: unknown options (only safe for non-commandline parameters)
 
     """
-    def _check_for_string(key, value):
-        if isinstance(value, str):
+    def _to_key_value_str(key, value):
+        if value is None:
+            value = ''  # defined as empty (see dict_parser._convert_config_items)
+        elif isinstance(value, (str, Path)):
             value = f'"{value}"'
-        return f"{key}={value}\n"
+            if "\n" in value:
+                value = value.replace("\n", "\n    ")  # spaces in new line indicate continuation
+        return f"{key} = {value}\n"
 
     lines = "[DEFAULT]\n"
     for o in opt:
-        lines += _check_for_string(o, opt[o])
+        lines += _to_key_value_str(o, opt[o])
 
-    if unknown is not None:
+    if unknown is not None and len(unknown):
         lines += "; Unknown options --------------------------\n"
         if isinstance(unknown, dict):
             for o in unknown:
-                lines += _check_for_string(o, unknown[o])
+                lines += _to_key_value_str(o, unknown[o])
         else:
             lines += f"; {' '.join(unknown)}\n"
 
