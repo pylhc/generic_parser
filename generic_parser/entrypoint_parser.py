@@ -173,6 +173,7 @@ from argparse import ArgumentParser
 from configparser import ConfigParser
 from inspect import getfullargspec
 from functools import wraps
+from pathlib import Path
 from textwrap import wrap
 
 from generic_parser.tools import DotDict, silence, unformatted_console_logging
@@ -732,11 +733,12 @@ def save_options_to_config(filepath, opt, unknown=None):
     """
     def _to_key_value_str(key, value):
         if value is None:
-            # return ''  # either: skip key completely
-            value = ''  # or empty (see dict_parser._convert_config_items)
-        elif isinstance(value, str):
+            value = ''  # defined as empty (see dict_parser._convert_config_items)
+        elif isinstance(value, (str, Path)):
             value = f'"{value}"'
-        return f"{key}={value}\n"
+            if "\n" in value:
+                value = value.replace("\n", "\n    ")  # spaces in new line indicate continuation
+        return f"{key} = {value}\n"
 
     lines = "[DEFAULT]\n"
     for o in opt:

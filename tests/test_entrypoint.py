@@ -1,5 +1,6 @@
 import logging
 import sys
+from pathlib import Path
 
 import pytest
 from tests.conftest import cli_args
@@ -169,8 +170,8 @@ def test_as_argv():  # almost identical to above
         assert len(unknown) > 0
 
 
-def test_as_config(tmp_output_dir):
-    cfg_file = tmp_output_dir / "config.ini"
+def test_as_config(tmp_path):
+    cfg_file = tmp_path / "config.ini"
     with open(cfg_file, "w") as f:
         f.write("\n".join([
             "[Section]",
@@ -273,9 +274,9 @@ def test_required_parameter_does_not_accept_none():
         fun(foo=None)
 
 
-# Config Saver Test
+# Test Config read-write -------------------------------------------------------
 
-def test_save_options(tmp_output_dir):
+def test_save_options(tmp_path):
     opt, unknown = paramtest_function(
         name="myname",
         int=3,
@@ -283,7 +284,7 @@ def test_save_options(tmp_output_dir):
         unknown="myfinalargument",
         unknoown=10,
     )
-    cfg_file = tmp_output_dir / "config.ini"
+    cfg_file = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -291,27 +292,32 @@ def test_save_options(tmp_output_dir):
     _assert_dicts_equal(unknown, unknown_load)
 
 
-def test_save_cli_options(tmp_output_dir):
+def test_save_cli_options_cfg(tmp_path):
     opt, unknown = paramtest_function(
         ["--name", "myname",
          "--int", "3",
          "--list", "4", "5", "6",
          "--other"]
     )
-    cfg_file = tmp_output_dir / "config.ini"
+    cfg_file = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
+
+    with open(cfg_file, 'r') as f:
+        content = f.read()
+    assert 'Unknown' in content
+    assert '--other' in content
 
     _assert_dicts_equal(opt, opt_load)
     assert len(unknown_load) == 0
 
 
-def test_save_and_load_with_none(tmp_output_dir):
+def test_save_and_cfg_load_with_none(tmp_path):
     # use cli_args in case we run in test-wrapper (e.g. pycharm)
     with cli_args():  # name, int, list = None
         opt, unknown = paramtest_function()
 
-    cfg_file = tmp_output_dir / "config.ini"
+    cfg_file = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -321,10 +327,10 @@ def test_save_and_load_with_none(tmp_output_dir):
     assert all([val is None for val in opt.values()])
 
 
-def test_save_and_load_with_none_explicit(tmp_output_dir):
+def test_save_and_load_cfg_with_none_explicit(tmp_path):
     opt, unknown = paramtest_function(name=None, int=None, list=None)
 
-    cfg_file = tmp_output_dir / "config.ini"
+    cfg_file = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -334,14 +340,74 @@ def test_save_and_load_with_none_explicit(tmp_output_dir):
     assert all([val is None for val in opt.values()])
 
 
-def _assert_dicts_equal(d1, d2):
-    for key in d1:
-        assert d1[key] == d2[key]
-    assert len(d2) == len(d1)
+def test_string_cfg(tmp_path):
+    @entrypoint(EntryPointParameters(dict(name={'type': str})), strict=True)
+    def fun(opt):
+        return opt
+
+    cfg_quotes = tmp_path / "config_quotes.ini"
+    with open(cfg_quotes, "w") as f:
+        f.write("[Section]\nname = 'My String with Spaces'")
+
+    cfg_doublequotes = tmp_path / "config_doublequotes.ini"
+    with open(cfg_doublequotes, "w") as f:
+        f.write('[Section]\nname = "My String with Spaces"')
+
+    cfg_noquotes = tmp_path / "config_noquotes.ini"
+    with open(cfg_noquotes, "w") as f:
+        f.write('[Section]\nname = My String with Spaces')
+
+    opt_quotes = fun(entry_cfg=cfg_quotes)
+    opt_doublequotes = fun(entry_cfg=cfg_doublequotes)
+    opt_noquotes = fun(entry_cfg=cfg_noquotes)
+
+    assert opt_quotes.name == opt_doublequotes.name
+    assert opt_quotes.name == opt_noquotes.name
 
 
-# Test Special Datatypes
+def test_string_with_break_cfg(tmp_path):
+    @entrypoint(EntryPointParameters(dict(name={'type': str})), strict=True)
+    def fun(opt):
+        return opt
 
+    opt = fun(name="this is\nmystring")
+
+    cfg_file = tmp_path / "config.ini"
+    save_options_to_config(cfg_file, opt)
+    opt_load = fun(entry_cfg=cfg_file)
+
+    assert opt_load.name == opt.name
+
+
+def test_path_cfg(tmp_path):
+    @entrypoint(EntryPointParameters(dict(path={'type': Path})), strict=True)
+    def fun(opt):
+        return opt
+
+    cfg_file = tmp_path / "config.ini"
+    opt = fun(path=tmp_path)
+
+    save_options_to_config(cfg_file, opt)
+
+    opt_load = fun(entry_cfg=cfg_file)
+    _assert_dicts_equal(opt, opt_load)
+
+
+def test_list_cfg(tmp_path):
+    @entrypoint(EntryPointParameters(dict(lst={'type': int, 'nargs': "*"})), strict=True)
+    def fun(opt):
+        return opt
+
+    cfg_file = tmp_path / "config.ini"
+    opt = fun(lst=[1, 2, 3, 4])
+
+    save_options_to_config(cfg_file, opt)
+
+    opt_load = fun(entry_cfg=cfg_file)
+    _assert_dicts_equal(opt, opt_load)
+
+
+# Special Classes --------------------------------------------------------------
 
 def test_multiclass_class():
     float_str = get_multi_class(float, str)
@@ -426,7 +492,7 @@ def test_dict_as_string():
     assert opt.dict['str'] == 'hello'
 
 
-def test_bool_or_str(tmp_output_dir):
+def test_bool_or_str(tmp_path):
     @entrypoint([dict(flags="--bos", name="bos", type=BoolOrString)], strict=True)
     def fun(opt):
         return opt
@@ -446,20 +512,20 @@ def test_bool_or_str(tmp_output_dir):
     opt = fun(["--bos", "myString"])
     assert opt.bos == "myString"
 
-    cfg_file = tmp_output_dir / "bos.ini"
+    cfg_file = tmp_path / "bos.ini"
     with open(cfg_file, "w") as f:
         f.write("[Section]\nbos = 'myString'")
     opt = fun(entry_cfg=cfg_file)
     assert opt.bos == "myString"
 
 
-def test_bool_or_str_cfg(tmp_output_dir):
+def test_bool_or_str_cfg(tmp_path):
     @entrypoint([dict(flags="--bos1", name="bos1", type=BoolOrString),
                  dict(flags="--bos2", name="bos2", type=BoolOrString)], strict=True)
     def fun(opt):
         return opt
 
-    cfg_file = tmp_output_dir / "bos.ini"
+    cfg_file = tmp_path / "bos.ini"
     with open(cfg_file, "w") as f:
         f.write("[Section]\nbos1 = 'myString'\nbos2 = True")
     opt = fun(entry_cfg=cfg_file)
@@ -488,13 +554,13 @@ def test_bool_or_list():
     assert opt.bol is True
 
 
-def test_bool_or_list_cfg(tmp_output_dir):
+def test_bool_or_list_cfg(tmp_path):
     @entrypoint([dict(flags="--bol1", name="bol1", type=BoolOrList),
                  dict(flags="--bol2", name="bol2", type=BoolOrList)], strict=True)
     def fun(opt):
         return opt
 
-    cfg_file = tmp_output_dir / "bol.ini"
+    cfg_file = tmp_path / "bol.ini"
     with open(cfg_file, "w") as f:
         f.write("[Section]\nbol1 = 1,2\nbol2 = True")
     opt = fun(entry_cfg=cfg_file)
@@ -605,7 +671,7 @@ def get_other_params():
     return args
 
 
-# Example Wrapped Functions ####################################################
+# Example Wrapped Functions ----------------------------------------------------
 
 
 @entrypoint(get_params())
@@ -626,3 +692,12 @@ def strict_function(options):
 @entrypoint(get_testing_params())
 def paramtest_function(opt, unknown):
     return opt, unknown
+
+
+# Other ------------------------------------------------------------------------
+
+
+def _assert_dicts_equal(d1, d2):
+    for key in d1:
+        assert d1[key] == d2[key]
+    assert len(d2) == len(d1)

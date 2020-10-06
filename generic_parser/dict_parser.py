@@ -5,6 +5,7 @@ Dictionary Parser
 import argparse
 import copy
 import logging
+from pathlib import Path
 
 from generic_parser.tools import DotDict, _TC
 
@@ -339,12 +340,13 @@ class DictParser(object):
                 raise ArgumentError(f"Could not evaluate argument '{name:s}', unknown '{item:s}'")
 
         def eval_type(my_type, item):
-            if issubclass(my_type, str):
+            if issubclass(my_type, (str, Path)):
                 return my_type(item.strip("\'\""))
+
             if issubclass(my_type, bool):
                 return bool(eval(item))
-            else:
-                return my_type(item)
+
+            return my_type(item)
 
         out = {}
         for name, value in items:
