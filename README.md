@@ -1,5 +1,5 @@
 # Generic Parser
-[![Travis (.com)](https://img.shields.io/travis/com/pylhc/generic_parser.svg?style=popout)](https://travis-ci.com/pylhc/generic_parser/)
+[![Cron Testing](https://github.com/pylhc/generic_parser/workflows/Cron%20Testing/badge.svg)](https://github.com/pylhc/generic_parser/actions?query=workflow%3A%22Cron+Testing%22)
 [![Code Climate coverage](https://img.shields.io/codeclimate/coverage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
 [![Code Climate maintainability (percentage)](https://img.shields.io/codeclimate/maintainability-percentage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
 [![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
 ```
 
 #### Commandline
-Calling that script with ``python myscript.py -f 1 -s "test"`` will result in 
+Calling that script with ``python myscript.py -f 1 -s "test"`` will result in
 ```
 True
 False
@@ -80,13 +80,12 @@ Especially the declaration of a `[DEFAULT]` section can be helpful.
 For further information about config files, check the python
 [Config Parser](https://docs.python.org/3/library/configparser.html).
 
-
 #### Python
 Or call the function directly from python code
 
 ```python
 if __name__ == '__main__':
-    main(first=1, second="World")   
+    main(first=1, second="World")
 ```
 
 ```
@@ -94,11 +93,11 @@ True
 False
 ```
 
-This is incredibly helpful if one wants to write python-wrappers around entrypoint-functions, 
+This is incredibly helpful if one wants to write python-wrappers around entrypoint-functions,
 and does not want to resort to commandline calls from python.
 
 Note that also in this case all variables are validated, courtesy of the `dict_parser`.
-`dict_parser` provides even multi-level dictionary checking functionality, 
+`dict_parser` provides even multi-level dictionary checking functionality,
 which is not used in the `Entrypoint`, but can be handy in other use-cases.
 
 ## Description
@@ -109,7 +108,6 @@ can then be either from command line, a config file or directly from python.
 
 For a detailed description check [the documentation](https://pylhc.github.io/generic_parser).
 
-
 ## Authors
 
 * **pyLHC/OMC-Team** - *Working Group* - [pyLHC](https://github.com/orgs/pylhc/teams/omc-team)
@@ -118,4 +116,3 @@ For a detailed description check [the documentation](https://pylhc.github.io/gen
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-

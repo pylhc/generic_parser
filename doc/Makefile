@@ -48,9 +48,9 @@ html:
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 josch:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) /media/jdilly/Storage/Repositories/generic-parser-doc
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) /home/jdilly/Software/Documentation/generic-parser-doc
 	@echo
-	@echo "Build finished. The HTML pages are in /media/jdilly/Storage/Repositories/generic-parser-doc."
+	@echo "Build finished. The HTML pages are in /home/jdilly/Software/Documentation/generic-parser-doc."
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
