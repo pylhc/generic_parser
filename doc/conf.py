@@ -15,6 +15,7 @@
 # ignore numpy warnings, see:
 # https://stackoverflow.com/questions/40845304/runtimewarning-numpy-dtype-size-changed-may-indicate-binary-incompatibility
 import warnings
+
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 
@@ -24,7 +25,9 @@ warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import pathlib
 import sys
+
 sys.path.insert(0, os.path.abspath('../'))
 
 
