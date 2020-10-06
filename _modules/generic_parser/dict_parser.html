@@ -1,38 +1,39 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>generic_parser.dict_parser &mdash; generic-parser 1.0.6 documentation</title>
+  <title>generic_parser.dict_parser &mdash; generic_parser 1.0.6 documentation</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> generic-parser
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> generic_parser
           
 
           
@@ -58,7 +59,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0
               </div>
             
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -89,6 +91,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -98,7 +101,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">generic-parser</a>
+          <a href="../../index.html">generic_parser</a>
         
       </nav>
 
@@ -127,7 +130,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -154,6 +157,7 @@
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">from</span> <span class="nn">generic_parser.tools</span> <span class="kn">import</span> <span class="n">DotDict</span><span class="p">,</span> <span class="n">_TC</span>
 
@@ -202,7 +206,7 @@
         <span class="k">def</span> <span class="nf">_check_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Checks if key coincides with param.name. &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key:s}</span><span class="s2">&#39;: Key and name need to be the same.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: Key and name need to be the same.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Main --------------------------------------------</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -216,11 +220,11 @@
                 <span class="k">except</span> <span class="n">ParameterError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="c1"># Build error message recursively, to find key in structure</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">):</span>
-                        <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key}</span><span class="s2">.</span><span class="si">{e.args[0][1:]:s}</span><span class="s2">&quot;</span><span class="p">,)</span>
+                        <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,)</span>
                         <span class="k">raise</span>
-                    <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key}</span><span class="s2">&#39; is not a valid entry.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; is not a valid entry.&quot;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key}</span><span class="s2">&#39; is not a valid entry.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; is not a valid entry.&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">_check_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 
@@ -239,49 +243,49 @@
         <span class="n">param</span> <span class="o">=</span> <span class="n">param_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">arg_dict</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arg_dict</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key:s}</span><span class="s2">&#39; required in options.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                    <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; required in options.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                    <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span>
 
         <span class="n">opt</span> <span class="o">=</span> <span class="n">arg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key:s}</span><span class="s2">&#39; required in options.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                    <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; required in options.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                    <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">opt</span>
 
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">type</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key:s}</span><span class="s2">&#39; is not of type </span><span class="si">{param.type.__name__:s}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; is not of type </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">nargs</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">nargs</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">nargs</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key:s}</span><span class="s2">&#39; should be list of length </span><span class="si">{param.nargs:d}</span><span class="s2">,&quot;</span>
-                                        <span class="sa">f</span><span class="s2">&quot; instead it was of length {len(opt):d}.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                        <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; should be list of length </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">nargs</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">,&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot; instead it was of length </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">nargs</span> <span class="o">==</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ONE_OR_MORE</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key:s}</span><span class="s2">&#39; should be list of length &gt;= 1,&quot;</span>
-                                        <span class="sa">f</span><span class="s2">&quot; instead it was of length {len(opt):d}.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                        <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; should be list of length &gt;= 1,&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot; instead it was of length </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">subtype</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opt</span><span class="p">):</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">subtype</span><span class="p">):</span>
-                        <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Item </span><span class="si">{idx:d}</span><span class="s2"> of &#39;</span><span class="si">{key:s}</span><span class="s2">&#39;&quot;</span>
-                                            <span class="sa">f</span><span class="s2">&quot; is not of type &#39;</span><span class="si">{param.subtype.__name__:s}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                            <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Item </span><span class="si">{</span><span class="n">idx</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> of &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                                            <span class="sa">f</span><span class="s2">&quot; is not of type &#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">subtype</span><span class="o">.</span><span class="vm">__name__</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                            <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">choices</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">([</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">opt</span> <span class="k">if</span> <span class="n">o</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">choices</span><span class="p">]):</span>
-                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All elements of &#39;</span><span class="si">{key:s}</span><span class="s2">&#39; need to be one of &quot;</span>
-                                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{param.choices:}</span><span class="s2">&#39;, instead the list was </span><span class="si">{opt:s}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                    <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All elements of &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; need to be one of &quot;</span>
+                                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">choices</span><span class="si">:}</span><span class="s2">&#39;, instead the list was </span><span class="si">{</span><span class="n">opt</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                    <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">param</span><span class="o">.</span><span class="n">choices</span> <span class="ow">and</span> <span class="n">opt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">choices</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key:s}</span><span class="s2">&#39; needs to be one of &#39;</span><span class="si">{param.choices:}</span><span class="s2">&#39;, &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;instead it was </span><span class="si">{opt:s}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{param.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; needs to be one of &#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">choices</span><span class="si">}</span><span class="s2">&#39;, &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;instead it was </span><span class="si">{</span><span class="n">opt</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;Help: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">opt</span>
 
     <span class="k">def</span> <span class="nf">_parse_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_dict</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">):</span>
@@ -310,15 +314,15 @@
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">):</span>
                         <span class="n">old_msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
                     <span class="k">if</span> <span class="n">old_msg</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">):</span>
-                        <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key}</span><span class="s2">.</span><span class="si">{old_msg[1:]:s}</span><span class="s2">&quot;</span><span class="p">,)</span>
+                        <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">old_msg</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{key}</span><span class="s2">&#39; has </span><span class="si">{old_msg:s}</span><span class="s2">&quot;</span><span class="p">,)</span>
+                        <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; has </span><span class="si">{</span><span class="n">old_msg</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,)</span>
                     <span class="k">raise</span>
 
             <span class="n">arg_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Default value avoids KeyError</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg_dict</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">error_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Unknown Options: &#39;{list(arg_dict.keys())}&#39;.&quot;</span>
+            <span class="n">error_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Unknown Options: &#39;</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">arg_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
@@ -389,7 +393,7 @@
         <span class="n">sub_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traverse_dict</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fields</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sub_dict</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{name}</span><span class="s2">&#39; already exists in parser!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; already exists in parser!&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_parameters</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
         <span class="n">sub_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dictionary</span>
@@ -409,25 +413,25 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">node_char</span> <span class="o">=</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span>
                     <span class="n">level_char_pp</span> <span class="o">=</span> <span class="n">level_char</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;|&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;  &#39;</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{level_char:s}{node_char:s}</span><span class="s2"> </span><span class="si">{key:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char</span><span class="si">:</span><span class="s2">s</span><span class="si">}{</span><span class="n">node_char</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                     <span class="n">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">level_char_pp</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">leaf</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;{level_char_pp + _TC[&#39;S&#39;] + _TC[&#39;-&#39;]:s}&quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot; Required: </span><span class="si">{leaf.required}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; Required: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">required</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;{level_char_pp + _TC[&#39;S&#39;] + _TC[&#39;-&#39;]:s}&quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot; Default: </span><span class="si">{leaf.default}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; Default: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">default</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;{level_char_pp + _TC[&#39;S&#39;] + _TC[&#39;-&#39;]:s}&quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot; Type: {leaf.type.__name__ if leaf.type else &#39;None&#39;}&quot;</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; Type: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="n">leaf</span><span class="o">.</span><span class="n">type</span> <span class="k">else</span> <span class="s1">&#39;None&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;{level_char_pp + _TC[&#39;S&#39;] + _TC[&#39;-&#39;]:s}&quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot; Choices: </span><span class="si">{leaf.choices}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; Choices: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">choices</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;{level_char_pp + _TC[&#39;L&#39;] + _TC[&#39;-&#39;]:s}&quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot; Help: </span><span class="si">{leaf.help:s}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; Help: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Parameter Dictionary&#39;</span><span class="p">)</span>
         <span class="n">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
@@ -449,7 +453,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sub_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traverse_dict</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">sub_dict</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{param.name:s}</span><span class="s2">&#39; already exists in parser!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; already exists in parser!&quot;</span><span class="p">)</span>
         <span class="n">sub_dict</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span>
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -485,19 +489,23 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>  <span class="c1"># sorry for using that</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">NameError</span><span class="p">,</span> <span class="ne">SyntaxError</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not evaluate argument &#39;</span><span class="si">{name:s}</span><span class="s2">&#39;, unknown &#39;</span><span class="si">{item:s}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not evaluate argument &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;, unknown &#39;</span><span class="si">{</span><span class="n">item</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">eval_type</span><span class="p">(</span><span class="n">my_type</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">my_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">my_type</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
                 <span class="k">return</span> <span class="n">my_type</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&#39;\&quot;</span><span class="s2">&quot;</span><span class="p">))</span>
+
             <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">my_type</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
                 <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">my_type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">my_type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>  <span class="c1"># only needed if save_dict allows `key=`</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type doesn&#39;t matter</span>
+
+            <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">:</span>
                 <span class="n">arg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
                     <span class="n">value</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -509,6 +517,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">value</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
                 <span class="n">out</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># could check self.strict here, but result is passed to get checked anyway</span>
                 <span class="n">out</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -539,40 +548,50 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;choices&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;{kwargs.keys()}&#39; are not valid parameters for Argument.&quot;</span><span class="p">)</span>
+            <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39; are not valid parameters for Argument.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
                                  <span class="s2">&quot;Name is not a valid string.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
                                  <span class="s2">&quot;Default value not of specified type.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
                                  <span class="s2">&quot;field &#39;subtype&#39; is only accepted if &#39;type&#39; is list.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nargs</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">nargs</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ONE_OR_MORE</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ZERO_OR_MORE</span><span class="p">]):</span>
-                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span>
                                      <span class="s2">&quot;nargs needs to be an integer or either &quot;</span>
-                                     <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{argparse.ONE_OR_MORE}</span><span class="s2">&#39; or &#39;</span><span class="si">{argparse.ZERO_OR_MORE}</span><span class="s2">&#39;. &quot;</span>
-                                     <span class="sa">f</span><span class="s2">&quot;Instead it was &#39;</span><span class="si">{self.nargs}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                                     <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">argparse</span><span class="o">.</span><span class="n">ONE_OR_MORE</span><span class="si">}</span><span class="s2">&#39; or &#39;</span><span class="si">{</span><span class="n">argparse</span><span class="o">.</span><span class="n">ZERO_OR_MORE</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                                     <span class="sa">f</span><span class="s2">&quot;Instead it was &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nargs</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="nb">list</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
                                      <span class="s2">&quot;&#39;type&#39; needs to be &#39;list&#39; if &#39;nargs&#39; is given.&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># default-type is checked above as self.type needs to be present</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nargs</span> <span class="o">==</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ONE_OR_MORE</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+                                         <span class="sa">f</span><span class="s2">&quot;Empty list as default not allowed for nargs=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nargs</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nargs</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nargs</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)):</span>
+                    <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+                                         <span class="sa">f</span><span class="s2">&quot;Default value has wrong length (=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">) &quot;</span>
+                                         <span class="sa">f</span><span class="s2">&quot;for given nargs=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nargs</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="p">[</span><span class="n">choice</span> <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
                                      <span class="s2">&quot;&#39;Choices&#39; need to be iterable.&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">:</span>
@@ -580,12 +599,12 @@
                     <span class="n">not_a_choice</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">]</span>
 
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">not_a_choice</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
-                                             <span class="sa">f</span><span class="s2">&quot;Default value(s) &#39;{str(not_a_choice)}&#39;&quot;</span>
+                        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+                                             <span class="sa">f</span><span class="s2">&quot;Default value(s) &#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">not_a_choice</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
                                              <span class="s2">&quot; not found in choices.&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+                        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
                                              <span class="s2">&quot;Default value not found in choices.&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="p">:</span>
@@ -597,12 +616,12 @@
                 <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">:</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">choice</span><span class="p">,</span> <span class="n">check</span><span class="p">):</span>
-                            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Choice &#39;</span><span class="si">{choice}</span><span class="s2">&#39; &quot;</span> <span class="o">+</span>
-                                                 <span class="sa">f</span><span class="s2">&quot;of parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
-                                                 <span class="sa">f</span><span class="s2">&quot;is not of type &#39;</span><span class="si">{check.__name__:s}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+                            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Choice &#39;</span><span class="si">{</span><span class="n">choice</span><span class="si">}</span><span class="s2">&#39; &quot;</span> <span class="o">+</span>
+                                                 <span class="sa">f</span><span class="s2">&quot;of parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+                                                 <span class="sa">f</span><span class="s2">&quot;is not of type &#39;</span><span class="si">{</span><span class="n">check</span><span class="o">.</span><span class="vm">__name__</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">required</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{self.name:s}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: &quot;</span> <span class="o">+</span>
                         <span class="s2">&quot;Value is required but default value is given. The latter will be ignored.&quot;</span><span class="p">)</span></div>
 </pre></div>
 
@@ -616,11 +635,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, OMC-TEAM
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -631,7 +658,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
