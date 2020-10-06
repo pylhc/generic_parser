@@ -112,7 +112,6 @@ For a detailed description check [the documentation](https://pylhc.github.io/gen
 
 ## Authors
 
-* **Josch** - [JoschD](https://github.com/JoschD)
 * **pyLHC/OMC-Team** - *Working Group* - [pyLHC](https://github.com/orgs/pylhc/teams/omc-team)
 
 

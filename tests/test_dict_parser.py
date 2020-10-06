@@ -4,7 +4,7 @@ import pytest
 import sys
 import logging
 
-from generic_parser.dict_parser import ParameterError, Parameter, DictParser
+from generic_parser.dict_parser import ParameterError, Parameter, DictParser, ArgumentError
 from generic_parser.tools import TempStringLogger
 
 
@@ -30,6 +30,13 @@ def test_add_param_loc():
     parser.add_parameter(Parameter("test", default="def"), loc="sub.suub.suuub")
     assert parser.dictionary["sub"]["suub"]["suuub"]["test"].name == "test"
     assert parser.dictionary["sub"]["suub"]["suuub"]["test"].default == "def"
+
+def test_non_string_outside_choices():
+    parser = DictParser()
+    parser.add_parameter(Parameter("test", choices=[1, 2]))
+    with pytest.raises(ArgumentError):
+        parser.parse_arguments({'test': {'param': 4},})
+
 
 
 def test_add_param_loc2():
