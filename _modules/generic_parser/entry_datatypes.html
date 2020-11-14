@@ -13,6 +13,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
 
   
   
@@ -49,9 +50,12 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> generic_parser
+            <a href="../../index.html">
           
 
+          
+            
+            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -85,7 +89,13 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../root/index.html">Generic Parser Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Generic-Parser Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entrypoint-parser">Entrypoint Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#dictionary-parser">Dictionary Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entry-datatypes">Entry Datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#utility-tools">Utility Tools</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -152,10 +162,9 @@
   <h1>Source code for generic_parser.entry_datatypes</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Entry Datatypes</span>
-<span class="sd">-----------------------------</span>
+<span class="sd">---------------</span>
 
-<span class="sd">Advanced Datatypes to add as type to entrypoint. Or any parser, really.</span>
-
+<span class="sd">This module contains advanced datatypes to add as type to any entrypoint or parser.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">abc</span>
 
@@ -166,8 +175,8 @@
 <span class="c1"># Meta Class Helper ############################################################</span>
 
 
-<div class="viewcode-block" id="get_instance_faker_meta"><a class="viewcode-back" href="../../root/index.html#generic_parser.entry_datatypes.get_instance_faker_meta">[docs]</a><span class="k">def</span> <span class="nf">get_instance_faker_meta</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Returns the metaclass that fakes the isinstance() and issubclass() checks. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_instance_faker_meta"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.get_instance_faker_meta">[docs]</a><span class="k">def</span> <span class="nf">get_instance_faker_meta</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the metaclass that fakes the ``isinstance()`` and ``issubclass()`` checks.&quot;&quot;&quot;</span>
     <span class="k">class</span> <span class="nc">FakeMeta</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__instancecheck__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inst</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">classes</span><span class="p">)</span>
@@ -181,12 +190,13 @@
 <span class="c1"># &#39;Merge&#39; Classes ##############################################################</span>
 
 
-<div class="viewcode-block" id="get_multi_class"><a class="viewcode-back" href="../../root/index.html#generic_parser.entry_datatypes.get_multi_class">[docs]</a><span class="k">def</span> <span class="nf">get_multi_class</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Create a class &#39;behaving&#39; like all classes in `classes`.</span>
+<div class="viewcode-block" id="get_multi_class"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.get_multi_class">[docs]</a><span class="k">def</span> <span class="nf">get_multi_class</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a class &#39;behaving&#39; like all classes in `classes`.</span>
 
-<span class="sd">    In case a value needs to be converted to a class in this list,</span>
-<span class="sd">    it is attempted to cast the input to the classes in the given order</span>
-<span class="sd">    (i.e. string-classes need to go to the end, as they &#39;always&#39; succeed).</span>
+<span class="sd">    In case a value needs to be converted to a class in this list, it is attempted to cast the</span>
+<span class="sd">    input to the classes in the given order (i.e. string-classes need to go to the end,</span>
+<span class="sd">    as they &#39;always&#39; succeed).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">class</span> <span class="nc">MultiClass</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">)):</span>
 
@@ -214,8 +224,8 @@
 <span class="c1"># More Fake Classes ############################################################</span>
 
 
-<div class="viewcode-block" id="DictAsString"><a class="viewcode-back" href="../../root/index.html#generic_parser.entry_datatypes.DictAsString">[docs]</a><span class="k">class</span> <span class="nc">DictAsString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; Use dicts in command line like {&quot;key&quot;:value} &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DictAsString"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.DictAsString">[docs]</a><span class="k">class</span> <span class="nc">DictAsString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Use dicts in command line like {&quot;key&quot;:value}.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">s</span>
@@ -226,8 +236,8 @@
         <span class="k">return</span> <span class="n">d</span></div>
 
 
-<div class="viewcode-block" id="BoolOrString"><a class="viewcode-back" href="../../root/index.html#generic_parser.entry_datatypes.BoolOrString">[docs]</a><span class="k">class</span> <span class="nc">BoolOrString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; A class that behaves like a boolean when possible, otherwise like a string.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BoolOrString"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrString">[docs]</a><span class="k">class</span> <span class="nc">BoolOrString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;A class that behaves like a boolean when possible, otherwise like a string.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&#39;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># behavior like dict-parser</span>
@@ -242,10 +252,11 @@
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="BoolOrList"><a class="viewcode-back" href="../../root/index.html#generic_parser.entry_datatypes.BoolOrList">[docs]</a><span class="k">class</span> <span class="nc">BoolOrList</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; A class that behaves like a boolean when possible, otherwise like a list.</span>
-
-<span class="sd">    Hint: &#39;list.__new__(list, value)&#39; returns an empty list.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BoolOrList"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrList">[docs]</a><span class="k">class</span> <span class="nc">BoolOrList</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that behaves like a boolean when possible, otherwise like a list.</span>
+<span class="sd">    Hint: ``list.__new__(list, value)`` returns an empty list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">TRUE_ITEMS</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>

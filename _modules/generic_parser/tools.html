@@ -13,6 +13,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
 
   
   
@@ -49,9 +50,12 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> generic_parser
+            <a href="../../index.html">
           
 
+          
+            
+            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -85,7 +89,13 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../root/index.html">Generic Parser Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Generic-Parser Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entrypoint-parser">Entrypoint Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#dictionary-parser">Dictionary Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entry-datatypes">Entry Datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#utility-tools">Utility Tools</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -151,10 +161,10 @@
             
   <h1>Source code for generic_parser.tools</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Tools</span>
-<span class="sd">-------------------------</span>
+<span class="sd">Utility Tools</span>
+<span class="sd">-------------</span>
 
-<span class="sd">Advanced functionalities.</span>
+<span class="sd">Provides utilities to use in other modules.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -175,8 +185,8 @@
 <span class="c1"># Additional Dictionary Classes and Functions ##################################</span>
 
 
-<div class="viewcode-block" id="DotDict"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.DotDict">[docs]</a><span class="k">class</span> <span class="nc">DotDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Make dict fields accessible by . &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DotDict"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.DotDict">[docs]</a><span class="k">class</span> <span class="nc">DotDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make dict fields accessible by dot notation.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DotDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -188,19 +198,19 @@
     <span class="fm">__delattr__</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="fm">__delitem__</span>
 
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Needed to raise the correct exceptions &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Needed to raise the correct exceptions.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DotDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
-<div class="viewcode-block" id="DotDict.get_subdict"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.DotDict.get_subdict">[docs]</a>    <span class="k">def</span> <span class="nf">get_subdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; See get_subdict in dict_tools. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DotDict.get_subdict"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.DotDict.get_subdict">[docs]</a>    <span class="k">def</span> <span class="nf">get_subdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;See ``get_subdict``.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">DotDict</span><span class="p">(</span><span class="n">get_subdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="print_dict_tree"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.print_dict_tree">[docs]</a><span class="k">def</span> <span class="nf">print_dict_tree</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Dictionary&#39;</span><span class="p">,</span> <span class="n">print_fun</span><span class="o">=</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Prints a dictionary as a tree &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="print_dict_tree"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.print_dict_tree">[docs]</a><span class="k">def</span> <span class="nf">print_dict_tree</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Dictionary&#39;</span><span class="p">,</span> <span class="n">print_fun</span><span class="o">=</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints a dictionary as a tree.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">level_char</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
@@ -220,17 +230,18 @@
     <span class="n">print_tree</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_subdict"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.get_subdict">[docs]</a><span class="k">def</span> <span class="nf">get_subdict</span><span class="p">(</span><span class="n">full_dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Returns a sub-dictionary of ``full_dict`` containing only keys of ``keys``.</span>
+<div class="viewcode-block" id="get_subdict"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.get_subdict">[docs]</a><span class="k">def</span> <span class="nf">get_subdict</span><span class="p">(</span><span class="n">full_dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a sub-dictionary of ``full_dict`` containing only keys of ``keys``.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        full_dict: Dictionary to extract from</span>
-<span class="sd">        keys: keys to extract</span>
+<span class="sd">        full_dict: Dictionary to extract from.</span>
+<span class="sd">        keys: keys to extract.</span>
 <span class="sd">        strict: If false it ignores keys not in full_dict. Otherwise it crashes on those.</span>
-<span class="sd">                Default: True</span>
+<span class="sd">            Defaults to ``True``.</span>
 
-<span class="sd">    Returns: Extracted sub-dictionary</span>
-
+<span class="sd">    Returns:</span>
+<span class="sd">        Extracted sub-dictionary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">full_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">}</span>
@@ -239,9 +250,9 @@
 
 <span class="c1"># Contexts #####################################################################</span>
 
-<div class="viewcode-block" id="log_out"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.log_out">[docs]</a><span class="nd">@contextmanager</span>
+<div class="viewcode-block" id="log_out"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.log_out">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">log_out</span><span class="p">(</span><span class="n">stdout</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Temporarily changes sys.stdout and sys.stderr. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Temporarily changes sys.stdout and sys.stderr.&quot;&quot;&quot;</span>
     <span class="n">old_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
     <span class="n">old_stderr</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span>
@@ -253,11 +264,10 @@
         <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">old_stderr</span></div>
 
 
-<div class="viewcode-block" id="silence"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.silence">[docs]</a><span class="nd">@contextmanager</span>
+<div class="viewcode-block" id="silence"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.silence">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">silence</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Suppress all console output.</span>
-
-<span class="sd">    sys.stdout and sys.stderr are rerouted to devnull.</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Suppress all console output. ``sys.stdout`` and ``sys.stderr`` are rerouted to ``devnull``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">devnull</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">log_out</span><span class="p">(</span><span class="n">stdout</span><span class="o">=</span><span class="n">devnull</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">devnull</span><span class="p">):</span>
@@ -267,9 +277,9 @@
             <span class="n">devnull</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="unformatted_console_logging"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.unformatted_console_logging">[docs]</a><span class="nd">@contextmanager</span>
+<div class="viewcode-block" id="unformatted_console_logging"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.unformatted_console_logging">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">unformatted_console_logging</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Log only to console and only unformatted. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Log only to console and only unformatted.&quot;&quot;&quot;</span>
 
     <span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">old_handlers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">root_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">)</span>
@@ -286,12 +296,13 @@
     <span class="n">root_logger</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="n">old_handlers</span></div>
 
 
-<div class="viewcode-block" id="TempStringLogger"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.TempStringLogger">[docs]</a><span class="k">class</span> <span class="nc">TempStringLogger</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; Temporarily log into a string that can be retrieved by get_log</span>
+<div class="viewcode-block" id="TempStringLogger"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.TempStringLogger">[docs]</a><span class="k">class</span> <span class="nc">TempStringLogger</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Temporarily log into a string that can be retrieved by ``get_log``.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        module: module to log, default: caller file.</span>
-<span class="sd">        level: logging level, default INFO.</span>
+<span class="sd">        module: module to log, defaults to the caller file.</span>
+<span class="sd">        level: logging level, defaults to ``INFO``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
@@ -312,7 +323,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propagate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_level</span><span class="p">)</span>
 
-<div class="viewcode-block" id="TempStringLogger.get_log"><a class="viewcode-back" href="../../root/index.html#generic_parser.tools.TempStringLogger.get_log">[docs]</a>    <span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TempStringLogger.get_log"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.TempStringLogger.get_log">[docs]</a>    <span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get the log as string. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span></div></div>
 </pre></div>

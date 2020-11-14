@@ -1,4 +1,4 @@
-Generic Parser Modules
+Generic-Parser Modules
 **************************
 
 .. automodule:: generic_parser.entrypoint_parser
