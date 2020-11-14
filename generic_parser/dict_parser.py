@@ -1,6 +1,8 @@
 """
 Dictionary Parser
----------------------------
+-----------------
+
+This module holds classes to handle different `dictionaries` as argument containers.
 """
 import argparse
 import copy
@@ -16,11 +18,12 @@ LOG = logging.getLogger(__name__)
 
 
 class DictParser(object):
-    """ Provides functions to parse a dictionary.
+    """
+    Provides functions to parse a dictionary.
 
-    First, build a dictionary structure with Parameters or Parameter-like dicts as
-    leafs via add_parameter or on init.
-    A similar structured option dictionary with the values as leafs can then be parsed.
+    First, build a dictionary structure with Parameters or Parameter-like dicts as leafs via
+    ``add_parameter`` or on init. A similar structured option dictionary with the values as
+    leafs can then be parsed.
     """
 
     def __init__(self, dictionary=None, strict=False):
@@ -28,7 +31,7 @@ class DictParser(object):
         Initialize Class either empty or with preconfigured dictionary
 
         Args:
-            dictionary: Preconfigured Dictionary for parsing
+            dictionary: Preconfigured `dictionary` for parsing.
             strict: Strict Parsers don't accept unknown options. If False, it just logs the names.
         """
         self.strict = strict
@@ -45,10 +48,11 @@ class DictParser(object):
 
     @staticmethod
     def _validate_parameters(dictionary):
-        """ Validates an input dictionary that can be used as parameters.
+        """
+        Validates an input dictionary that can be used as parameters.
 
         Args:
-            dictionary: Dictionary to validate
+            dictionary: Dictionary to validate.
         """
         # Helper ------------------------------------------
         def _check_key(key, param):
@@ -78,15 +82,16 @@ class DictParser(object):
 
     @staticmethod
     def _check_value(key, arg_dict, param_dict):
-        """ Checks if in arg_dict[key] satisfies param_dict[key]
+        """
+        Checks if in arg_dict[key] satisfies param_dict[key].
 
         Args:
-            key: key to check
+            key: key to check.
             arg_dict: Arguments-structure. Can be None or empty.
-            param_dict: Parameter-structure. Needs to contain 'key'
+            param_dict: Parameter-structure. Needs to contain ``key``.
 
         Returns:
-            The appropriate value for arg_dict[key]
+            The appropriate value for arg_dict[key].
         """
         param = param_dict[key]
         if not arg_dict or key not in arg_dict:
@@ -137,15 +142,17 @@ class DictParser(object):
         return opt
 
     def _parse_arguments(self, arg_dict, param_dict):
-        """ Use parse_arguments()!
+        """
+        Use ``parse_arguments()``!
 
         This is a helper Function for parsing arguments. It does all the work. Called recursively.
 
         Args:
-            arg_dict: Dictionary with the input arguments
-            param_dict: Dictionary with the parameters to check the parameter against
+            arg_dict: `dictionary` with the input arguments.
+            param_dict: `dictionary` with the parameters to check the parameter against.
+
         Returns:
-            Dictionary with parsed arguments, i.e. the options
+            A `dictionary` with parsed arguments, i.e. the options.
         """
         checked_dict = DotDict()
         for key in param_dict:
@@ -182,13 +189,14 @@ class DictParser(object):
     #########################
 
     def parse_arguments(self, arguments):
-        """ Parse a given argument dictionary and return parsed options.
+        """
+        Parse a given argument dictionary and return parsed options.
 
         Args:
-            arguments: Arguments to parse
+            arguments: Arguments to parse.
 
         Return:
-            Options [, Unknown Options]
+            Options [, Unknown Options].
         """
         checked = self._parse_arguments(copy.deepcopy(arguments), self.dictionary)
         if self.strict:
@@ -196,29 +204,30 @@ class DictParser(object):
         return checked
 
     def parse_config_items(self, items):
-        """ Parse a list of (name, value) items, where the values are all strings.
+        """
+        Parse a list of (name, value) items, where the values are all strings.
 
         Args:
             items: list of (name, value) items.
 
         Returns:
-            Parsed options
+            Parsed options.
         """
         options = self._convert_config_items(items)
         return self.parse_arguments(options)
 
     def add_parameter(self, param, **kwargs):
-        """ Adds an parameter to the parser.
-
-        If you want it to be an parameter of a sub-dictionary add
-        the 'loc=subdict.subdict' keyword to the input.
+        """
+        Adds an parameter to the parser.
+        If you want it to be an parameter of a sub-dictionary add the 'loc=subdict.subdict'
+        keyword to the input.
 
         Args:
-            param: Argument to add (either of object of class argument or string defining the name)
-            kwargs: Any of the argument-fields (apart from 'name') and/or 'loc'
+            param: Argument to add (either of object of class argument or string defining the name).
+            kwargs: Any of the argument-fields (apart from 'name') and/or 'loc'.
 
         Returns:
-            This object
+            This object.
         """
         loc = kwargs.pop('loc', None)
         if not isinstance(param, Parameter):
@@ -227,14 +236,15 @@ class DictParser(object):
         return self
 
     def add_parameter_dict(self, dictionary, loc):
-        """ Appends a complete subdictionary to existing argument structure at node 'loc'.
+        """
+        Appends a complete subdictionary to existing argument structure at node 'loc'.
 
         Args:
-            loc: location of the node to append the sub-dictionary
-            dictionary: The dictionary to append
+            loc: location of the node to append the sub-dictionary.
+            dictionary: The dictionary to append.
 
         Returns:
-            This object
+            This object.
         """
         fields = loc.split('.')
         name = fields[-1]
@@ -252,7 +262,7 @@ class DictParser(object):
         pass
 
     def tree(self):
-        """ Prints the current Parameter-Tree (I made dis :) ) """
+        """Prints the current Parameter-Tree."""
         def print_tree(tree, level_char):
             for i, key in enumerate(sorted(tree.keys())):
                 if i == len(tree) - 1:
@@ -288,16 +298,16 @@ class DictParser(object):
     #########################
 
     def _add_param_to_dict(self, param, loc=None):
-        """ Adds and parameter to the parameter dictionary.
-
-        These will be used to parse an incoming option structure.
+        """
+        Adds and parameter to the parameter dictionary. These will be used to parse an incoming
+        option structure.
 
         Args:
-            param: Argument to add
-            loc: Path to sub-dictionary as string (e.g. subdict.subdict.loc[.arg])
+            param: Argument to add.
+            loc: Path to sub-dictionary as string (e.g. subdict.subdict.loc[.arg]).
 
         Returns:
-            This object
+            This object.
         """
         sub_dict = self._traverse_dict(loc)
         if param.name in sub_dict:
@@ -306,15 +316,15 @@ class DictParser(object):
         return self
 
     def _traverse_dict(self, loc=None):
-        """ Traverses the dictionary to the subdict defined by loc.
-
-        Adds non-existing substructures automatically.
+        """
+        Traverses the dictionary to the subdict defined by loc. Adds non-existing substructures
+        automatically.
 
         Args:
-            loc: Path to sub-dictionary as string (e.g. argument.subparam.locination)
+            loc: Path to sub-dictionary as string (e.g. argument.subparam.locination).
 
         Returns:
-            Sub-dictionary
+            Sub-dictionary.
         """
         d = self.dictionary
         if loc:
@@ -332,7 +342,7 @@ class DictParser(object):
         return d
 
     def _convert_config_items(self, items):
-        """ Converts items list to a dictionary with types already in place """
+        """Converts items list to a dictionary with types already in place."""
         def evaluate(name, item):
             try:
                 return eval(item)  # sorry for using that
@@ -384,7 +394,7 @@ class ArgumentError(Exception):
 
 
 class Parameter(object):
-    """ Helper Class for DictParser """
+    """Helper Class for DictParser."""
     def __init__(self, name, **kwargs):
         self.name = name
         self.required = kwargs.pop('required', False)
