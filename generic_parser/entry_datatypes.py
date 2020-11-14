@@ -1,9 +1,8 @@
 """
 Entry Datatypes
------------------------------
+---------------
 
-Advanced Datatypes to add as type to entrypoint. Or any parser, really.
-
+This module contains advanced datatypes to add as type to any entrypoint or parser.
 """
 import abc
 
@@ -15,7 +14,7 @@ FALSE_ITEMS = ["False", "0", False, 0]  # items that count as False
 
 
 def get_instance_faker_meta(*classes):
-    """ Returns the metaclass that fakes the isinstance() and issubclass() checks. """
+    """Returns the metaclass that fakes the ``isinstance()`` and ``issubclass()`` checks."""
     class FakeMeta(abc.ABCMeta):
         def __instancecheck__(cls, inst):
             return isinstance(inst, classes)
@@ -30,11 +29,12 @@ def get_instance_faker_meta(*classes):
 
 
 def get_multi_class(*classes):
-    """ Create a class 'behaving' like all classes in `classes`.
+    """
+    Create a class 'behaving' like all classes in `classes`.
 
-    In case a value needs to be converted to a class in this list,
-    it is attempted to cast the input to the classes in the given order
-    (i.e. string-classes need to go to the end, as they 'always' succeed).
+    In case a value needs to be converted to a class in this list, it is attempted to cast the
+    input to the classes in the given order (i.e. string-classes need to go to the end,
+    as they 'always' succeed).
     """
     class MultiClass(metaclass=get_instance_faker_meta(*classes)):
 
@@ -63,7 +63,7 @@ def get_multi_class(*classes):
 
 
 class DictAsString(metaclass=get_instance_faker_meta(str, dict)):
-    """ Use dicts in command line like {"key":value} """
+    """Use dicts in command line like {"key":value}."""
     def __new__(cls, s):
         if isinstance(s, dict):
             return s
@@ -75,7 +75,7 @@ class DictAsString(metaclass=get_instance_faker_meta(str, dict)):
 
 
 class BoolOrString(metaclass=get_instance_faker_meta(bool, str)):
-    """ A class that behaves like a boolean when possible, otherwise like a string."""
+    """A class that behaves like a boolean when possible, otherwise like a string."""
     def __new__(cls, value):
         if isinstance(value, str):
             value = value.strip("\'\"")  # behavior like dict-parser
@@ -91,9 +91,10 @@ class BoolOrString(metaclass=get_instance_faker_meta(bool, str)):
 
 
 class BoolOrList(metaclass=get_instance_faker_meta(bool, list)):
-    """ A class that behaves like a boolean when possible, otherwise like a list.
-
-    Hint: 'list.__new__(list, value)' returns an empty list."""
+    """
+    A class that behaves like a boolean when possible, otherwise like a list.
+    Hint: ``list.__new__(list, value)`` returns an empty list.
+    """
     def __new__(cls, value):
         if value in TRUE_ITEMS:
             return True

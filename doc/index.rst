@@ -1,14 +1,16 @@
-.. generic-parser documentation master file
+Welcome to Generic Parser's documentation!
+==========================================
 
-Welcome to the documentation of the Generic Parser!
-===================================================
+``generic-parser`` is a parser library for arguments and config-files that also allows direct Python input, used by the OMC Team at `CERN <https://home.cern/>`_.
 
-Contents:
+
+Package Reference
+=================
 
 .. toctree::
    :maxdepth: 2
 
-   root/index
+   modules/index
 
 
 Indices and tables

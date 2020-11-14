@@ -1,13 +1,13 @@
 """
-Entrypoint
---------------------------
+Entrypoint Parser
+-----------------
 
-Entry Point Parser and Decorator.
+This module contains high-level objects to manage the functionality of ``generic_parser``: entry
+point parser and decorator.
 
-Allows a function to be decorated as entrypoint.
-This function will then automatically accept console arguments, config files, json files,
-kwargs and dictionaries as input and will parse it according to the parameters
-given to the entrypoint-Decorator.
+These allow a function to be decorated as entrypoint. This function will then automatically
+accept console arguments, config files, json files, kwargs and dictionaries as input and will
+parse it according to the parameters given to the entrypoint-Decorator.
 
 Terminology:
 ++++++++++++++++++++++++
@@ -17,8 +17,8 @@ Terminology:
     * **Options** - The parsed arguments and hence the options of the function
 
 Hence, an :class:`ArgumentError` will be raised in case of something going wrong during parsing,
-while :class:`ParameterErrors` will be raised if something goes wrong when
-adding parameters to the list.
+while :class:`ParameterErrors` will be raised if something goes wrong when adding parameters to
+the list.
 
 Usage:
 ++++++++++++++++++++++++
@@ -122,9 +122,9 @@ Example with list of dictionaries:
 
 
 The **strict** option changes the behaviour for unknown parameters:
-``strict=True`` raises exceptions, ``strict=False`` loggs debug messages and returns the options.
+``strict=True`` raises exceptions, ``strict=False`` logs debug messages and returns the options.
 Hence a wrapped function with ``strict=True`` must accept one input, with ``strict=False`` two.
-Default: ``False``
+Defaults to ``False``
 
 
 Arguments:
@@ -138,9 +138,7 @@ Let's take the decorated example function::
         print(opt)
 
 
-Then the different ways to call it are.
-
-from python::
+Then the different ways to call it are, from python::
 
     entry_function(foo='mark', bar='twain')  # keyword args
 
@@ -156,15 +154,11 @@ from python::
     entry_function(entry_json=Path('config.json'))  # json file
     entry_function(entry_json=Path('config.json'), section='section')  # '[section]' in json file
 
-
-
-as commandline arguments from a `script.py` that calls ``entry_function()``::
+or as commandline arguments from a **script.py** that calls ``entry_function()``::
 
     python script.py --foo mark --bar twain
     python script.py --entry_cfg config.ini
     python script.py --entry_cfg config.ini --section section
-
-
 """
 import copy
 import json
@@ -194,7 +188,7 @@ ID_SECTION = "section"
 
 class EntryPoint(object):
     def __init__(self, parameter, strict=False):
-        """ Initialize decoration: Handle the desired input parameter. """
+        """Initialize decoration: Handle the desired input parameter."""
         self.strict = strict
 
         # add argument dictionary to EntryPoint
@@ -213,23 +207,21 @@ class EntryPoint(object):
         self.dictparse = self._create_dict_parser()  # also used for configfiles
 
     def parse(self, *args, **kwargs):
-        """ Parse whatever input parameter come.
-
-            This is the heart of EntryPoint and will recognize the input and parse it
-            accordingly.
-            Allowed inputs are:
-                - Dictionary with arguments as key-values
-                - Key-Value arguments
-                - Path to a one-section config file
-                - Commandline Arguments
-                - Commandline Arguments in string-form (as list)
-                - Special Key-Value arguments are:
-                    entry_dict: Value is a dict of arguments
-                    entry_cfg: Path to config file
-                    entry_json: Path to json file
-                    section: Section to use in config file, or subdirectory to use in json file.
-                             Only works with the key-value version of config file.
-                             If not given only one-section config files are allowed.
+        """
+        Parse whatever input parameter come. This is the heart of EntryPoint and will recognize
+        the input and parse it accordingly. Allowed inputs are:
+            - Dictionary with arguments as key-values.
+            - Key-Value arguments.
+            - Path to a one-section config file.
+            - Commandline Arguments.
+            - Commandline Arguments in string-form (as list).
+            - Special Key-Value arguments are:
+                entry_dict: Value is a dict of arguments.
+                entry_cfg: Path to config file.
+                entry_json: Path to json file.
+                section: Section to use in config file, or subdirectory to use in json file.
+                         Only works with the key-value version of config file.
+                         If not given only one-section config files are allowed.
          """
         if len(args) > 0 and len(kwargs) > 0:
             raise ArgumentError("Cannot combine positional parameter with keyword parameter.")
@@ -254,26 +246,26 @@ class EntryPoint(object):
     #########################
 
     def _create_config_argument(self):
-        """ Creates the config-file argument parser """
+        """Creates the config-file argument parser."""
         parser = ArgumentParser()
         parser.add_argument('--{}'.format(ID_CONFIG), type=str, dest=ID_CONFIG, required=True,)
         parser.add_argument('--{}'.format(ID_SECTION), type=str, dest=ID_SECTION,)
         return parser
 
     def _create_argument_parser(self):
-        """ Creates the ArgumentParser from parameter. """
+        """Creates the ArgumentParser from parameter."""
         parser = ArgumentParser()
         parser = _add_params_to_argument_parser(parser, self.parameter)
         return parser
 
     def _create_dict_parser(self):
-        """ Creates the DictParser from parameter. """
+        """Creates the DictParser from parameter."""
         parser = DictParser(strict=self.strict)
         parser = _add_params_to_dict_parser(parser, self.parameter)
         return parser
 
     def _create_config_parser(self):
-        """ Creates the config parser. Maybe more to do here later with parameter. """
+        """Creates the config parser. Maybe more to do here later with parameter."""
         parser = ConfigParser({})
         return parser
 
@@ -282,7 +274,7 @@ class EntryPoint(object):
     #########################
 
     def _handle_commandline(self, args=None):
-        """ No input to function """
+        """No input to function."""
         try:
             # check for config file first
             with silence():
@@ -304,7 +296,7 @@ class EntryPoint(object):
             return self.dictparse.parse_config_items(self._read_config(vars(options)[ID_CONFIG]))
 
     def _handle_arg(self, arg):
-        """ *args has been input """
+        """*args has been input."""
         if isinstance(arg, str):
             # assume config file
             options = self.dictparse.parse_config_items(self._read_config(arg))
@@ -320,7 +312,7 @@ class EntryPoint(object):
         return options  # options might include known and unknown options
 
     def _handle_kwargs(self, kwargs):
-        """ **kwargs been input """
+        """**kwargs been input."""
         if ID_CONFIG in kwargs:
             if len(kwargs) > 2 or (len(kwargs) == 2 and ID_SECTION not in kwargs):
                 raise ArgumentError(
@@ -358,7 +350,7 @@ class EntryPoint(object):
     #########################
 
     def _check_parameter(self):
-        """ EntryPoint specific checks for parameter """
+        """EntryPoint specific checks for parameter."""
         for param in self.parameter:
             arg_name = param.get("name", None)
             if arg_name is None:
@@ -378,7 +370,7 @@ class EntryPoint(object):
                 param['flags'] = [f'--{arg_name}']
 
     def _read_config(self, cfgfile_path, section=None):
-        """ Get content from config file"""
+        """Get content from config file."""
         # create new config parser, as it keeps defaults between files
         cfgparse = self._create_config_parser()
 
@@ -403,21 +395,20 @@ class EntryPoint(object):
 
 
 class entrypoint(EntryPoint):
-    """ Decorator extension of EntryPoint.
-
-    Implements the __call__ method needed for decorating.
-    Lowercase looks nicer if used as decorator """
+    """
+    Decorator extension of `EntryPoint`. Implements the ``__call__`` method needed for decorating.
+    Lowercase looks nicer if used as decorator.
+    """
 
     def __call__(self, func):
-        """ Builds wrapper around the function 'func' (called on decoration)
-
-        Whenever the decorated function is called, actually this wrapper is called.
-        The Number of arguments is checked for compliance with instance- and class- methods,
+        """
+        Builds wrapper around the function ``func`` (called on decoration). Whenever the
+        decorated function is called, actually this wrapper is called. The Number of arguments is
+        checked for compliance with instance- and class- methods,
 
         Meaning: if there is one more argument as there should be, we pass it on as it is
-        (should be) either ``self`` or ``cls``.
-        One could check that there are no varargs and keywords, but let's assume the user
-        is doing the right things.
+        (should be) either ``self`` or ``cls``. One could check that there are no varargs and
+        keywords, but let's assume the user is doing the right things.
 
         Hint: To check for bound functions (i.e. with ``self`` or ``cls``) via
         ``hasattr(func, "__self__")`` will not work here, as functions are bound later.
@@ -463,11 +454,12 @@ class entrypoint(EntryPoint):
 
 
 class EntryPointParameters(DotDict):
-    """ Helps to build a simple dictionary structure via add_argument functions.
-
-    You really don't need that, but old habits die hard."""
+    """
+    Helps to build a simple dictionary structure via add_argument functions.
+    You really don't need that, but old habits die hard.
+    """
     def add_parameter(self, **kwargs):
-        """ Add parameter """
+        """Add parameter."""
         name = kwargs.pop("name")
         if name in self:
             raise ParameterError(f"'{name:s}' is already a parameter.")
@@ -475,7 +467,7 @@ class EntryPointParameters(DotDict):
             self[name] = kwargs
 
     def help(self):
-        """ Prints current help. Usable to paste into docstrings. """
+        """Prints current help. Usable to paste into docstrings."""
         optional_params = []
         required_params = []
         space = " " * 4
@@ -539,7 +531,7 @@ class OptionsError(Exception):
 
 
 def dict2list_param(param):
-    """ Convert dictionary to list and add name by key """
+    """Convert dictionary to list and add name by key."""
     if isinstance(param, dict):
         out = []
         for key in param:
@@ -551,7 +543,7 @@ def dict2list_param(param):
 
 
 def list2dict_param(param):
-    """ Convert list to dictionary for quicker find """
+    """Convert list to dictionary for quicker find."""
     if isinstance(param, list):
         out = {}
         for p in param:
@@ -561,13 +553,13 @@ def list2dict_param(param):
 
 
 def add_to_arguments(args, entry_params=None, **kwargs):
-    """ Adds arguments to an existing list or dictionary of arguments.
-
-    If args is a list, the flags of the names given will be added and `entry_params` is required.
+    """
+    Adds arguments to an existing list or dictionary of arguments. If ``args`` is a `list`,
+    the flags of the names given will be added and ``entry_params`` is required.
 
     Args:
-        args (list,dict): Arguments (e.g. from unknown)
-        entry_params (list, dict): Parameter belonging to the arguments
+        args (list,dict): Arguments (e.g. from unknown).
+        entry_params (list, dict): Parameter belonging to the arguments.
 
     Keyword Args:
         Name and value of the arguments to add.
@@ -593,8 +585,9 @@ def add_to_arguments(args, entry_params=None, **kwargs):
 # parameter adders ---
 
 def add_params_to_generic(parser, params):
-    """ Adds entry-point style parameter to either
-    ArgumentParser, DictParser or EntryPointParameters
+    """
+    Adds entry-point style parameter to either `ArgumentParser`, `DictParser` or
+    `EntryPointParameters`.
     """
     if isinstance(parser, EntryPointParameters):
         parser = _add_params_to_entrypoint_parameters(parser, params)
@@ -656,22 +649,22 @@ def _add_params_to_argument_parser(arg_parser, params):
 
 
 def split_arguments(args, *param_list):
-    """ Divide remaining arguments into a list of argument-dicts,
-        fitting to the params in param_list.
+    """
+    Divide remaining arguments into a list of argument-dicts, fitting to the params in param_list.
 
-        Args:
-            args: Input arguments, either as list of strings or dict
-            param_list: list of sets of entry-point parameters (either dict, or list)
+    Args:
+        args: Input arguments, either as list of strings or dict.
+        param_list: list of sets of entry-point parameters (either dict, or list).
 
-        Returns:
-            A list of dictionaries containing the arguments for each set of parameters,
-            plus one more entry for unknown parameters.
-            If the input was a list of argument-strings, the parameters will already be parsed.
+    Returns:
+        A list of dictionaries containing the arguments for each set of parameters, plus one more
+        entry for unknown parameters. If the input was a list of argument-strings, the parameters
+        will already be parsed.
 
-        .. warning:: Unless you know what you are doing, run this function only on
-                     remaining-arguments from entry point parsing, not on the actual arguments
+    .. warning:: Unless you know what you are doing, run this function only on
+                 remaining-arguments from entry point parsing, not on the actual arguments
 
-        .. warning:: Adds each argument only once, to the set of params who claim it first!
+    .. warning:: Adds each argument only once, to the set of params who claim it first!
     """
     split_args = []
     if isinstance(args, list):
@@ -694,7 +687,7 @@ def split_arguments(args, *param_list):
 
 
 def param_names(params):
-    """ Get the names of the parameters, no matter if they are a dict or list of dicts """
+    """Get the names of the parameters, no matter if they are a dict or list of dicts."""
     try:
         names = params.keys()
     except AttributeError:
@@ -703,14 +696,13 @@ def param_names(params):
 
 
 def create_parameter_help(module, param_fun=None):
-    """ Print params help quickly but changing the logging format first.
+    """
+    Print params help quickly but changing the logging format first.
 
     Usage Example::
-
         import amplitude_detuning_analysis
         create_parameter_help(amplitude_detuning_analysis)
         create_parameter_help(amplitude_detuning_analysis, "_get_plot_params")
-
     """
     with unformatted_console_logging():
         if param_fun is None:
@@ -723,13 +715,13 @@ def create_parameter_help(module, param_fun=None):
 
 
 def save_options_to_config(filepath, opt, unknown=None):
-    """ Saves the parsed options to a config file to be used as arguments.
+    """
+    Saves the parsed options to a config file to be used as arguments.
 
     Args:
-        filepath: path to write the config file to
-        opt: parsed known options
-        unknown: unknown options (only safe for non-commandline parameters)
-
+        filepath: path to write the config file to.
+        opt: parsed known options.
+        unknown: unknown options (only safe for non-commandline parameters).
     """
     def _to_key_value_str(key, value):
         if value is None:

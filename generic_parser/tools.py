@@ -1,8 +1,8 @@
 """
-Tools
--------------------------
+Utility Tools
+-------------
 
-Advanced functionalities.
+Provides utilities to use in other modules.
 """
 import logging
 import os
@@ -24,7 +24,7 @@ _TC = {  # Tree Characters
 
 
 class DotDict(dict):
-    """ Make dict fields accessible by . """
+    """Make dict fields accessible by dot notation."""
     def __init__(self, *args, **kwargs):
         super(DotDict, self).__init__(*args, **kwargs)
         for key in self:
@@ -36,19 +36,19 @@ class DotDict(dict):
     __delattr__ = dict.__delitem__
 
     def __getattr__(self, key):
-        """ Needed to raise the correct exceptions """
+        """Needed to raise the correct exceptions."""
         try:
             return super(DotDict, self).__getitem__(key)
         except KeyError as e:
             raise AttributeError(e).with_traceback(e.__traceback__) from e
 
     def get_subdict(self, keys, strict=True):
-        """ See get_subdict in dict_tools. """
+        """See ``get_subdict``."""
         return DotDict(get_subdict(self, keys, strict))
 
 
 def print_dict_tree(dictionary, name='Dictionary', print_fun=LOG.info):
-    """ Prints a dictionary as a tree """
+    """Prints a dictionary as a tree."""
     def print_tree(tree, level_char):
         for i, key in enumerate(sorted(tree.keys())):
             if i == len(tree) - 1:
@@ -69,16 +69,17 @@ def print_dict_tree(dictionary, name='Dictionary', print_fun=LOG.info):
 
 
 def get_subdict(full_dict, keys, strict=True):
-    """ Returns a sub-dictionary of ``full_dict`` containing only keys of ``keys``.
+    """
+    Returns a sub-dictionary of ``full_dict`` containing only keys of ``keys``.
 
     Args:
-        full_dict: Dictionary to extract from
-        keys: keys to extract
+        full_dict: Dictionary to extract from.
+        keys: keys to extract.
         strict: If false it ignores keys not in full_dict. Otherwise it crashes on those.
-                Default: True
+            Defaults to ``True``.
 
-    Returns: Extracted sub-dictionary
-
+    Returns:
+        Extracted sub-dictionary.
     """
     if strict:
         return {k: full_dict[k] for k in keys}
@@ -89,7 +90,7 @@ def get_subdict(full_dict, keys, strict=True):
 
 @contextmanager
 def log_out(stdout=sys.stdout, stderr=sys.stderr):
-    """ Temporarily changes sys.stdout and sys.stderr. """
+    """Temporarily changes sys.stdout and sys.stderr."""
     old_stdout = sys.stdout
     old_stderr = sys.stderr
     sys.stdout = stdout
@@ -103,9 +104,8 @@ def log_out(stdout=sys.stdout, stderr=sys.stderr):
 
 @contextmanager
 def silence():
-    """ Suppress all console output.
-
-    sys.stdout and sys.stderr are rerouted to devnull.
+    """
+    Suppress all console output. ``sys.stdout`` and ``sys.stderr`` are rerouted to ``devnull``.
     """
     devnull = open(os.devnull, "w")
     with log_out(stdout=devnull, stderr=devnull):
@@ -117,7 +117,7 @@ def silence():
 
 @contextmanager
 def unformatted_console_logging():
-    """ Log only to console and only unformatted. """
+    """Log only to console and only unformatted."""
 
     root_logger = logging.getLogger("")
     old_handlers = list(root_logger.handlers)
@@ -135,11 +135,12 @@ def unformatted_console_logging():
 
 
 class TempStringLogger:
-    """ Temporarily log into a string that can be retrieved by get_log
+    """
+    Temporarily log into a string that can be retrieved by ``get_log``.
 
     Args:
-        module: module to log, default: caller file.
-        level: logging level, default INFO.
+        module: module to log, defaults to the caller file.
+        level: logging level, defaults to ``INFO``.
     """
     def __init__(self, module="", level=logging.INFO):
         self.stream = StringIO()
