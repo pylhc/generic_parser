@@ -132,7 +132,7 @@ class DictParser(object):
 
             if param.choices and any([o for o in opt if o not in param.choices]):
                 raise ArgumentError(f"All elements of '{key:s}' need to be one of "
-                                    f"'{param.choices:}', instead the list was {opt:s}.\n"
+                                    f"'{param.choices}', instead the list was {opt}.\n"
                                     f"Help: {param.help:s}")
 
         elif param.choices and opt not in param.choices:
