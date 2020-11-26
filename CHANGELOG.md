@@ -1,4 +1,10 @@
 # Generic-Parser Changelog
+
+## Version 1.0.8
+ * revamp of the documentation
+ * fixed a format string error when a choice is not correct for a list argument
+ * fixed a setenv issue for Github actions
+
 ## Version 1.0.7
  * fixed crash before proper error message for invalid choice of non-string
  objects. 
