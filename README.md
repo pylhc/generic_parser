@@ -4,6 +4,8 @@
 [![Code Climate maintainability (percentage)](https://img.shields.io/codeclimate/maintainability-percentage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
 [![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/)
 [![GitHub release](https://img.shields.io/github/release/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/)
+[![DOI](https://zenodo.org/badge/201085116.svg)](https://zenodo.org/badge/latestdoi/201085116)
+
 
 A parser for arguments and config-files that also allows direct python input.
 
