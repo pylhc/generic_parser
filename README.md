@@ -17,9 +17,13 @@ A parser for arguments and config-files that also allows direct python input.
 ### Installing
 
 Installation is easily done via `pip`. The package is then used as `generic_parser`.
-
+```bash
+python -m pip install generic-parser
 ```
-pip install generic-parser
+
+One can also install in a `conda` environment via the `conda-forge` channel with:
+```bash
+conda install -c conda-forge generic_parser
 ```
 
 ### Example Usage:
