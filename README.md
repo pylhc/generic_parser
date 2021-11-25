@@ -11,7 +11,7 @@
 The package provides an all-around parser for arguments and config-files.
 The creation of the arguments is similar to the ones from argparse, but the input can then be either from command line, a config file or directly from python.
 
-See the [API documentation](https://pylhc.github.io/generic_parser) for details.
+See the [API documentation](https://pylhc.github.io/generic_parser/) for details.
 
 ## Installing
 
