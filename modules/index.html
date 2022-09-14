@@ -15,6 +15,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -76,16 +77,16 @@
            <div itemprop="articleBody">
              
   <section id="module-generic_parser.entrypoint_parser">
-<span id="generic-parser-modules"></span><h1>Generic-Parser Modules<a class="headerlink" href="#module-generic_parser.entrypoint_parser" title="Permalink to this headline"></a></h1>
+<span id="generic-parser-modules"></span><h1>Generic-Parser Modules<a class="headerlink" href="#module-generic_parser.entrypoint_parser" title="Permalink to this heading"></a></h1>
 <section id="entrypoint-parser">
-<h2>Entrypoint Parser<a class="headerlink" href="#entrypoint-parser" title="Permalink to this headline"></a></h2>
+<h2>Entrypoint Parser<a class="headerlink" href="#entrypoint-parser" title="Permalink to this heading"></a></h2>
 <p>This module contains high-level objects to manage the functionality of <code class="docutils literal notranslate"><span class="pre">generic_parser</span></code>: entry
 point parser and decorator.</p>
 <p>These allow a function to be decorated as entrypoint. This function will then automatically
 accept console arguments, config files, json files, kwargs and dictionaries as input and will
 parse it according to the parameters given to the entrypoint-Decorator.</p>
 <section id="terminology">
-<h3>Terminology:<a class="headerlink" href="#terminology" title="Permalink to this headline"></a></h3>
+<h3>Terminology:<a class="headerlink" href="#terminology" title="Permalink to this heading"></a></h3>
 <blockquote>
 <div><ul class="simple">
 <li><p><strong>Parameter</strong> - Items containing info on how to parse Arguments</p></li>
@@ -98,7 +99,7 @@ while <code class="xref py py-class docutils literal notranslate"><span class="p
 the list.</p>
 </section>
 <section id="usage">
-<h3>Usage:<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h3>
+<h3>Usage:<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h3>
 <p>To be used as a decorator:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@entrypoint</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">unknown_options</span><span class="p">)</span>
@@ -121,7 +122,7 @@ the list.</p>
 </div>
 </section>
 <section id="parameters">
-<h3>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this headline"></a></h3>
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
 <p>Parameters need to be a list or a dictionary of dictionaries with the following keys:</p>
 <div class="line-block">
 <div class="line"><strong>name</strong> (<em>required</em>): Name of the variable (e.g. later use options.NAME).
@@ -191,7 +192,7 @@ Hence a wrapped function with <code class="docutils literal notranslate"><span c
 Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </section>
 <section id="arguments">
-<h3>Arguments:<a class="headerlink" href="#arguments" title="Permalink to this headline"></a></h3>
+<h3>Arguments:<a class="headerlink" href="#arguments" title="Permalink to this heading"></a></h3>
 <p>Arguments to a decorated function can be passed in multiple ways.
 Let’s take the decorated example function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@entrypoint</span><span class="p">(</span><span class="n">EntryPointParameters</span><span class="p">({</span><span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="p">{}}),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -353,7 +354,7 @@ remaining-arguments from entry point parsing, not on the actual arguments</p>
 </section>
 </section>
 <span class="target" id="module-generic_parser.dict_parser"></span><section id="dictionary-parser">
-<h2>Dictionary Parser<a class="headerlink" href="#dictionary-parser" title="Permalink to this headline"></a></h2>
+<h2>Dictionary Parser<a class="headerlink" href="#dictionary-parser" title="Permalink to this heading"></a></h2>
 <p>This module holds classes to handle different <cite>dictionaries</cite> as argument containers.</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="generic_parser.dict_parser.ArgumentError">
@@ -452,7 +453,7 @@ keyword to the input.</p>
 
 </section>
 <span class="target" id="module-generic_parser.entry_datatypes"></span><section id="entry-datatypes">
-<h2>Entry Datatypes<a class="headerlink" href="#entry-datatypes" title="Permalink to this headline"></a></h2>
+<h2>Entry Datatypes<a class="headerlink" href="#entry-datatypes" title="Permalink to this heading"></a></h2>
 <p>This module contains advanced datatypes to add as type to any entrypoint or parser.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.entry_datatypes.BoolOrList">
@@ -490,7 +491,7 @@ as they ‘always’ succeed).</p>
 
 </section>
 <span class="target" id="module-generic_parser.tools"></span><section id="utility-tools">
-<h2>Utility Tools<a class="headerlink" href="#utility-tools" title="Permalink to this headline"></a></h2>
+<h2>Utility Tools<a class="headerlink" href="#utility-tools" title="Permalink to this heading"></a></h2>
 <p>Provides utilities to use in other modules.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.tools.DotDict">
