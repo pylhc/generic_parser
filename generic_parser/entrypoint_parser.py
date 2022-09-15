@@ -188,7 +188,7 @@ ID_SECTION = "section"
 
 
 class EntryPoint(object):
-    def __init__(self, parameter, strict=False, argument_parser_args=None, print_help=None):
+    def __init__(self, parameter, strict=False, argument_parser_args=None, help_printer=None):
         """Initialize decoration: Handle the desired input parameter."""
         self.strict = strict
 
@@ -206,7 +206,7 @@ class EntryPoint(object):
         # which is used in dict_parser -> add parameter
         self.argparse = self._create_argument_parser(argument_parser_args)
         self.dictparse = self._create_dict_parser()  # also used for configfiles
-        self._print_help = print_help
+        self._help_printer = help_printer
 
     def parse(self, *args, **kwargs):
         """
@@ -295,8 +295,8 @@ class EntryPoint(object):
             except SystemExit as e:
                 errors_str = errors_io.getvalue()
                 # print help on wrong input
-                if self._print_help and e.code == 2:  # code 0 means help has been printed
-                    self._print_help(self.argparse.format_help())
+                if self._help_printer and e.code == 2:  # code 0 means help has been printed
+                    self._help_printer(self.argparse.format_help())
                     # remove duplicated "usage" line
                     errors_str = "\n".join(errors_str.split("\n")[1:])
 
@@ -305,8 +305,8 @@ class EntryPoint(object):
                 raise e
 
             # print help, even if passed on to other parser
-            if self._print_help and "--help" in unknown_opts:
-                self._print_help(self.argparse.format_help())
+            if self._help_printer and "--help" in unknown_opts:
+                self._help_printer(self.argparse.format_help())
 
             options = DotDict(vars(options))
             if self.strict:
