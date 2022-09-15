@@ -298,7 +298,7 @@ class EntryPoint(object):
                 if self._help_printer and e.code == 2:  # code 0 means help has been printed
                     self._help_printer(self.argparse.format_help())
                     # remove duplicated "usage" line
-                    errors_str = "\n".join(errors_str.split("\n")[1:])
+                    errors_str = "\n".join(errors_str.split("\n")[-2:])
 
                 # print errors now (if any)
                 sys.stderr.write(errors_str)
