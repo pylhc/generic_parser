@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 # Parser #######################################################################
 
 
-class DictParser(object):
+class DictParser:
     """
     Provides functions to parse a dictionary.
 
@@ -393,7 +393,7 @@ class ArgumentError(Exception):
     pass
 
 
-class Parameter(object):
+class Parameter:
     """Helper Class for DictParser."""
     def __init__(self, name, **kwargs):
         self.name = name
