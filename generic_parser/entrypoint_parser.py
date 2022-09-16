@@ -170,6 +170,7 @@ from inspect import getfullargspec
 from functools import wraps
 from pathlib import Path
 from textwrap import wrap
+from typing import Callable, Mapping
 
 from generic_parser.tools import DotDict, silence, unformatted_console_logging, StringIO, log_out
 from generic_parser.dict_parser import ParameterError, ArgumentError, DictParser
@@ -187,8 +188,8 @@ ID_SECTION = "section"
 # EntryPoint Class #############################################################
 
 
-class EntryPoint(object):
-    def __init__(self, parameter, strict=False, argument_parser_args=None, help_printer=None):
+class EntryPoint:
+    def __init__(self, parameter, strict: bool = False, argument_parser_args: Mapping = None, help_printer: Callable = None):
         """Initialize decoration: Handle the desired input parameter."""
         self.strict = strict
 
@@ -254,7 +255,7 @@ class EntryPoint(object):
         parser.add_argument('--{}'.format(ID_SECTION), type=str, dest=ID_SECTION,)
         return parser
 
-    def _create_argument_parser(self, args_dict):
+    def _create_argument_parser(self, args_dict: Mapping):
         """Creates the ArgumentParser from parameter."""
 
         if args_dict:
