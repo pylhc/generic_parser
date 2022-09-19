@@ -163,14 +163,16 @@ or as commandline arguments from a **script.py** that calls ``entry_function()``
 import copy
 import json
 import argparse
+import sys
 from argparse import ArgumentParser
 from configparser import ConfigParser
 from inspect import getfullargspec
 from functools import wraps
 from pathlib import Path
 from textwrap import wrap
+from typing import Callable, Mapping
 
-from generic_parser.tools import DotDict, silence, unformatted_console_logging
+from generic_parser.tools import DotDict, silence, unformatted_console_logging, StringIO, log_out
 from generic_parser.dict_parser import ParameterError, ArgumentError, DictParser
 
 import logging
@@ -186,8 +188,8 @@ ID_SECTION = "section"
 # EntryPoint Class #############################################################
 
 
-class EntryPoint(object):
-    def __init__(self, parameter, strict=False):
+class EntryPoint:
+    def __init__(self, parameter, strict: bool = False, argument_parser_args: Mapping = None, help_printer: Callable = None):
         """Initialize decoration: Handle the desired input parameter."""
         self.strict = strict
 
@@ -203,8 +205,9 @@ class EntryPoint(object):
         # this also ensures that the parameters are correctly defined,
         # by tests in argparser and in Parameter(),
         # which is used in dict_parser -> add parameter
-        self.argparse = self._create_argument_parser()
+        self.argparse = self._create_argument_parser(argument_parser_args)
         self.dictparse = self._create_dict_parser()  # also used for configfiles
+        self._help_printer = help_printer
 
     def parse(self, *args, **kwargs):
         """
@@ -252,9 +255,14 @@ class EntryPoint(object):
         parser.add_argument('--{}'.format(ID_SECTION), type=str, dest=ID_SECTION,)
         return parser
 
-    def _create_argument_parser(self):
+    def _create_argument_parser(self, args_dict: Mapping):
         """Creates the ArgumentParser from parameter."""
-        parser = ArgumentParser()
+
+        if args_dict:
+            parser = ArgumentParser(**args_dict)
+        else:
+            parser = ArgumentParser()
+
         parser = _add_params_to_argument_parser(parser, self.parameter)
         return parser
 
@@ -281,7 +289,26 @@ class EntryPoint(object):
                 options = self.configarg.parse_args(args)
         except SystemExit:
             # parse regular options
-            options, unknown_opts = self.argparse.parse_known_args(args)
+            errors_io = StringIO()
+            try:
+                with log_out(stderr=errors_io):  # errors go into errors_io
+                    options, unknown_opts = self.argparse.parse_known_args(args)
+            except SystemExit as e:
+                errors_str = errors_io.getvalue()
+                # print help on wrong input
+                if self._help_printer and e.code == 2:  # code 0 means help has been printed
+                    self._help_printer(self.argparse.format_help())
+                    # remove duplicated "usage" line
+                    errors_str = "\n".join(errors_str.split("\n")[-2:])
+
+                # print errors now (if any)
+                sys.stderr.write(errors_str)
+                raise e
+
+            # print help, even if passed on to other parser
+            if self._help_printer and "--help" in unknown_opts:
+                self._help_printer(self.argparse.format_help())
+
             options = DotDict(vars(options))
             if self.strict:
                 if unknown_opts:
