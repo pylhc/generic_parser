@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>generic_parser.entrypoint_parser &mdash; generic_parser 1.0.9 documentation</title>
+  <title>generic_parser.entrypoint_parser &mdash; generic_parser 1.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -30,7 +30,7 @@
             <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0
+                1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -240,14 +240,16 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
 <span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getfullargspec</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">wrap</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Mapping</span>
 
-<span class="kn">from</span> <span class="nn">generic_parser.tools</span> <span class="kn">import</span> <span class="n">DotDict</span><span class="p">,</span> <span class="n">silence</span><span class="p">,</span> <span class="n">unformatted_console_logging</span>
+<span class="kn">from</span> <span class="nn">generic_parser.tools</span> <span class="kn">import</span> <span class="n">DotDict</span><span class="p">,</span> <span class="n">silence</span><span class="p">,</span> <span class="n">unformatted_console_logging</span><span class="p">,</span> <span class="n">StringIO</span><span class="p">,</span> <span class="n">log_out</span>
 <span class="kn">from</span> <span class="nn">generic_parser.dict_parser</span> <span class="kn">import</span> <span class="n">ParameterError</span><span class="p">,</span> <span class="n">ArgumentError</span><span class="p">,</span> <span class="n">DictParser</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -263,8 +265,8 @@
 <span class="c1"># EntryPoint Class #############################################################</span>
 
 
-<span class="k">class</span> <span class="nc">EntryPoint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">EntryPoint</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">argument_parser_args</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">help_printer</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize decoration: Handle the desired input parameter.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">strict</span> <span class="o">=</span> <span class="n">strict</span>
 
@@ -280,8 +282,9 @@
         <span class="c1"># this also ensures that the parameters are correctly defined,</span>
         <span class="c1"># by tests in argparser and in Parameter(),</span>
         <span class="c1"># which is used in dict_parser -&gt; add parameter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">argparse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_argument_parser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">argparse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_argument_parser</span><span class="p">(</span><span class="n">argument_parser_args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dictparse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_dict_parser</span><span class="p">()</span>  <span class="c1"># also used for configfiles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_help_printer</span> <span class="o">=</span> <span class="n">help_printer</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -329,9 +332,14 @@
         <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ID_SECTION</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">ID_SECTION</span><span class="p">,)</span>
         <span class="k">return</span> <span class="n">parser</span>
 
-    <span class="k">def</span> <span class="nf">_create_argument_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_create_argument_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates the ArgumentParser from parameter.&quot;&quot;&quot;</span>
-        <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">args_dict</span><span class="p">:</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="o">**</span><span class="n">args_dict</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
+
         <span class="n">parser</span> <span class="o">=</span> <span class="n">_add_params_to_argument_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parser</span>
 
@@ -358,7 +366,26 @@
                 <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">configarg</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">SystemExit</span><span class="p">:</span>
             <span class="c1"># parse regular options</span>
-            <span class="n">options</span><span class="p">,</span> <span class="n">unknown_opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">argparse</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">errors_io</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">log_out</span><span class="p">(</span><span class="n">stderr</span><span class="o">=</span><span class="n">errors_io</span><span class="p">):</span>  <span class="c1"># errors go into errors_io</span>
+                    <span class="n">options</span><span class="p">,</span> <span class="n">unknown_opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">argparse</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">SystemExit</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">errors_str</span> <span class="o">=</span> <span class="n">errors_io</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+                <span class="c1"># print help on wrong input</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_help_printer</span> <span class="ow">and</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># code 0 means help has been printed</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_help_printer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">argparse</span><span class="o">.</span><span class="n">format_help</span><span class="p">())</span>
+                    <span class="c1"># remove duplicated &quot;usage&quot; line</span>
+                    <span class="n">errors_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])</span>
+
+                <span class="c1"># print errors now (if any)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">errors_str</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">e</span>
+
+            <span class="c1"># print help, even if passed on to other parser</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_help_printer</span> <span class="ow">and</span> <span class="s2">&quot;--help&quot;</span> <span class="ow">in</span> <span class="n">unknown_opts</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_help_printer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">argparse</span><span class="o">.</span><span class="n">format_help</span><span class="p">())</span>
+
             <span class="n">options</span> <span class="o">=</span> <span class="n">DotDict</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">options</span><span class="p">))</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">unknown_opts</span><span class="p">:</span>
