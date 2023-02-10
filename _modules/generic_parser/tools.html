@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>generic_parser.tools &mdash; generic_parser 1.1.0 documentation</title>
+  <title>generic_parser.tools &mdash; generic_parser 1.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -16,6 +16,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html">
-            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -43,9 +48,36 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Generic-Parser Modules</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entrypoint-parser">Entrypoint Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.EntryPointParameters"><code class="docutils literal notranslate"><span class="pre">EntryPointParameters</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.OptionsError"><code class="docutils literal notranslate"><span class="pre">OptionsError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.add_params_to_generic"><code class="docutils literal notranslate"><span class="pre">add_params_to_generic()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.add_to_arguments"><code class="docutils literal notranslate"><span class="pre">add_to_arguments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.create_parameter_help"><code class="docutils literal notranslate"><span class="pre">create_parameter_help()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.dict2list_param"><code class="docutils literal notranslate"><span class="pre">dict2list_param()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.entrypoint"><code class="docutils literal notranslate"><span class="pre">entrypoint</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.list2dict_param"><code class="docutils literal notranslate"><span class="pre">list2dict_param()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.param_names"><code class="docutils literal notranslate"><span class="pre">param_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.save_options_to_config"><code class="docutils literal notranslate"><span class="pre">save_options_to_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.split_arguments"><code class="docutils literal notranslate"><span class="pre">split_arguments()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#dictionary-parser">Dictionary Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.ArgumentError"><code class="docutils literal notranslate"><span class="pre">ArgumentError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.DictParser"><code class="docutils literal notranslate"><span class="pre">DictParser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.ParameterError"><code class="docutils literal notranslate"><span class="pre">ParameterError</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entry-datatypes">Entry Datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrList"><code class="docutils literal notranslate"><span class="pre">BoolOrList</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrString"><code class="docutils literal notranslate"><span class="pre">BoolOrString</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.DictAsString"><code class="docutils literal notranslate"><span class="pre">DictAsString</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.get_instance_faker_meta"><code class="docutils literal notranslate"><span class="pre">get_instance_faker_meta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.get_multi_class"><code class="docutils literal notranslate"><span class="pre">get_multi_class()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#utility-tools">Utility Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.TempStringLogger"><code class="docutils literal notranslate"><span class="pre">TempStringLogger</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.get_subdict"><code class="docutils literal notranslate"><span class="pre">get_subdict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.log_out"><code class="docutils literal notranslate"><span class="pre">log_out()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.print_dict_tree"><code class="docutils literal notranslate"><span class="pre">print_dict_tree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.silence"><code class="docutils literal notranslate"><span class="pre">silence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.unformatted_console_logging"><code class="docutils literal notranslate"><span class="pre">unformatted_console_logging()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -63,9 +95,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>generic_parser.tools</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">generic_parser.tools</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,7 +133,7 @@
 
 
 <div class="viewcode-block" id="DotDict"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.DotDict">[docs]</a><span class="k">class</span> <span class="nc">DotDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make dict fields accessible by dot notation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make dict fields accessible by dot notation.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DotDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -113,19 +145,19 @@
     <span class="fm">__delattr__</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="fm">__delitem__</span>
 
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Needed to raise the correct exceptions.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Needed to raise the correct exceptions.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DotDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
 <div class="viewcode-block" id="DotDict.get_subdict"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.DotDict.get_subdict">[docs]</a>    <span class="k">def</span> <span class="nf">get_subdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;See ``get_subdict``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;See ``get_subdict``.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">DotDict</span><span class="p">(</span><span class="n">get_subdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="p">))</span></div></div>
 
 
 <div class="viewcode-block" id="print_dict_tree"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.print_dict_tree">[docs]</a><span class="k">def</span> <span class="nf">print_dict_tree</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Dictionary&#39;</span><span class="p">,</span> <span class="n">print_fun</span><span class="o">=</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Prints a dictionary as a tree.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prints a dictionary as a tree.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">level_char</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
@@ -146,7 +178,7 @@
 
 
 <div class="viewcode-block" id="get_subdict"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.get_subdict">[docs]</a><span class="k">def</span> <span class="nf">get_subdict</span><span class="p">(</span><span class="n">full_dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a sub-dictionary of ``full_dict`` containing only keys of ``keys``.</span>
 
 <span class="sd">    Args:</span>
@@ -167,7 +199,7 @@
 
 <div class="viewcode-block" id="log_out"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.log_out">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">log_out</span><span class="p">(</span><span class="n">stdout</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Temporarily changes sys.stdout and sys.stderr.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Temporarily changes sys.stdout and sys.stderr.&quot;&quot;&quot;</span>
     <span class="n">old_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
     <span class="n">old_stderr</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span>
@@ -181,7 +213,7 @@
 
 <div class="viewcode-block" id="silence"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.silence">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">silence</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Suppress all console output. ``sys.stdout`` and ``sys.stderr`` are rerouted to ``devnull``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">devnull</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
@@ -194,7 +226,7 @@
 
 <div class="viewcode-block" id="unformatted_console_logging"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.unformatted_console_logging">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">unformatted_console_logging</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Log only to console and only unformatted.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log only to console and only unformatted.&quot;&quot;&quot;</span>
 
     <span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">old_handlers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">root_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">)</span>
@@ -212,7 +244,7 @@
 
 
 <div class="viewcode-block" id="TempStringLogger"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.TempStringLogger">[docs]</a><span class="k">class</span> <span class="nc">TempStringLogger</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Temporarily log into a string that can be retrieved by ``get_log``.</span>
 
 <span class="sd">    Args:</span>
@@ -239,7 +271,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_level</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TempStringLogger.get_log"><a class="viewcode-back" href="../../modules/index.html#generic_parser.tools.TempStringLogger.get_log">[docs]</a>    <span class="k">def</span> <span class="nf">get_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Get the log as string. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the log as string. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span></div></div>
 </pre></div>
 

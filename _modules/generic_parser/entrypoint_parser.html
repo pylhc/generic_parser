@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>generic_parser.entrypoint_parser &mdash; generic_parser 1.1.0 documentation</title>
+  <title>generic_parser.entrypoint_parser &mdash; generic_parser 1.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -16,6 +16,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html">
-            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -43,9 +48,36 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Generic-Parser Modules</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entrypoint-parser">Entrypoint Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.EntryPointParameters"><code class="docutils literal notranslate"><span class="pre">EntryPointParameters</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.OptionsError"><code class="docutils literal notranslate"><span class="pre">OptionsError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.add_params_to_generic"><code class="docutils literal notranslate"><span class="pre">add_params_to_generic()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.add_to_arguments"><code class="docutils literal notranslate"><span class="pre">add_to_arguments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.create_parameter_help"><code class="docutils literal notranslate"><span class="pre">create_parameter_help()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.dict2list_param"><code class="docutils literal notranslate"><span class="pre">dict2list_param()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.entrypoint"><code class="docutils literal notranslate"><span class="pre">entrypoint</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.list2dict_param"><code class="docutils literal notranslate"><span class="pre">list2dict_param()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.param_names"><code class="docutils literal notranslate"><span class="pre">param_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.save_options_to_config"><code class="docutils literal notranslate"><span class="pre">save_options_to_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.split_arguments"><code class="docutils literal notranslate"><span class="pre">split_arguments()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#dictionary-parser">Dictionary Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.ArgumentError"><code class="docutils literal notranslate"><span class="pre">ArgumentError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.DictParser"><code class="docutils literal notranslate"><span class="pre">DictParser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.ParameterError"><code class="docutils literal notranslate"><span class="pre">ParameterError</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entry-datatypes">Entry Datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrList"><code class="docutils literal notranslate"><span class="pre">BoolOrList</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrString"><code class="docutils literal notranslate"><span class="pre">BoolOrString</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.DictAsString"><code class="docutils literal notranslate"><span class="pre">DictAsString</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.get_instance_faker_meta"><code class="docutils literal notranslate"><span class="pre">get_instance_faker_meta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.get_multi_class"><code class="docutils literal notranslate"><span class="pre">get_multi_class()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#utility-tools">Utility Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.TempStringLogger"><code class="docutils literal notranslate"><span class="pre">TempStringLogger</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.get_subdict"><code class="docutils literal notranslate"><span class="pre">get_subdict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.log_out"><code class="docutils literal notranslate"><span class="pre">log_out()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.print_dict_tree"><code class="docutils literal notranslate"><span class="pre">print_dict_tree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.silence"><code class="docutils literal notranslate"><span class="pre">silence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.unformatted_console_logging"><code class="docutils literal notranslate"><span class="pre">unformatted_console_logging()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -63,9 +95,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>generic_parser.entrypoint_parser</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">generic_parser.entrypoint_parser</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -267,7 +299,7 @@
 
 <span class="k">class</span> <span class="nc">EntryPoint</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">argument_parser_args</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">help_printer</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize decoration: Handle the desired input parameter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize decoration: Handle the desired input parameter.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">strict</span> <span class="o">=</span> <span class="n">strict</span>
 
         <span class="c1"># add argument dictionary to EntryPoint</span>
@@ -287,7 +319,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_help_printer</span> <span class="o">=</span> <span class="n">help_printer</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse whatever input parameter come. This is the heart of EntryPoint and will recognize</span>
 <span class="sd">        the input and parse it accordingly. Allowed inputs are:</span>
 <span class="sd">            - Dictionary with arguments as key-values.</span>
@@ -326,14 +358,14 @@
     <span class="c1">#########################</span>
 
     <span class="k">def</span> <span class="nf">_create_config_argument</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates the config-file argument parser.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the config-file argument parser.&quot;&quot;&quot;</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ID_CONFIG</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">ID_CONFIG</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,)</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ID_SECTION</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">ID_SECTION</span><span class="p">,)</span>
         <span class="k">return</span> <span class="n">parser</span>
 
     <span class="k">def</span> <span class="nf">_create_argument_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates the ArgumentParser from parameter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the ArgumentParser from parameter.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">args_dict</span><span class="p">:</span>
             <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="o">**</span><span class="n">args_dict</span><span class="p">)</span>
@@ -344,13 +376,13 @@
         <span class="k">return</span> <span class="n">parser</span>
 
     <span class="k">def</span> <span class="nf">_create_dict_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates the DictParser from parameter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the DictParser from parameter.&quot;&quot;&quot;</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">DictParser</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict</span><span class="p">)</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">_add_params_to_dict_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parser</span>
 
     <span class="k">def</span> <span class="nf">_create_config_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates the config parser. Maybe more to do here later with parameter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the config parser. Maybe more to do here later with parameter.&quot;&quot;&quot;</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="p">({})</span>
         <span class="k">return</span> <span class="n">parser</span>
 
@@ -359,7 +391,7 @@
     <span class="c1">#########################</span>
 
     <span class="k">def</span> <span class="nf">_handle_commandline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;No input to function.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;No input to function.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># check for config file first</span>
             <span class="k">with</span> <span class="n">silence</span><span class="p">():</span>
@@ -400,7 +432,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictparse</span><span class="o">.</span><span class="n">parse_config_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_config</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">options</span><span class="p">)[</span><span class="n">ID_CONFIG</span><span class="p">]))</span>
 
     <span class="k">def</span> <span class="nf">_handle_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;*args has been input.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;*args has been input.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># assume config file</span>
             <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictparse</span><span class="o">.</span><span class="n">parse_config_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_config</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
@@ -416,7 +448,7 @@
         <span class="k">return</span> <span class="n">options</span>  <span class="c1"># options might include known and unknown options</span>
 
     <span class="k">def</span> <span class="nf">_handle_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;**kwargs been input.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;**kwargs been input.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">ID_CONFIG</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">ID_SECTION</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">ArgumentError</span><span class="p">(</span>
@@ -454,7 +486,7 @@
     <span class="c1">#########################</span>
 
     <span class="k">def</span> <span class="nf">_check_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;EntryPoint specific checks for parameter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EntryPoint specific checks for parameter.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span><span class="p">:</span>
             <span class="n">arg_name</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">arg_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -474,7 +506,7 @@
                 <span class="n">param</span><span class="p">[</span><span class="s1">&#39;flags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;--</span><span class="si">{</span><span class="n">arg_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_read_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfgfile_path</span><span class="p">,</span> <span class="n">section</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get content from config file.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get content from config file.&quot;&quot;&quot;</span>
         <span class="c1"># create new config parser, as it keeps defaults between files</span>
         <span class="n">cfgparse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_config_parser</span><span class="p">()</span>
 
@@ -499,13 +531,13 @@
 
 
 <div class="viewcode-block" id="entrypoint"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.entrypoint">[docs]</a><span class="k">class</span> <span class="nc">entrypoint</span><span class="p">(</span><span class="n">EntryPoint</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator extension of `EntryPoint`. Implements the ``__call__`` method needed for decorating.</span>
 <span class="sd">    Lowercase looks nicer if used as decorator.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Builds wrapper around the function ``func`` (called on decoration). Whenever the</span>
 <span class="sd">        decorated function is called, actually this wrapper is called. The Number of arguments is</span>
 <span class="sd">        checked for compliance with instance- and class- methods,</span>
@@ -558,12 +590,12 @@
 
 
 <div class="viewcode-block" id="EntryPointParameters"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.EntryPointParameters">[docs]</a><span class="k">class</span> <span class="nc">EntryPointParameters</span><span class="p">(</span><span class="n">DotDict</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helps to build a simple dictionary structure via add_argument functions.</span>
 <span class="sd">    You really don&#39;t need that, but old habits die hard.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="EntryPointParameters.add_parameter"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.EntryPointParameters.add_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">add_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add parameter.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add parameter.&quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39; is already a parameter.&quot;</span><span class="p">)</span>
@@ -571,7 +603,7 @@
             <span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span></div>
 
 <div class="viewcode-block" id="EntryPointParameters.help"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.EntryPointParameters.help">[docs]</a>    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prints current help. Usable to paste into docstrings.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prints current help. Usable to paste into docstrings.&quot;&quot;&quot;</span>
         <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">space</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">4</span>
@@ -635,7 +667,7 @@
 
 
 <div class="viewcode-block" id="dict2list_param"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.dict2list_param">[docs]</a><span class="k">def</span> <span class="nf">dict2list_param</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert dictionary to list and add name by key.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert dictionary to list and add name by key.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">param</span><span class="p">:</span>
@@ -647,7 +679,7 @@
 
 
 <div class="viewcode-block" id="list2dict_param"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.list2dict_param">[docs]</a><span class="k">def</span> <span class="nf">list2dict_param</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert list to dictionary for quicker find.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert list to dictionary for quicker find.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">param</span><span class="p">:</span>
@@ -657,7 +689,7 @@
 
 
 <div class="viewcode-block" id="add_to_arguments"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.add_to_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_to_arguments</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">entry_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds arguments to an existing list or dictionary of arguments. If ``args`` is a `list`,</span>
 <span class="sd">    the flags of the names given will be added and ``entry_params`` is required.</span>
 
@@ -689,7 +721,7 @@
 <span class="c1"># parameter adders ---</span>
 
 <div class="viewcode-block" id="add_params_to_generic"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.add_params_to_generic">[docs]</a><span class="k">def</span> <span class="nf">add_params_to_generic</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds entry-point style parameter to either `ArgumentParser`, `DictParser` or</span>
 <span class="sd">    `EntryPointParameters`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -753,7 +785,7 @@
 
 
 <div class="viewcode-block" id="split_arguments"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.split_arguments">[docs]</a><span class="k">def</span> <span class="nf">split_arguments</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">param_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Divide remaining arguments into a list of argument-dicts, fitting to the params in param_list.</span>
 
 <span class="sd">    Args:</span>
@@ -791,7 +823,7 @@
 
 
 <div class="viewcode-block" id="param_names"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.param_names">[docs]</a><span class="k">def</span> <span class="nf">param_names</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get the names of the parameters, no matter if they are a dict or list of dicts.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the names of the parameters, no matter if they are a dict or list of dicts.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">names</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
@@ -800,7 +832,7 @@
 
 
 <div class="viewcode-block" id="create_parameter_help"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.create_parameter_help">[docs]</a><span class="k">def</span> <span class="nf">create_parameter_help</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">param_fun</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print params help quickly but changing the logging format first.</span>
 
 <span class="sd">    Usage Example::</span>
@@ -819,7 +851,7 @@
 
 
 <div class="viewcode-block" id="save_options_to_config"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entrypoint_parser.save_options_to_config">[docs]</a><span class="k">def</span> <span class="nf">save_options_to_config</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">unknown</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Saves the parsed options to a config file to be used as arguments.</span>
 
 <span class="sd">    Args:</span>

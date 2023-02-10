@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>generic_parser.dict_parser &mdash; generic_parser 1.1.0 documentation</title>
+  <title>generic_parser.dict_parser &mdash; generic_parser 1.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
@@ -16,6 +16,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -26,15 +27,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html">
-            <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -43,9 +48,36 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../modules/index.html">Generic-Parser Modules</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entrypoint-parser">Entrypoint Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.EntryPointParameters"><code class="docutils literal notranslate"><span class="pre">EntryPointParameters</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.OptionsError"><code class="docutils literal notranslate"><span class="pre">OptionsError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.add_params_to_generic"><code class="docutils literal notranslate"><span class="pre">add_params_to_generic()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.add_to_arguments"><code class="docutils literal notranslate"><span class="pre">add_to_arguments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.create_parameter_help"><code class="docutils literal notranslate"><span class="pre">create_parameter_help()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.dict2list_param"><code class="docutils literal notranslate"><span class="pre">dict2list_param()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.entrypoint"><code class="docutils literal notranslate"><span class="pre">entrypoint</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.list2dict_param"><code class="docutils literal notranslate"><span class="pre">list2dict_param()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.param_names"><code class="docutils literal notranslate"><span class="pre">param_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.save_options_to_config"><code class="docutils literal notranslate"><span class="pre">save_options_to_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entrypoint_parser.split_arguments"><code class="docutils literal notranslate"><span class="pre">split_arguments()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#dictionary-parser">Dictionary Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.ArgumentError"><code class="docutils literal notranslate"><span class="pre">ArgumentError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.DictParser"><code class="docutils literal notranslate"><span class="pre">DictParser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.dict_parser.ParameterError"><code class="docutils literal notranslate"><span class="pre">ParameterError</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#entry-datatypes">Entry Datatypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrList"><code class="docutils literal notranslate"><span class="pre">BoolOrList</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrString"><code class="docutils literal notranslate"><span class="pre">BoolOrString</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.DictAsString"><code class="docutils literal notranslate"><span class="pre">DictAsString</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.get_instance_faker_meta"><code class="docutils literal notranslate"><span class="pre">get_instance_faker_meta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.entry_datatypes.get_multi_class"><code class="docutils literal notranslate"><span class="pre">get_multi_class()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#utility-tools">Utility Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.DotDict"><code class="docutils literal notranslate"><span class="pre">DotDict</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.TempStringLogger"><code class="docutils literal notranslate"><span class="pre">TempStringLogger</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.get_subdict"><code class="docutils literal notranslate"><span class="pre">get_subdict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.log_out"><code class="docutils literal notranslate"><span class="pre">log_out()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.print_dict_tree"><code class="docutils literal notranslate"><span class="pre">print_dict_tree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.silence"><code class="docutils literal notranslate"><span class="pre">silence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../modules/index.html#generic_parser.tools.unformatted_console_logging"><code class="docutils literal notranslate"><span class="pre">unformatted_console_logging()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -63,9 +95,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>generic_parser.dict_parser</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">generic_parser.dict_parser</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -95,7 +127,7 @@
 
 
 <div class="viewcode-block" id="DictParser"><a class="viewcode-back" href="../../modules/index.html#generic_parser.dict_parser.DictParser">[docs]</a><span class="k">class</span> <span class="nc">DictParser</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides functions to parse a dictionary.</span>
 
 <span class="sd">    First, build a dictionary structure with Parameters or Parameter-like dicts as leafs via</span>
@@ -104,7 +136,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize Class either empty or with preconfigured dictionary</span>
 
 <span class="sd">        Args:</span>
@@ -125,7 +157,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_validate_parameters</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validates an input dictionary that can be used as parameters.</span>
 
 <span class="sd">        Args:</span>
@@ -133,7 +165,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Helper ------------------------------------------</span>
         <span class="k">def</span> <span class="nf">_check_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot; Checks if key coincides with param.name. &quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot; Checks if key coincides with param.name. &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&#39;: Key and name need to be the same.&quot;</span><span class="p">)</span>
 
@@ -159,7 +191,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_check_value</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">arg_dict</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if in arg_dict[key] satisfies param_dict[key].</span>
 
 <span class="sd">        Args:</span>
@@ -219,7 +251,7 @@
         <span class="k">return</span> <span class="n">opt</span>
 
     <span class="k">def</span> <span class="nf">_parse_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_dict</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Use ``parse_arguments()``!</span>
 
 <span class="sd">        This is a helper Function for parsing arguments. It does all the work. Called recursively.</span>
@@ -266,7 +298,7 @@
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="DictParser.parse_arguments"><a class="viewcode-back" href="../../modules/index.html#generic_parser.dict_parser.DictParser.parse_arguments">[docs]</a>    <span class="k">def</span> <span class="nf">parse_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arguments</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse a given argument dictionary and return parsed options.</span>
 
 <span class="sd">        Args:</span>
@@ -281,7 +313,7 @@
         <span class="k">return</span> <span class="n">checked</span></div>
 
 <div class="viewcode-block" id="DictParser.parse_config_items"><a class="viewcode-back" href="../../modules/index.html#generic_parser.dict_parser.DictParser.parse_config_items">[docs]</a>    <span class="k">def</span> <span class="nf">parse_config_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse a list of (name, value) items, where the values are all strings.</span>
 
 <span class="sd">        Args:</span>
@@ -294,7 +326,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_arguments</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DictParser.add_parameter"><a class="viewcode-back" href="../../modules/index.html#generic_parser.dict_parser.DictParser.add_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">add_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds an parameter to the parser.</span>
 <span class="sd">        If you want it to be an parameter of a sub-dictionary add the &#39;loc=subdict.subdict&#39;</span>
 <span class="sd">        keyword to the input.</span>
@@ -313,7 +345,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="DictParser.add_parameter_dict"><a class="viewcode-back" href="../../modules/index.html#generic_parser.dict_parser.DictParser.add_parameter_dict">[docs]</a>    <span class="k">def</span> <span class="nf">add_parameter_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Appends a complete subdictionary to existing argument structure at node &#39;loc&#39;.</span>
 
 <span class="sd">        Args:</span>
@@ -339,7 +371,7 @@
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="DictParser.tree"><a class="viewcode-back" href="../../modules/index.html#generic_parser.dict_parser.DictParser.tree">[docs]</a>    <span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prints the current Parameter-Tree.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prints the current Parameter-Tree.&quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">level_char</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
@@ -353,19 +385,19 @@
                     <span class="n">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">level_char_pp</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">leaf</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot; Required: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">required</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot; Default: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">default</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
-                             <span class="sa">f</span><span class="s2">&quot; Type: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="n">leaf</span><span class="o">.</span><span class="n">type</span> <span class="k">else</span> <span class="s1">&#39;None&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; Type: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="vm">__name__</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">leaf</span><span class="o">.</span><span class="n">type</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot; Choices: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">choices</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_char_pp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_TC</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot; Help: </span><span class="si">{</span><span class="n">leaf</span><span class="o">.</span><span class="n">help</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Parameter Dictionary&#39;</span><span class="p">)</span>
         <span class="n">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
@@ -375,7 +407,7 @@
     <span class="c1">#########################</span>
 
     <span class="k">def</span> <span class="nf">_add_param_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds and parameter to the parameter dictionary. These will be used to parse an incoming</span>
 <span class="sd">        option structure.</span>
 
@@ -393,7 +425,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_traverse_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Traverses the dictionary to the subdict defined by loc. Adds non-existing substructures</span>
 <span class="sd">        automatically.</span>
 
@@ -419,7 +451,7 @@
         <span class="k">return</span> <span class="n">d</span>
 
     <span class="k">def</span> <span class="nf">_convert_config_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Converts items list to a dictionary with types already in place.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts items list to a dictionary with types already in place.&quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>  <span class="c1"># sorry for using that</span>
@@ -471,7 +503,7 @@
 
 
 <div class="viewcode-block" id="Parameter"><a class="viewcode-back" href="../../modules/index.html#generic_parser.dict_parser.Parameter">[docs]</a><span class="k">class</span> <span class="nc">Parameter</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Helper Class for DictParser.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper Class for DictParser.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;required&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
