@@ -5,6 +5,7 @@ Entry Datatypes
 This module contains advanced datatypes to add as type to any entrypoint or parser.
 """
 import abc
+from array import array
 
 TRUE_ITEMS = ["True", "1", True, 1]  # items that count as True
 FALSE_ITEMS = ["False", "0", False, 0]  # items that count as False
@@ -68,7 +69,7 @@ class DictAsString(metaclass=get_instance_faker_meta(str, dict)):
         if isinstance(s, dict):
             return s
 
-        d = eval(s)
+        d = eval(s, {'nan': float('nan'), 'array':array})
         if not isinstance(d, dict):
             raise ValueError(f"'{s}' can't be converted to a dictionary.")
         return d

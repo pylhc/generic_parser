@@ -1,5 +1,9 @@
 # Generic-Parser Changelog
 
+## Version 1.1.1
+ * add a dictionary to the eval in DictFromString to allow reading in *.ini with nans
+ 
+
 ## Version 1.0.8
  * revamp of the documentation
  * fixed a format string error when a choice is not correct for a list argument
