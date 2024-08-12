@@ -160,7 +160,7 @@ class DictParser:
                 checked_dict[key] = DictParser._check_value(key, arg_dict, param_dict)
             elif isinstance(param_dict[key], dict):
                 try:
-                    if not arg_dict or not (key in arg_dict):
+                    if not arg_dict or key not in arg_dict:
                         checked_dict[key] = self._parse_arguments({}, param_dict[key])[0]
                     else:
                         checked_dict[key] = self._parse_arguments(arg_dict[key], param_dict[key])[0]
