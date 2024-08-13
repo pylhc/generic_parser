@@ -9,3 +9,5 @@ __version__ = "1.1.1"
 __author__ = "pylhc"
 __author_email__ = "pylhc@github.com"
 __license__ = "MIT"
+
+__all__ = ["EntryPoint", "EntryPointParameters", "entrypoint", "DotDict"]
