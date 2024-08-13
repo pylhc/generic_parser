@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>generic_parser.entry_datatypes &mdash; generic_parser 1.1.1 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=988d0652" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -123,7 +124,9 @@
 <span class="c1"># Meta Class Helper ############################################################</span>
 
 
-<div class="viewcode-block" id="get_instance_faker_meta"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.get_instance_faker_meta">[docs]</a><span class="k">def</span> <span class="nf">get_instance_faker_meta</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
+<div class="viewcode-block" id="get_instance_faker_meta">
+<a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.get_instance_faker_meta">[docs]</a>
+<span class="k">def</span> <span class="nf">get_instance_faker_meta</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the metaclass that fakes the ``isinstance()`` and ``issubclass()`` checks.&quot;&quot;&quot;</span>
     <span class="k">class</span> <span class="nc">FakeMeta</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__instancecheck__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inst</span><span class="p">):</span>
@@ -135,10 +138,13 @@
     <span class="k">return</span> <span class="n">FakeMeta</span></div>
 
 
+
 <span class="c1"># &#39;Merge&#39; Classes ##############################################################</span>
 
 
-<div class="viewcode-block" id="get_multi_class"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.get_multi_class">[docs]</a><span class="k">def</span> <span class="nf">get_multi_class</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
+<div class="viewcode-block" id="get_multi_class">
+<a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.get_multi_class">[docs]</a>
+<span class="k">def</span> <span class="nf">get_multi_class</span><span class="p">(</span><span class="o">*</span><span class="n">classes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a class &#39;behaving&#39; like all classes in `classes`.</span>
 
@@ -169,10 +175,13 @@
     <span class="k">return</span> <span class="n">MultiClass</span></div>
 
 
+
 <span class="c1"># More Fake Classes ############################################################</span>
 
 
-<div class="viewcode-block" id="DictAsString"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.DictAsString">[docs]</a><span class="k">class</span> <span class="nc">DictAsString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+<div class="viewcode-block" id="DictAsString">
+<a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.DictAsString">[docs]</a>
+<span class="k">class</span> <span class="nc">DictAsString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Use dicts in command line like {&quot;key&quot;:value}.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -184,7 +193,10 @@
         <span class="k">return</span> <span class="n">d</span></div>
 
 
-<div class="viewcode-block" id="BoolOrString"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrString">[docs]</a><span class="k">class</span> <span class="nc">BoolOrString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+
+<div class="viewcode-block" id="BoolOrString">
+<a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrString">[docs]</a>
+<span class="k">class</span> <span class="nc">BoolOrString</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A class that behaves like a boolean when possible, otherwise like a string.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -200,7 +212,10 @@
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="BoolOrList"><a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrList">[docs]</a><span class="k">class</span> <span class="nc">BoolOrList</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+
+<div class="viewcode-block" id="BoolOrList">
+<a class="viewcode-back" href="../../modules/index.html#generic_parser.entry_datatypes.BoolOrList">[docs]</a>
+<span class="k">class</span> <span class="nc">BoolOrList</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">get_instance_faker_meta</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class that behaves like a boolean when possible, otherwise like a list.</span>
 <span class="sd">    Hint: ``list.__new__(list, value)`` returns an empty list.</span>
@@ -215,6 +230,7 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
 </pre></div>
 
            </div>
