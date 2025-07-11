@@ -274,11 +274,7 @@ class EntryPoint:
     def _create_argument_parser(self, args_dict: Mapping):
         """Creates the ArgumentParser from parameter."""
 
-        if args_dict:
-            parser = ArgumentParser(**args_dict)
-        else:
-            parser = ArgumentParser()
-
+        parser = ArgumentParser(**args_dict) if args_dict else ArgumentParser()
         return _add_params_to_argument_parser(parser, self.parameter)
 
     def _create_dict_parser(self):
