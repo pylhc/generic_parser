@@ -15,7 +15,6 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
 import pathlib
 import sys
 
@@ -25,9 +24,6 @@ import warnings
 
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
-
-
-sys.path.insert(0, os.path.abspath("../"))
 
 
 TOPLEVEL_DIR = pathlib.Path(__file__).parent.parent.absolute()
@@ -103,7 +99,7 @@ release = ABOUT_GENERIC_PARSER["__version__"]
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -126,7 +122,7 @@ html_theme = "sphinx_rtd_theme"
 
 html_theme_options = {
     "collapse_navigation": False,
-    "display_version": True,
+    "version_selector": True,  # sphinx-rtd-theme>=3.0, formerly 'display_version'
     "logo_only": True,
     "navigation_depth": 2,
 }
