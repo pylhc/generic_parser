@@ -112,7 +112,7 @@ class DictParser:
                 f"'{key:s}' is not of type {param.type.__name__:s}.\nHelp: {param.help:s}"
             )
 
-        if param.type == list:
+        if param.type is list:
             if param.nargs:
                 if isinstance(param.nargs, int) and not param.nargs == len(opt):
                     raise ArgumentError(
@@ -379,7 +379,7 @@ class DictParser:
 
             elif name in self.dictionary:
                 arg = self.dictionary[name]
-                if arg.type == list:
+                if arg.type is list:
                     value = evaluate(name, value)
                     if arg.subtype:
                         for idx, entry in enumerate(value):
@@ -434,7 +434,7 @@ class Parameter:
                 f"Parameter '{self.name:s}': " + "Default value not of specified type."
             )
 
-        if self.subtype and not (self.type or self.type == list):
+        if self.subtype and not (self.type or self.type is list):
             raise ParameterError(
                 f"Parameter '{self.name:s}': field 'subtype' is only accepted if 'type' is list."
             )
@@ -451,7 +451,7 @@ class Parameter:
                     f"Instead it was '{self.nargs}'"
                 )
 
-            if not (self.type or self.type == list):
+            if not (self.type or self.type is list):
                 raise ParameterError(
                     f"Parameter '{self.name:s}': 'type' needs to be 'list' if 'nargs' is given."
                 )
@@ -481,7 +481,7 @@ class Parameter:
                 )
 
             if self.default:
-                if self.type == list:
+                if self.type is list:
                     not_a_choice = [d for d in self.default if d not in self.choices]
 
                     if len(not_a_choice) > 0:
