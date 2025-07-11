@@ -674,7 +674,7 @@ def _add_params_to_dict_parser(dict_parser, params):
         if "action" in param:
             if param["action"] in ("store_true", "store_false"):
                 param["type"] = bool
-                param["default"] = not param["action"][6] == "t"
+                param["default"] = param["action"][6] != "t"
             else:
                 raise ParameterError(f"Action '{param['action']:s}' not allowed in EntryPoint")
             param.pop("action")
