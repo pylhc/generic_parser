@@ -439,7 +439,7 @@ class EntryPoint:
 # entrypoint Decorator #########################################################
 
 
-class entrypoint(EntryPoint):
+class entrypoint(EntryPoint):  # noqa N801
     """
     Decorator extension of `EntryPoint`. Implements the ``__call__`` method needed for decorating.
     Lowercase looks nicer if used as decorator.
