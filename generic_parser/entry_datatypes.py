@@ -22,7 +22,7 @@ def get_instance_faker_meta(*classes):
         def __instancecheck__(cls, inst):
             return isinstance(inst, classes)
 
-        def __subclasscheck__(self, subclass):
+        def __subclasscheck__(cls, subclass):
             return any(issubclass(c, subclass) for c in classes)
 
     return FakeMeta
