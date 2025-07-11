@@ -279,19 +279,16 @@ class EntryPoint:
         else:
             parser = ArgumentParser()
 
-        parser = _add_params_to_argument_parser(parser, self.parameter)
-        return parser
+        return _add_params_to_argument_parser(parser, self.parameter)
 
     def _create_dict_parser(self):
         """Creates the DictParser from parameter."""
         parser = DictParser(strict=self.strict)
-        parser = _add_params_to_dict_parser(parser, self.parameter)
-        return parser
+        return _add_params_to_dict_parser(parser, self.parameter)
 
     def _create_config_parser(self):
         """Creates the config parser. Maybe more to do here later with parameter."""
-        parser = ConfigParser({})
-        return parser
+        return ConfigParser({})
 
     #########################
     # Handlers
@@ -436,8 +433,7 @@ class EntryPoint:
                     f"'{cfgfile_path:s}' contains multiple sections. " + " Please specify one!"
                 )
 
-        items = cfgparse.items(section)
-        return items
+        return cfgparse.items(section)
 
 
 # entrypoint Decorator #########################################################

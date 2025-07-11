@@ -693,7 +693,7 @@ def get_params():
 
 def get_other_params():
     """For testing the create_param_help()"""
-    args = EntryPointParameters(
+    return EntryPointParameters(
         {
             "arg1": {
                 "flags": "--arg1",
@@ -717,7 +717,6 @@ def get_other_params():
             },
         }
     )
-    return args
 
 
 # Example Wrapped Functions ----------------------------------------------------
