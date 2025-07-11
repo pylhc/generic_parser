@@ -28,7 +28,7 @@ class DotDict(dict):
     """Make dict fields accessible by dot notation."""
 
     def __init__(self, *args, **kwargs):
-        super(DotDict, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         for key in self:
             if isinstance(self[key], dict):
                 self[key] = DotDict(self[key])
@@ -40,7 +40,7 @@ class DotDict(dict):
     def __getattr__(self, key):
         """Needed to raise the correct exceptions."""
         try:
-            return super(DotDict, self).__getitem__(key)
+            return super().__getitem__(key)
         except KeyError as e:
             raise AttributeError(e).with_traceback(e.__traceback__) from e
 
