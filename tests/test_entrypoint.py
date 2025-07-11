@@ -181,18 +181,17 @@ def test_as_argv():  # almost identical to above
 
 def test_as_config(tmp_path):
     cfg_file = tmp_path / "config.ini"
-    with open(cfg_file, "w") as f:
-        f.write(
-            "\n".join(
-                [
-                    "[Section]",
-                    "name = 'myname'",
-                    "int = 3",
-                    "list = [4, 5, 6]",
-                    "unknown = 'other'",
-                ]
-            )
+    Path(cfg_file).write_text(
+        "\n".join(
+            [
+                "[Section]",
+                "name = 'myname'",
+                "int = 3",
+                "list = [4, 5, 6]",
+                "unknown = 'other'",
+            ]
         )
+    )
 
     # test config as kwarg
     opt1, unknown1 = paramtest_function(entry_cfg=cfg_file, section="Section")
@@ -309,8 +308,7 @@ def test_save_cli_options_cfg(tmp_path):
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
-    with open(cfg_file) as f:
-        content = f.read()
+    content = Path(cfg_file).read_text()
     assert "Unknown" in content
     assert "--other" in content
 
@@ -352,16 +350,13 @@ def test_string_cfg(tmp_path):
         return opt
 
     cfg_quotes = tmp_path / "config_quotes.ini"
-    with open(cfg_quotes, "w") as f:
-        f.write("[Section]\nname = 'My String with Spaces'")
+    Path(cfg_quotes).write_text("[Section]\nname = 'My String with Spaces'")
 
     cfg_doublequotes = tmp_path / "config_doublequotes.ini"
-    with open(cfg_doublequotes, "w") as f:
-        f.write('[Section]\nname = "My String with Spaces"')
+    Path(cfg_doublequotes).write_text('[Section]\nname = "My String with Spaces"')
 
     cfg_noquotes = tmp_path / "config_noquotes.ini"
-    with open(cfg_noquotes, "w") as f:
-        f.write("[Section]\nname = My String with Spaces")
+    Path(cfg_noquotes).write_text("[Section]\nname = My String with Spaces")
 
     opt_quotes = fun(entry_cfg=cfg_quotes)
     opt_doublequotes = fun(entry_cfg=cfg_doublequotes)
@@ -520,8 +515,7 @@ def test_bool_or_str(tmp_path):
     assert opt.bos == "myString"
 
     cfg_file = tmp_path / "bos.ini"
-    with open(cfg_file, "w") as f:
-        f.write("[Section]\nbos = 'myString'")
+    Path(cfg_file).write_text("[Section]\nbos = 'myString'")
     opt = fun(entry_cfg=cfg_file)
     assert opt.bos == "myString"
 
@@ -538,8 +532,7 @@ def test_bool_or_str_cfg(tmp_path):
         return opt
 
     cfg_file = tmp_path / "bos.ini"
-    with open(cfg_file, "w") as f:
-        f.write("[Section]\nbos1 = 'myString'\nbos2 = True")
+    Path(cfg_file).write_text("[Section]\nbos1 = 'myString'\nbos2 = True")
     opt = fun(entry_cfg=cfg_file)
     assert opt.bos1 == "myString"
     assert opt.bos2 is True
@@ -578,8 +571,7 @@ def test_bool_or_list_cfg(tmp_path):
         return opt
 
     cfg_file = tmp_path / "bol.ini"
-    with open(cfg_file, "w") as f:
-        f.write("[Section]\nbol1 = 1,2\nbol2 = True")
+    Path(cfg_file).write_text("[Section]\nbol1 = 1,2\nbol2 = True")
     opt = fun(entry_cfg=cfg_file)
     assert opt.bol1 == [1, 2]
     assert opt.bol2 is True

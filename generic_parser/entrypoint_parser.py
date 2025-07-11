@@ -369,9 +369,8 @@ class EntryPoint:
                     f"Only '{ID_JSON:s}' and '{ID_SECTION:s}'"
                     " arguments are allowed, when using a json file."
                 )
-            with open(kwargs[ID_JSON]) as json_file:
-                json_dict = json.load(json_file)
 
+            json_dict = json.loads(Path(kwargs[ID_JSON]).read_text())
             if ID_SECTION in kwargs:
                 json_dict = json_dict[kwargs[ID_SECTION]]
 
@@ -415,7 +414,7 @@ class EntryPoint:
         # create new config parser, as it keeps defaults between files
         cfgparse = self._create_config_parser()
 
-        with open(cfgfile_path) as config_file:
+        with Path(cfgfile_path).open() as config_file:
             cfgparse.read_file(config_file)
 
         sections = cfgparse.sections()
@@ -797,5 +796,4 @@ def save_options_to_config(filepath, opt, unknown=None):
         else:
             lines += f"; {' '.join(unknown)}\n"
 
-    with open(filepath, "w") as f:
-        f.write(lines)
+    Path(filepath).write_text(lines)

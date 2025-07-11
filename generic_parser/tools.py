@@ -10,6 +10,7 @@ import os
 import sys
 from contextlib import contextmanager
 from io import StringIO
+from pathlib import Path
 
 LOG = logging.getLogger(__name__)
 
@@ -111,7 +112,7 @@ def silence():
     """
     Suppress all console output. ``sys.stdout`` and ``sys.stderr`` are rerouted to ``devnull``.
     """
-    with open(os.devnull, "w") as devnull, log_out(stdout=devnull, stderr=devnull):
+    with Path(os.devnull).open("w") as devnull, log_out(stdout=devnull, stderr=devnull):
         yield
 
 
