@@ -474,7 +474,7 @@ class Parameter:
 
         if self.choices:
             try:
-                list(choice for choice in self.choices)
+                list(self.choices)
             except TypeError:
                 raise ParameterError(
                     f"Parameter '{self.name:s}': " + "'Choices' need to be iterable."
