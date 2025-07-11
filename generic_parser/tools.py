@@ -111,10 +111,8 @@ def silence():
     """
     Suppress all console output. ``sys.stdout`` and ``sys.stderr`` are rerouted to ``devnull``.
     """
-    with open(os.devnull, "w") as devnull:
-        with log_out(stdout=devnull, stderr=devnull):
-            yield
-
+    with open(os.devnull, "w") as devnull, log_out(stdout=devnull, stderr=devnull):
+        yield
 
 
 @contextmanager
