@@ -7,7 +7,7 @@ from generic_parser.tools import DotDict, print_dict_tree
 def test_dot_dict(simple_dict):
     dd = DotDict(simple_dict)
     assert dd.a == 1
-    assert dd.b == 'str'
+    assert dd.b == "str"
     assert dd.c.e == [1, 2, 3]
 
 
@@ -15,7 +15,7 @@ def test_get_subdict(simple_dict):
     dd = DotDict(simple_dict)
     sub = dd.get_subdict(["a", "b"])
     assert sub.a == 1
-    assert sub.b == 'str'
+    assert sub.b == "str"
     assert "c" not in sub
 
 
@@ -42,4 +42,4 @@ def test_print_tree(simple_dict):
 
 @pytest.fixture()
 def simple_dict():
-    return dict(a=1, b='str', c=dict(e=[1, 2, 3]))
+    return dict(a=1, b="str", c=dict(e=[1, 2, 3]))

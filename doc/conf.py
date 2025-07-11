@@ -126,14 +126,14 @@ todo_include_todos = True
 html_theme = "sphinx_rtd_theme"
 
 html_theme_options = {
-    'collapse_navigation': False,
-    'display_version': True,
-    'logo_only': True,
-    'navigation_depth': 2,
+    "collapse_navigation": False,
+    "display_version": True,
+    "logo_only": True,
+    "navigation_depth": 2,
 }
 
-html_logo = '_static/img/omc_logo.svg'
-html_static_path = ['_static']
+html_logo = "_static/img/omc_logo.svg"
+html_static_path = ["_static"]
 html_css_files = ["css/custom.css"]
 
 smartquotes_action = "qe"  # renders only quotes and ellipses (...) but not dashes (option: D)
@@ -189,7 +189,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "generic-parser.tex", u"generic-parser Documentation", u"OMC-TEAM", "manual"),
+    (master_doc, "generic-parser.tex", "generic-parser Documentation", "OMC-TEAM", "manual"),
 ]
 
 
@@ -197,7 +197,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "generic-parser", u"Generic-Parser Documentation", [author], 1)]
+man_pages = [(master_doc, "generic-parser", "Generic-Parser Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output -------------------------------------------
@@ -209,7 +209,7 @@ texinfo_documents = [
     (
         master_doc,
         "generic-parser",
-        u"generic-parser Documentation",
+        "generic-parser Documentation",
         author,
         "OMC-TEAM",
         "One line description of project.",

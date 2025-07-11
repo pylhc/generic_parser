@@ -4,6 +4,7 @@ Utility Tools
 
 Provides utilities to use in other modules.
 """
+
 import logging
 import os
 import sys
@@ -13,10 +14,10 @@ from io import StringIO
 LOG = logging.getLogger(__name__)
 
 _TC = {  # Tree Characters
-    '|': u'\u2502',  # Horizontal
-    '-': u'\u2500',  # Vertical
-    'L': u'\u2514',  # L-Shape
-    'S': u'\u251C',  # Split
+    "|": "\u2502",  # Horizontal
+    "-": "\u2500",  # Vertical
+    "L": "\u2514",  # L-Shape
+    "S": "\u251c",  # Split
 }
 
 
@@ -25,6 +26,7 @@ _TC = {  # Tree Characters
 
 class DotDict(dict):
     """Make dict fields accessible by dot notation."""
+
     def __init__(self, *args, **kwargs):
         super(DotDict, self).__init__(*args, **kwargs)
         for key in self:
@@ -47,16 +49,17 @@ class DotDict(dict):
         return DotDict(get_subdict(self, keys, strict))
 
 
-def print_dict_tree(dictionary, name='Dictionary', print_fun=LOG.info):
+def print_dict_tree(dictionary, name="Dictionary", print_fun=LOG.info):
     """Prints a dictionary as a tree."""
+
     def print_tree(tree, level_char):
         for i, key in enumerate(sorted(tree.keys())):
             if i == len(tree) - 1:
-                node_char = _TC['L'] + _TC['-']
-                level_char_pp = level_char + '   '
+                node_char = _TC["L"] + _TC["-"]
+                level_char_pp = level_char + "   "
             else:
-                node_char = _TC['S'] + _TC['-']
-                level_char_pp = level_char + _TC['|'] + '  '
+                node_char = _TC["S"] + _TC["-"]
+                level_char_pp = level_char + _TC["|"] + "  "
 
             if isinstance(tree[key], dict):
                 print_fun(f"{level_char:s}{node_char:s} {str(key):s}")
@@ -64,8 +67,8 @@ def print_dict_tree(dictionary, name='Dictionary', print_fun=LOG.info):
             else:
                 print_fun(f"{level_char:s}{node_char:s} {str(key):s}: {str(tree[key]):s}")
 
-    print_fun('{:s}:'.format(name))
-    print_tree(dictionary, '')
+    print_fun("{:s}:".format(name))
+    print_tree(dictionary, "")
 
 
 def get_subdict(full_dict, keys, strict=True):
@@ -87,6 +90,7 @@ def get_subdict(full_dict, keys, strict=True):
 
 
 # Contexts #####################################################################
+
 
 @contextmanager
 def log_out(stdout=sys.stdout, stderr=sys.stderr):
@@ -142,6 +146,7 @@ class TempStringLogger:
         module: module to log, defaults to the caller file.
         level: logging level, defaults to ``INFO``.
     """
+
     def __init__(self, module="", level=logging.INFO):
         self.stream = StringIO()
         self.handler = logging.StreamHandler(stream=self.stream)
@@ -162,5 +167,5 @@ class TempStringLogger:
         self.log.setLevel(self._level)
 
     def get_log(self):
-        """ Get the log as string. """
+        """Get the log as string."""
         return self.stream.getvalue()

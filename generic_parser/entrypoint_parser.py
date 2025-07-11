@@ -160,6 +160,7 @@ or as commandline arguments from a **script.py** that calls ``entry_function()``
     python script.py --entry_cfg config.ini
     python script.py --entry_cfg config.ini --section section
 """
+
 import copy
 import json
 import argparse
@@ -176,6 +177,7 @@ from generic_parser.tools import DotDict, silence, unformatted_console_logging, 
 from generic_parser.dict_parser import ParameterError, ArgumentError, DictParser
 
 import logging
+
 LOG = logging.getLogger(__name__)
 
 
@@ -189,7 +191,13 @@ ID_SECTION = "section"
 
 
 class EntryPoint:
-    def __init__(self, parameter, strict: bool = False, argument_parser_args: Mapping = None, help_printer: Callable = None):
+    def __init__(
+        self,
+        parameter,
+        strict: bool = False,
+        argument_parser_args: Mapping = None,
+        help_printer: Callable = None,
+    ):
         """Initialize decoration: Handle the desired input parameter."""
         self.strict = strict
 
@@ -225,7 +233,7 @@ class EntryPoint:
                 section: Section to use in config file, or subdirectory to use in json file.
                          Only works with the key-value version of config file.
                          If not given only one-section config files are allowed.
-         """
+        """
         if len(args) > 0 and len(kwargs) > 0:
             raise ArgumentError("Cannot combine positional parameter with keyword parameter.")
 
@@ -251,8 +259,17 @@ class EntryPoint:
     def _create_config_argument(self):
         """Creates the config-file argument parser."""
         parser = ArgumentParser()
-        parser.add_argument('--{}'.format(ID_CONFIG), type=str, dest=ID_CONFIG, required=True,)
-        parser.add_argument('--{}'.format(ID_SECTION), type=str, dest=ID_SECTION,)
+        parser.add_argument(
+            "--{}".format(ID_CONFIG),
+            type=str,
+            dest=ID_CONFIG,
+            required=True,
+        )
+        parser.add_argument(
+            "--{}".format(ID_SECTION),
+            type=str,
+            dest=ID_SECTION,
+        )
         return parser
 
     def _create_argument_parser(self, args_dict: Mapping):
@@ -334,8 +351,9 @@ class EntryPoint:
             # list of commandline parameter
             options = self._handle_commandline(arg)
         else:
-            raise ArgumentError("Only dictionary or configfiles "
-                                "are allowed as positional arguments")
+            raise ArgumentError(
+                "Only dictionary or configfiles are allowed as positional arguments"
+            )
         return options  # options might include known and unknown options
 
     def _handle_kwargs(self, kwargs):
@@ -343,10 +361,10 @@ class EntryPoint:
         if ID_CONFIG in kwargs:
             if len(kwargs) > 2 or (len(kwargs) == 2 and ID_SECTION not in kwargs):
                 raise ArgumentError(
-                    f"Only '{ID_CONFIG:s}' and '{ID_SECTION:s}'" +
-                    " arguments are allowed, when using a config file.")
-            options = self._read_config(kwargs[ID_CONFIG],
-                                        kwargs.get(ID_SECTION, None))
+                    f"Only '{ID_CONFIG:s}' and '{ID_SECTION:s}'"
+                    + " arguments are allowed, when using a config file."
+                )
+            options = self._read_config(kwargs[ID_CONFIG], kwargs.get(ID_SECTION, None))
             options = self.dictparse.parse_config_items(options)
 
         elif ID_DICT in kwargs:
@@ -357,9 +375,10 @@ class EntryPoint:
         elif ID_JSON in kwargs:
             if len(kwargs) > 2 or (len(kwargs) == 2 and ID_SECTION not in kwargs):
                 raise ArgumentError(
-                    f"Only '{ID_JSON:s}' and '{ID_SECTION:s}'" +
-                    " arguments are allowed, when using a json file.")
-            with open(kwargs[ID_JSON], 'r') as json_file:
+                    f"Only '{ID_JSON:s}' and '{ID_SECTION:s}'"
+                    + " arguments are allowed, when using a json file."
+                )
+            with open(kwargs[ID_JSON], "r") as json_file:
                 json_dict = json.load(json_file)
 
             if ID_SECTION in kwargs:
@@ -370,7 +389,7 @@ class EntryPoint:
         else:
             options = self.dictparse.parse_arguments(kwargs)
 
-        return options   # options might include known and unknown options
+        return options  # options might include known and unknown options
 
     #########################
     # Helpers
@@ -384,17 +403,21 @@ class EntryPoint:
                 raise ParameterError("A Parameter needs a Name!")
 
             if param.get("nargs", None) == argparse.REMAINDER:
-                raise ParameterError(f"Parameter '{arg_name:s}' is set as remainder." +
-                                     "This method is really buggy, hence it is forbidden.")
+                raise ParameterError(
+                    f"Parameter '{arg_name:s}' is set as remainder."
+                    + "This method is really buggy, hence it is forbidden."
+                )
 
             if param.get("nargs", None) == argparse.OPTIONAL:
-                raise ParameterError(f"Parameter '{arg_name:s}' is set as optional." +
-                                     "As entrypoint does not use 'const', the use is prohibited.")
+                raise ParameterError(
+                    f"Parameter '{arg_name:s}' is set as optional."
+                    + "As entrypoint does not use 'const', the use is prohibited."
+                )
 
             if param.get("flags", None) is None:
                 # if flags aren't supplied, it defaults to the name
-                LOG.debug(f'Missing flags parameter. Defaulting to --{arg_name}')
-                param['flags'] = [f'--{arg_name}']
+                LOG.debug(f"Missing flags parameter. Defaulting to --{arg_name}")
+                param["flags"] = [f"--{arg_name}"]
 
     def _read_config(self, cfgfile_path, section=None):
         """Get content from config file."""
@@ -411,8 +434,9 @@ class EntryPoint:
             elif len(sections) == 1:
                 section = sections[0]  # our convention
             elif len(sections) > 1:
-                raise ArgumentError(f"'{cfgfile_path:s}' contains multiple sections. " +
-                                    " Please specify one!")
+                raise ArgumentError(
+                    f"'{cfgfile_path:s}' contains multiple sections. " + " Please specify one!"
+                )
 
         items = cfgparse.items(section)
         return items
@@ -442,38 +466,46 @@ class entrypoint(EntryPoint):
         """
         func_args = getfullargspec(func).args
         nargs = len(func_args)
-        is_bound = func_args[0] in ['self', 'cls']  # naming assumption...sorry (jdilly)
+        is_bound = func_args[0] in ["self", "cls"]  # naming assumption...sorry (jdilly)
 
         if self.strict:
             if not is_bound and nargs == 1:
+
                 @wraps(func)
                 def wrapper(*args, **kwargs):
                     return func(self.parse(*args, **kwargs))
             elif is_bound and nargs == 2:
+
                 @wraps(func)
                 def wrapper(other, *args, **kwargs):
                     return func(other, self.parse(*args, **kwargs))
             else:
-                raise OptionsError("In strict mode, only one option-structure will be passed."
-                                   " The entrypoint needs to have the following structure: "
-                                   " ([self/cls,] options)."
-                                   f" Found: '{func.__name__:s}({', '.join(func_args):s})'")
+                raise OptionsError(
+                    "In strict mode, only one option-structure will be passed."
+                    " The entrypoint needs to have the following structure: "
+                    " ([self/cls,] options)."
+                    f" Found: '{func.__name__:s}({', '.join(func_args):s})'"
+                )
         else:
             if not is_bound and nargs == 2:
+
                 @wraps(func)
                 def wrapper(*args, **kwargs):
                     options, unknown_options = self.parse(*args, **kwargs)
                     return func(options, unknown_options)
             elif is_bound and nargs == 3:
+
                 @wraps(func)
                 def wrapper(other, *args, **kwargs):
                     options, unknown_options = self.parse(*args, **kwargs)
                     return func(other, options, unknown_options)
             else:
-                raise OptionsError("Two option-structures will be passed."
-                                   " The entrypoint needs to have the following structure: "
-                                   " ([self/cls,] options, unknown_options)."
-                                   f" Found: '{func.__name__:s}({', '.join(func_args):s})'")
+                raise OptionsError(
+                    "Two option-structures will be passed."
+                    " The entrypoint needs to have the following structure: "
+                    " ([self/cls,] options, unknown_options)."
+                    f" Found: '{func.__name__:s}({', '.join(func_args):s})'"
+                )
         return wrapper
 
 
@@ -485,6 +517,7 @@ class EntryPointParameters(DotDict):
     Helps to build a simple dictionary structure via add_argument functions.
     You really don't need that, but old habits die hard.
     """
+
     def add_parameter(self, **kwargs):
         """Add parameter."""
         name = kwargs.pop("name")
@@ -517,22 +550,22 @@ class EntryPointParameters(DotDict):
             try:
                 flags = f"{space}flags: **{item['flags']}**\n\n"
             except KeyError:
-                flags = ''
+                flags = ""
 
             try:
                 choices = f"{space}choices: ``{item['choices']}``\n\n"
             except KeyError:
-                choices = ''
+                choices = ""
 
             try:
                 default = f"{space}default: ``{item['default']}``\n\n"
             except KeyError:
-                default = ''
+                default = ""
 
             try:
                 action = f"{space}action: ``{item['action']}``\n\n"
             except KeyError:
-                action = ''
+                action = ""
 
             item_str = f"{name_and_type}{help_str}{flags}{choices}{default}{action}"
 
@@ -611,6 +644,7 @@ def add_to_arguments(args, entry_params=None, **kwargs):
 
 # parameter adders ---
 
+
 def add_params_to_generic(parser, params):
     """
     Adds entry-point style parameter to either `ArgumentParser`, `DictParser` or
@@ -672,6 +706,7 @@ def _add_params_to_argument_parser(arg_parser, params):
             arg_parser.add_argument(*flags, **param)
     return arg_parser
 
+
 # ---
 
 
@@ -707,8 +742,9 @@ def split_arguments(args, *param_list):
         # should be a dictionary of params, so do it the manual way
         for params in param_list:
             params = param_names(params)
-            split_args.append(DotDict([(key, args.pop(key))
-                                       for key in list(args.keys()) if key in params]))
+            split_args.append(
+                DotDict([(key, args.pop(key)) for key in list(args.keys()) if key in params])
+            )
         split_args.append(DotDict(args))
     return split_args
 
@@ -750,9 +786,10 @@ def save_options_to_config(filepath, opt, unknown=None):
         opt: parsed known options.
         unknown: unknown options (only safe for non-commandline parameters).
     """
+
     def _to_key_value_str(key, value):
         if value is None:
-            value = ''  # defined as empty (see dict_parser._convert_config_items)
+            value = ""  # defined as empty (see dict_parser._convert_config_items)
         elif isinstance(value, (str, Path)):
             value = f'"{value}"'
             if "\n" in value:

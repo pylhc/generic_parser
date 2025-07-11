@@ -4,6 +4,7 @@ Dictionary Parser
 
 This module holds classes to handle different `dictionaries` as argument containers.
 """
+
 import argparse
 import copy
 import logging
@@ -54,9 +55,10 @@ class DictParser:
         Args:
             dictionary: Dictionary to validate.
         """
+
         # Helper ------------------------------------------
         def _check_key(key, param):
-            """ Checks if key coincides with param.name. """
+            """Checks if key coincides with param.name."""
             if key != param.name:
                 raise ParameterError(f"'{key:s}': Key and name need to be the same.")
 
@@ -96,49 +98,58 @@ class DictParser:
         param = param_dict[key]
         if not arg_dict or key not in arg_dict:
             if param.required:
-                raise ArgumentError(f"'{key:s}' required in options.\n"
-                                    f"Help: {param.help:s}")
+                raise ArgumentError(f"'{key:s}' required in options.\nHelp: {param.help:s}")
             return param.default
 
         opt = arg_dict[key]
         if opt is None:
             if param.required:
-                raise ArgumentError(f"'{key:s}' required in options.\n"
-                                    f"Help: {param.help:s}")
+                raise ArgumentError(f"'{key:s}' required in options.\nHelp: {param.help:s}")
             return opt
 
         if param.type and not isinstance(opt, param.type):
-            raise ArgumentError(f"'{key:s}' is not of type {param.type.__name__:s}.\n"
-                                f"Help: {param.help:s}")
+            raise ArgumentError(
+                f"'{key:s}' is not of type {param.type.__name__:s}.\nHelp: {param.help:s}"
+            )
 
         if param.type == list:
             if param.nargs:
                 if isinstance(param.nargs, int) and not param.nargs == len(opt):
-                    raise ArgumentError(f"'{key:s}' should be list of length {param.nargs:d},"
-                                        f" instead it was of length {len(opt):d}.\n"
-                                        f"Help: {param.help:s}")
+                    raise ArgumentError(
+                        f"'{key:s}' should be list of length {param.nargs:d},"
+                        f" instead it was of length {len(opt):d}.\n"
+                        f"Help: {param.help:s}"
+                    )
 
                 if param.nargs == argparse.ONE_OR_MORE and not len(opt):
-                    raise ArgumentError(f"'{key:s}' should be list of length >= 1,"
-                                        f" instead it was of length {len(opt):d}.\n"
-                                        f"Help: {param.help:s}")
+                    raise ArgumentError(
+                        f"'{key:s}' should be list of length >= 1,"
+                        f" instead it was of length {len(opt):d}.\n"
+                        f"Help: {param.help:s}"
+                    )
 
             if param.subtype:
                 for idx, item in enumerate(opt):
                     if not isinstance(item, param.subtype):
-                        raise ArgumentError(f"Item {idx:d} of '{key:s}'"
-                                            f" is not of type '{param.subtype.__name__:s}'.\n"
-                                            f"Help: {param.help:s}")
+                        raise ArgumentError(
+                            f"Item {idx:d} of '{key:s}'"
+                            f" is not of type '{param.subtype.__name__:s}'.\n"
+                            f"Help: {param.help:s}"
+                        )
 
             if param.choices and any([o for o in opt if o not in param.choices]):
-                raise ArgumentError(f"All elements of '{key:s}' need to be one of "
-                                    f"'{param.choices}', instead the list was {opt}.\n"
-                                    f"Help: {param.help:s}")
+                raise ArgumentError(
+                    f"All elements of '{key:s}' need to be one of "
+                    f"'{param.choices}', instead the list was {opt}.\n"
+                    f"Help: {param.help:s}"
+                )
 
         elif param.choices and opt not in param.choices:
-            raise ArgumentError(f"'{key:s}' needs to be one of '{param.choices}', "
-                                f"instead it was {opt}.\n"
-                                f"Help: {param.help:s}")
+            raise ArgumentError(
+                f"'{key:s}' needs to be one of '{param.choices}', "
+                f"instead it was {opt}.\n"
+                f"Help: {param.help:s}"
+            )
         return opt
 
     def _parse_arguments(self, arg_dict, param_dict):
@@ -229,7 +240,7 @@ class DictParser:
         Returns:
             This object.
         """
-        loc = kwargs.pop('loc', None)
+        loc = kwargs.pop("loc", None)
         if not isinstance(param, Parameter):
             param = Parameter(param, **kwargs)
         self._add_param_to_dict(param, loc)
@@ -246,9 +257,9 @@ class DictParser:
         Returns:
             This object.
         """
-        fields = loc.split('.')
+        fields = loc.split(".")
         name = fields[-1]
-        sub_dict = self._traverse_dict('.'.join(fields[:-1]))
+        sub_dict = self._traverse_dict(".".join(fields[:-1]))
 
         if name in sub_dict:
             raise ParameterError(f"'{name}' already exists in parser!")
@@ -263,35 +274,35 @@ class DictParser:
 
     def tree(self):
         """Prints the current Parameter-Tree."""
+
         def print_tree(tree, level_char):
             for i, key in enumerate(sorted(tree.keys())):
                 if i == len(tree) - 1:
-                    node_char = _TC['L'] + _TC['-']
-                    level_char_pp = level_char + '   '
+                    node_char = _TC["L"] + _TC["-"]
+                    level_char_pp = level_char + "   "
                 else:
-                    node_char = _TC['S'] + _TC['-']
-                    level_char_pp = level_char + _TC['|'] + '  '
+                    node_char = _TC["S"] + _TC["-"]
+                    level_char_pp = level_char + _TC["|"] + "  "
                 LOG.info(f"{level_char:s}{node_char:s} {key:s}")
                 if isinstance(tree[key], dict):
                     print_tree(tree[key], level_char_pp)
                 else:
                     leaf = tree[key]
-                    LOG.info(f"{level_char_pp + _TC['S'] + _TC['-']:s}"
-                             f" Required: {leaf.required}")
+                    LOG.info(f"{level_char_pp + _TC['S'] + _TC['-']:s} Required: {leaf.required}")
 
-                    LOG.info(f"{level_char_pp + _TC['S'] + _TC['-']:s}"
-                             f" Default: {leaf.default}")
+                    LOG.info(f"{level_char_pp + _TC['S'] + _TC['-']:s} Default: {leaf.default}")
 
-                    LOG.info(f"{level_char_pp + _TC['S'] + _TC['-']:s}"
-                             f" Type: {leaf.type.__name__ if leaf.type else 'None'}")
+                    LOG.info(
+                        f"{level_char_pp + _TC['S'] + _TC['-']:s}"
+                        f" Type: {leaf.type.__name__ if leaf.type else 'None'}"
+                    )
 
-                    LOG.info(f"{level_char_pp + _TC['S'] + _TC['-']:s}"
-                             f" Choices: {leaf.choices}")
+                    LOG.info(f"{level_char_pp + _TC['S'] + _TC['-']:s} Choices: {leaf.choices}")
 
-                    LOG.info(f"{level_char_pp + _TC['L'] + _TC['-']:s}"
-                             f" Help: {leaf.help:s}")
-        LOG.info('Parameter Dictionary')
-        print_tree(self.dictionary, '')
+                    LOG.info(f"{level_char_pp + _TC['L'] + _TC['-']:s} Help: {leaf.help:s}")
+
+        LOG.info("Parameter Dictionary")
+        print_tree(self.dictionary, "")
 
     #########################
     # Private Methods
@@ -328,7 +339,7 @@ class DictParser:
         """
         d = self.dictionary
         if loc:
-            traverse = loc.split('.')
+            traverse = loc.split(".")
             for i, t in enumerate(traverse):
                 try:
                     d = d[t]
@@ -338,11 +349,14 @@ class DictParser:
                 if isinstance(d, Parameter):
                     raise ParameterError(
                         "'{:s}' is already an argument and hence cannot be a subdict.".format(
-                            '.'.join(traverse[:i] + [t])))
+                            ".".join(traverse[:i] + [t])
+                        )
+                    )
         return d
 
     def _convert_config_items(self, items):
         """Converts items list to a dictionary with types already in place."""
+
         def evaluate(name, item):
             try:
                 return eval(item)  # sorry for using that
@@ -351,7 +365,7 @@ class DictParser:
 
         def eval_type(my_type, item):
             if issubclass(my_type, (str, Path)):
-                return my_type(item.strip("\'\""))
+                return my_type(item.strip("'\""))
 
             if issubclass(my_type, bool):
                 return bool(eval(item))
@@ -360,7 +374,7 @@ class DictParser:
 
         out = {}
         for name, value in items:
-            if value == '':  # only needed if save_dict allows `key=`
+            if value == "":  # only needed if save_dict allows `key=`
                 out[name] = None  # type doesn't matter
 
             elif name in self.dictionary:
@@ -395,15 +409,16 @@ class ArgumentError(Exception):
 
 class Parameter:
     """Helper Class for DictParser."""
+
     def __init__(self, name, **kwargs):
         self.name = name
-        self.required = kwargs.pop('required', False)
-        self.default = kwargs.pop('default', None)
-        self.help = kwargs.pop('help', '')
-        self.type = kwargs.pop('type', None)
-        self.nargs = kwargs.pop('nargs', None)
-        self.subtype = kwargs.pop('subtype', None)
-        self.choices = kwargs.pop('choices', None)
+        self.required = kwargs.pop("required", False)
+        self.default = kwargs.pop("default", None)
+        self.help = kwargs.pop("help", "")
+        self.type = kwargs.pop("type", None)
+        self.nargs = kwargs.pop("nargs", None)
+        self.subtype = kwargs.pop("subtype", None)
+        self.choices = kwargs.pop("choices", None)
 
         if len(kwargs) > 0:
             ParameterError(f"'{kwargs.keys()}' are not valid parameters for Argument.")
@@ -412,58 +427,76 @@ class Parameter:
 
     def _validate(self):
         if not isinstance(self.name, str):
-            raise ParameterError(f"Parameter '{self.name}': " +
-                                 "Name is not a valid string.")
+            raise ParameterError(f"Parameter '{self.name}': " + "Name is not a valid string.")
 
         if self.default and self.type and not isinstance(self.default, self.type):
-            raise ParameterError(f"Parameter '{self.name:s}': " +
-                                 "Default value not of specified type.")
+            raise ParameterError(
+                f"Parameter '{self.name:s}': " + "Default value not of specified type."
+            )
 
         if self.subtype and not (self.type or self.type == list):
-            raise ParameterError(f"Parameter '{self.name:s}': " +
-                                 "field 'subtype' is only accepted if 'type' is list.")
+            raise ParameterError(
+                f"Parameter '{self.name:s}': "
+                + "field 'subtype' is only accepted if 'type' is list."
+            )
 
         if self.nargs:
-            if (not isinstance(self.nargs, int) and
-                    self.nargs not in [argparse.ONE_OR_MORE, argparse.ZERO_OR_MORE]):
-                raise ParameterError(f"Parameter '{self.name:s}': "
-                                     "nargs needs to be an integer or either "
-                                     f"'{argparse.ONE_OR_MORE}' or '{argparse.ZERO_OR_MORE}'. "
-                                     f"Instead it was '{self.nargs}'")
+            if not isinstance(self.nargs, int) and self.nargs not in [
+                argparse.ONE_OR_MORE,
+                argparse.ZERO_OR_MORE,
+            ]:
+                raise ParameterError(
+                    f"Parameter '{self.name:s}': "
+                    "nargs needs to be an integer or either "
+                    f"'{argparse.ONE_OR_MORE}' or '{argparse.ZERO_OR_MORE}'. "
+                    f"Instead it was '{self.nargs}'"
+                )
 
             if not (self.type or self.type == list):
-                raise ParameterError(f"Parameter '{self.name:s}': " +
-                                     "'type' needs to be 'list' if 'nargs' is given.")
+                raise ParameterError(
+                    f"Parameter '{self.name:s}': "
+                    + "'type' needs to be 'list' if 'nargs' is given."
+                )
 
-            if self.default is not None:  # default-type is checked above as self.type needs to be present
+            if (
+                self.default is not None
+            ):  # default-type is checked above as self.type needs to be present
                 if (self.nargs == argparse.ONE_OR_MORE) and not len(self.default):
-                    raise ParameterError(f"Parameter '{self.name:s}': " +
-                                         f"Empty list as default not allowed for nargs='{self.nargs}'.")
+                    raise ParameterError(
+                        f"Parameter '{self.name:s}': "
+                        + f"Empty list as default not allowed for nargs='{self.nargs}'."
+                    )
 
                 if isinstance(self.nargs, int) and not (self.nargs == len(self.default)):
-                    raise ParameterError(f"Parameter '{self.name:s}': " +
-                                         f"Default value has wrong length (={len(self.default):d}) "
-                                         f"for given nargs={self.nargs:d}.")
+                    raise ParameterError(
+                        f"Parameter '{self.name:s}': "
+                        + f"Default value has wrong length (={len(self.default):d}) "
+                        f"for given nargs={self.nargs:d}."
+                    )
 
         if self.choices:
             try:
                 [choice for choice in self.choices]
             except TypeError:
-                raise ParameterError(f"Parameter '{self.name:s}': " +
-                                     "'Choices' need to be iterable.")
+                raise ParameterError(
+                    f"Parameter '{self.name:s}': " + "'Choices' need to be iterable."
+                )
 
             if self.default:
                 if self.type == list:
                     not_a_choice = [d for d in self.default if d not in self.choices]
 
                     if len(not_a_choice) > 0:
-                        raise ParameterError(f"Parameter '{self.name:s}': " +
-                                             f"Default value(s) '{str(not_a_choice)}'"
-                                             " not found in choices.")
+                        raise ParameterError(
+                            f"Parameter '{self.name:s}': "
+                            + f"Default value(s) '{str(not_a_choice)}'"
+                            " not found in choices."
+                        )
                 else:
                     if self.default not in self.choices:
-                        raise ParameterError(f"Parameter '{self.name:s}': " +
-                                             "Default value not found in choices.")
+                        raise ParameterError(
+                            f"Parameter '{self.name:s}': " + "Default value not found in choices."
+                        )
 
             if self.type or self.subtype:
                 if self.nargs is None:
@@ -474,10 +507,14 @@ class Parameter:
                 if check is not None:
                     for choice in self.choices:
                         if not isinstance(choice, check):
-                            raise ParameterError(f"Choice '{choice}' " +
-                                                 f"of parameter '{self.name:s}': " +
-                                                 f"is not of type '{check.__name__:s}'.")
+                            raise ParameterError(
+                                f"Choice '{choice}' "
+                                + f"of parameter '{self.name:s}': "
+                                + f"is not of type '{check.__name__:s}'."
+                            )
 
         if self.required and self.default is not None:
-            LOG.warning(f"Parameter '{self.name:s}': " +
-                        "Value is required but default value is given. The latter will be ignored.")
+            LOG.warning(
+                f"Parameter '{self.name:s}': "
+                + "Value is required but default value is given. The latter will be ignored."
+            )
