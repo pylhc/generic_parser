@@ -441,11 +441,11 @@ def test_dict_as_string_class():
 
 
 def test_bool_or_str_class():
-    assert isinstance(True, BoolOrString)
+    assert isinstance(True, BoolOrString)  # noqa FBT003 (isinstance takes no kwargs)
     assert isinstance("myString", BoolOrString)
     assert BoolOrString("True") is True
     assert BoolOrString("1") is True
-    assert BoolOrString(True) is True
+    assert BoolOrString(value=True) is True
     assert BoolOrString(1) is True
     assert BoolOrString("myString") == "myString"
     assert issubclass(bool, BoolOrString)
@@ -454,11 +454,11 @@ def test_bool_or_str_class():
 
 
 def test_bool_or_list_class():
-    assert isinstance(True, BoolOrList)
+    assert isinstance(True, BoolOrList)  # noqa FBT003 (isinstance takes no kwargs)
     assert isinstance([], BoolOrList)
     assert BoolOrList("False") is False
     assert BoolOrList("0") is False
-    assert BoolOrList(False) is False
+    assert BoolOrList(value=False) is False
     assert BoolOrList(0) is False
     assert BoolOrList("[1, 2]") == [1, 2]
     assert issubclass(bool, BoolOrList)
