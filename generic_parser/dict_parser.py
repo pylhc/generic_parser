@@ -364,7 +364,7 @@ class DictParser:
                 raise ArgumentError(f"Could not evaluate argument '{name:s}', unknown '{item:s}'")
 
         def eval_type(my_type, item):
-            if issubclass(my_type, (str, Path)):
+            if issubclass(my_type, (str | Path)):
                 return my_type(item.strip("'\""))
 
             if issubclass(my_type, bool):
@@ -474,7 +474,7 @@ class Parameter:
 
         if self.choices:
             try:
-                [choice for choice in self.choices]
+                list(choice for choice in self.choices)
             except TypeError:
                 raise ParameterError(
                     f"Parameter '{self.name:s}': " + "'Choices' need to be iterable."
