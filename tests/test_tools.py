@@ -1,4 +1,5 @@
 from io import StringIO
+
 import pytest
 
 from generic_parser.tools import DotDict, print_dict_tree

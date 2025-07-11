@@ -3,21 +3,20 @@ import sys
 from pathlib import Path
 
 import pytest
-from tests.conftest import cli_args
 
-from generic_parser.dict_parser import ParameterError, ArgumentError
-from generic_parser.entry_datatypes import get_multi_class, DictAsString, BoolOrString, BoolOrList
+from generic_parser.dict_parser import ArgumentError, ParameterError
+from generic_parser.entry_datatypes import BoolOrList, BoolOrString, DictAsString, get_multi_class
 from generic_parser.entrypoint_parser import (
-    EntryPointParameters,
-    entrypoint,
     EntryPoint,
+    EntryPointParameters,
     OptionsError,
-    split_arguments,
     create_parameter_help,
+    entrypoint,
     save_options_to_config,
+    split_arguments,
 )
-from generic_parser.tools import silence, print_dict_tree, TempStringLogger
-
+from generic_parser.tools import TempStringLogger, print_dict_tree, silence
+from tests.conftest import cli_args
 
 LOG = logging.getLogger(__name__)
 DEBUG = False
@@ -40,7 +39,7 @@ def test_strict_wrapper_fail():
 def test_class_wrapper_fail():
     with pytest.raises(OptionsError):
 
-        class MyClass(object):
+        class MyClass:
             @entrypoint(get_simple_params())
             def fun(self, opt):  # too few option-structures
                 pass
@@ -55,7 +54,7 @@ def test_normal_wrapper_fail():
 
 
 def test_class_functions():
-    class MyClass(object):
+    class MyClass:
         @classmethod
         @entrypoint(get_simple_params())
         def fun(cls, opt, unknown):
@@ -63,7 +62,7 @@ def test_class_functions():
 
 
 def test_instance_functions():
-    class MyClass(object):
+    class MyClass:
         @entrypoint(get_simple_params())
         def fun(self, opt, unknown):
             pass
@@ -311,7 +310,7 @@ def test_save_cli_options_cfg(tmp_path):
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
-    with open(cfg_file, "r") as f:
+    with open(cfg_file) as f:
         content = f.read()
     assert "Unknown" in content
     assert "--other" in content
@@ -728,7 +727,7 @@ def get_other_params():
 def some_function(options, unknown_options):
     LOG.debug("Some Function")
     print_dict_tree(options, print_fun=LOG.debug)
-    LOG.debug("Unknown Options: \n {:s}".format(str(unknown_options)))
+    LOG.debug(f"Unknown Options: \n {str(unknown_options):s}")
     LOG.debug("\n")
 
 

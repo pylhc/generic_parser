@@ -6,12 +6,8 @@ Fixtures defined in here are discovered by all tests automatically.
 See also https://stackoverflow.com/a/34520971 .
 """
 
-import shutil
 import sys
 from contextlib import contextmanager
-from pathlib import Path
-
-import pytest
 
 
 @contextmanager

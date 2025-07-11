@@ -67,7 +67,7 @@ def print_dict_tree(dictionary, name="Dictionary", print_fun=LOG.info):
             else:
                 print_fun(f"{level_char:s}{node_char:s} {str(key):s}: {str(tree[key]):s}")
 
-    print_fun("{:s}:".format(name))
+    print_fun(f"{name:s}:")
     print_tree(dictionary, "")
 
 

@@ -1,10 +1,9 @@
-from io import StringIO
+
+import sys
 
 import pytest
-import sys
-import logging
 
-from generic_parser.dict_parser import ParameterError, Parameter, DictParser, ArgumentError
+from generic_parser.dict_parser import ArgumentError, DictParser, Parameter, ParameterError
 from generic_parser.tools import TempStringLogger
 
 

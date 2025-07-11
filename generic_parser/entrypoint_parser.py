@@ -161,22 +161,21 @@ or as commandline arguments from a **script.py** that calls ``entry_function()``
     python script.py --entry_cfg config.ini --section section
 """
 
+import argparse
 import copy
 import json
-import argparse
+import logging
 import sys
 from argparse import ArgumentParser
+from collections.abc import Callable, Mapping
 from configparser import ConfigParser
-from inspect import getfullargspec
 from functools import wraps
+from inspect import getfullargspec
 from pathlib import Path
 from textwrap import wrap
-from typing import Callable, Mapping
 
-from generic_parser.tools import DotDict, silence, unformatted_console_logging, StringIO, log_out
-from generic_parser.dict_parser import ParameterError, ArgumentError, DictParser
-
-import logging
+from generic_parser.dict_parser import ArgumentError, DictParser, ParameterError
+from generic_parser.tools import DotDict, StringIO, log_out, silence, unformatted_console_logging
 
 LOG = logging.getLogger(__name__)
 
@@ -260,13 +259,13 @@ class EntryPoint:
         """Creates the config-file argument parser."""
         parser = ArgumentParser()
         parser.add_argument(
-            "--{}".format(ID_CONFIG),
+            f"--{ID_CONFIG}",
             type=str,
             dest=ID_CONFIG,
             required=True,
         )
         parser.add_argument(
-            "--{}".format(ID_SECTION),
+            f"--{ID_SECTION}",
             type=str,
             dest=ID_SECTION,
         )
@@ -331,10 +330,9 @@ class EntryPoint:
                 if unknown_opts:
                     raise ArgumentError(f"Unknown options: {unknown_opts}")
                 return options
-            else:
-                if unknown_opts:
-                    LOG.debug(f"Unknown options: {unknown_opts}")
-                return options, unknown_opts
+            if unknown_opts:
+                LOG.debug(f"Unknown options: {unknown_opts}")
+            return options, unknown_opts
         else:
             # parse config file
             return self.dictparse.parse_config_items(self._read_config(vars(options)[ID_CONFIG]))
@@ -362,7 +360,7 @@ class EntryPoint:
             if len(kwargs) > 2 or (len(kwargs) == 2 and ID_SECTION not in kwargs):
                 raise ArgumentError(
                     f"Only '{ID_CONFIG:s}' and '{ID_SECTION:s}'"
-                    + " arguments are allowed, when using a config file."
+                     " arguments are allowed, when using a config file."
                 )
             options = self._read_config(kwargs[ID_CONFIG], kwargs.get(ID_SECTION, None))
             options = self.dictparse.parse_config_items(options)
@@ -376,9 +374,9 @@ class EntryPoint:
             if len(kwargs) > 2 or (len(kwargs) == 2 and ID_SECTION not in kwargs):
                 raise ArgumentError(
                     f"Only '{ID_JSON:s}' and '{ID_SECTION:s}'"
-                    + " arguments are allowed, when using a json file."
+                     " arguments are allowed, when using a json file."
                 )
-            with open(kwargs[ID_JSON], "r") as json_file:
+            with open(kwargs[ID_JSON]) as json_file:
                 json_dict = json.load(json_file)
 
             if ID_SECTION in kwargs:
@@ -405,13 +403,13 @@ class EntryPoint:
             if param.get("nargs", None) == argparse.REMAINDER:
                 raise ParameterError(
                     f"Parameter '{arg_name:s}' is set as remainder."
-                    + "This method is really buggy, hence it is forbidden."
+                     "This method is really buggy, hence it is forbidden."
                 )
 
             if param.get("nargs", None) == argparse.OPTIONAL:
                 raise ParameterError(
                     f"Parameter '{arg_name:s}' is set as optional."
-                    + "As entrypoint does not use 'const', the use is prohibited."
+                     "As entrypoint does not use 'const', the use is prohibited."
                 )
 
             if param.get("flags", None) is None:
@@ -523,8 +521,7 @@ class EntryPointParameters(DotDict):
         name = kwargs.pop("name")
         if name in self:
             raise ParameterError(f"'{name:s}' is already a parameter.")
-        else:
-            self[name] = kwargs
+        self[name] = kwargs
 
     def help(self):
         """Prints current help. Usable to paste into docstrings."""

@@ -88,11 +88,10 @@ class BoolOrString(metaclass=get_instance_faker_meta(bool, str)):
         if value in TRUE_ITEMS:
             return True
 
-        elif value in FALSE_ITEMS:
+        if value in FALSE_ITEMS:
             return False
 
-        else:
-            return str(value)
+        return str(value)
 
 
 class BoolOrList(metaclass=get_instance_faker_meta(bool, list)):
@@ -105,9 +104,8 @@ class BoolOrList(metaclass=get_instance_faker_meta(bool, list)):
         if value in TRUE_ITEMS:
             return True
 
-        elif value in FALSE_ITEMS:
+        if value in FALSE_ITEMS:
             return False
-        else:
-            if isinstance(value, str):
-                value = eval(value)
-            return list(value)
+        if isinstance(value, str):
+            value = eval(value)
+        return list(value)
