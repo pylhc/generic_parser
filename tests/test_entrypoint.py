@@ -466,7 +466,7 @@ def test_bool_or_list_class():
 
 
 def test_multiclass():
-    IntOrStr = get_multi_class(int, str)
+    IntOrStr = get_multi_class(int, str)  # noqa N806 (this is a class)
 
     @entrypoint([{"flags": "--ios", "name": "ios", "type": IntOrStr}], strict=True)
     def fun(opt):
