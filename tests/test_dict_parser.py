@@ -129,7 +129,7 @@ def test_print_tree():
         parser.tree()
 
     text = log.get_log()
-    for l in loc.split("."):
-        assert l in text
+    for line in loc.split("."):
+        assert line in text
     for attr in ["name", "default", "required", "choices", "help"]:
         assert str(getattr(param, attr)) in text
