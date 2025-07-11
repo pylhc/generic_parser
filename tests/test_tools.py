@@ -34,8 +34,8 @@ def test_print_tree(simple_dict):
 
     # print(text)  # I'll leave it here, in case you want to see the dict
     assert name in text
-    for l in simple_dict.keys():
-        assert l in text
+    for line in simple_dict:
+        assert line in text
 
 
 # Fixtures #####################################################################

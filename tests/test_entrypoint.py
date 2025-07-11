@@ -613,7 +613,7 @@ def test_create_param_help():
     with TempStringLogger(entrypoint_module) as log:
         create_parameter_help(this_module)
     text = log.get_log()
-    for name in get_params().keys():
+    for name in get_params():
         assert name in text
 
 
@@ -623,7 +623,7 @@ def test_create_param_help_other():
     with TempStringLogger(entrypoint_module) as log:
         create_parameter_help(this_module, "get_other_params")
     text = log.get_log()
-    for name in get_other_params().keys():
+    for name in get_other_params():
         assert name in text
 
 
