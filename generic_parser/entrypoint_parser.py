@@ -779,7 +779,7 @@ def save_options_to_config(filepath, opt, unknown=None):
     def _to_key_value_str(key, value):
         if value is None:
             value = ""  # defined as empty (see dict_parser._convert_config_items)
-        elif isinstance(value, (str, Path)):
+        elif isinstance(value, (str | Path)):
             value = f'"{value}"'
             if "\n" in value:
                 value = value.replace("\n", "\n    ")  # spaces in new line indicate continuation
