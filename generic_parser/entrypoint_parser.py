@@ -360,7 +360,7 @@ class EntryPoint:
             if len(kwargs) > 2 or (len(kwargs) == 2 and ID_SECTION not in kwargs):
                 raise ArgumentError(
                     f"Only '{ID_CONFIG:s}' and '{ID_SECTION:s}'"
-                     " arguments are allowed, when using a config file."
+                    " arguments are allowed, when using a config file."
                 )
             options = self._read_config(kwargs[ID_CONFIG], kwargs.get(ID_SECTION, None))
             options = self.dictparse.parse_config_items(options)
@@ -374,7 +374,7 @@ class EntryPoint:
             if len(kwargs) > 2 or (len(kwargs) == 2 and ID_SECTION not in kwargs):
                 raise ArgumentError(
                     f"Only '{ID_JSON:s}' and '{ID_SECTION:s}'"
-                     " arguments are allowed, when using a json file."
+                    " arguments are allowed, when using a json file."
                 )
             with open(kwargs[ID_JSON]) as json_file:
                 json_dict = json.load(json_file)
@@ -403,13 +403,13 @@ class EntryPoint:
             if param.get("nargs", None) == argparse.REMAINDER:
                 raise ParameterError(
                     f"Parameter '{arg_name:s}' is set as remainder."
-                     "This method is really buggy, hence it is forbidden."
+                    "This method is really buggy, hence it is forbidden."
                 )
 
             if param.get("nargs", None) == argparse.OPTIONAL:
                 raise ParameterError(
                     f"Parameter '{arg_name:s}' is set as optional."
-                     "As entrypoint does not use 'const', the use is prohibited."
+                    "As entrypoint does not use 'const', the use is prohibited."
                 )
 
             if param.get("flags", None) is None:

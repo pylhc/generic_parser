@@ -245,7 +245,7 @@ def test_not_enough_length():
 
 
 def test_optional_parameter_no_default_accepts_none():
-    @entrypoint(dict(foo=dict(required=False)), strict=True)
+    @entrypoint({"foo": {"required": False}}, strict=True)
     def fun(opt):
         return opt
 
@@ -254,7 +254,7 @@ def test_optional_parameter_no_default_accepts_none():
 
 
 def test_optional_list_parameter_no_default_accepts_none():
-    @entrypoint(dict(foo=dict(required=False, nargs=3)), strict=True)
+    @entrypoint({"foo": {"required": False, "nargs": 3}}, strict=True)
     def fun(opt):
         return opt
 
@@ -263,7 +263,7 @@ def test_optional_list_parameter_no_default_accepts_none():
 
 
 def test_optional_parameter_default_accepts_none():
-    @entrypoint(dict(foo=dict(required=False, default="test")), strict=True)
+    @entrypoint({"foo": {"required": False, "default": "test"}}, strict=True)
     def fun(opt):
         return opt
 
@@ -275,7 +275,7 @@ def test_optional_parameter_default_accepts_none():
 
 
 def test_required_parameter_does_not_accept_none():
-    @entrypoint(dict(foo=dict(required=True)), strict=True)
+    @entrypoint({"foo": {"required": True}}, strict=True)
     def fun(opt):
         return opt
 
@@ -348,7 +348,7 @@ def test_save_and_load_cfg_with_none_explicit(tmp_path):
 
 
 def test_string_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(name={"type": str})), strict=True)
+    @entrypoint(EntryPointParameters({"name": {"type": str}}), strict=True)
     def fun(opt):
         return opt
 
@@ -373,7 +373,7 @@ def test_string_cfg(tmp_path):
 
 
 def test_string_with_break_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(name={"type": str})), strict=True)
+    @entrypoint(EntryPointParameters({"name": {"type": str}}), strict=True)
     def fun(opt):
         return opt
 
@@ -387,7 +387,7 @@ def test_string_with_break_cfg(tmp_path):
 
 
 def test_path_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(path={"type": Path})), strict=True)
+    @entrypoint(EntryPointParameters({"path": {"type": Path}}), strict=True)
     def fun(opt):
         return opt
 
@@ -401,7 +401,7 @@ def test_path_cfg(tmp_path):
 
 
 def test_list_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(lst={"type": int, "nargs": "*"})), strict=True)
+    @entrypoint(EntryPointParameters({"lst": {"type": int, "nargs": "*"}}), strict=True)
     def fun(opt):
         return opt
 
@@ -469,7 +469,7 @@ def test_bool_or_list_class():
 def test_multiclass():
     IntOrStr = get_multi_class(int, str)
 
-    @entrypoint([dict(flags="--ios", name="ios", type=IntOrStr)], strict=True)
+    @entrypoint([{"flags": "--ios", "name": "ios", "type": IntOrStr}], strict=True)
     def fun(opt):
         return opt
 
@@ -487,7 +487,7 @@ def test_multiclass():
 
 
 def test_dict_as_string():
-    @entrypoint([dict(flags="--dict", name="dict", type=DictAsString)], strict=True)
+    @entrypoint([{"flags": "--dict", "name": "dict", "type": DictAsString}], strict=True)
     def fun(opt):
         return opt
 
@@ -501,7 +501,7 @@ def test_dict_as_string():
 
 
 def test_bool_or_str(tmp_path):
-    @entrypoint([dict(flags="--bos", name="bos", type=BoolOrString)], strict=True)
+    @entrypoint([{"flags": "--bos", "name": "bos", "type": BoolOrString}], strict=True)
     def fun(opt):
         return opt
 
@@ -530,8 +530,8 @@ def test_bool_or_str(tmp_path):
 def test_bool_or_str_cfg(tmp_path):
     @entrypoint(
         [
-            dict(flags="--bos1", name="bos1", type=BoolOrString),
-            dict(flags="--bos2", name="bos2", type=BoolOrString),
+            {"flags": "--bos1", "name": "bos1", "type": BoolOrString},
+            {"flags": "--bos2", "name": "bos2", "type": BoolOrString},
         ],
         strict=True,
     )
@@ -547,7 +547,7 @@ def test_bool_or_str_cfg(tmp_path):
 
 
 def test_bool_or_list():
-    @entrypoint([dict(flags="--bol", name="bol", type=BoolOrList)], strict=True)
+    @entrypoint([{"flags": "--bol", "name": "bol", "type": BoolOrList}], strict=True)
     def fun(opt):
         return opt
 
@@ -570,8 +570,8 @@ def test_bool_or_list():
 def test_bool_or_list_cfg(tmp_path):
     @entrypoint(
         [
-            dict(flags="--bol1", name="bol1", type=BoolOrList),
-            dict(flags="--bol2", name="bol2", type=BoolOrList),
+            {"flags": "--bol1", "name": "bol1", "type": BoolOrList},
+            {"flags": "--bol2", "name": "bol2", "type": BoolOrList},
         ],
         strict=True,
     )
@@ -647,9 +647,9 @@ def get_simple_params():
 def get_testing_params():
     """Parameters as a dict of dicts, to test this behaviour as well."""
     return {
-        "name": dict(flags="--name", type=str),
-        "int": dict(flags="--int", type=int),
-        "list": dict(flags="--list", type=int, nargs="+"),
+        "name": {"flags": "--name", "type": str},
+        "int": {"flags": "--int", "type": int},
+        "list": {"flags": "--list", "type": int, "nargs": "+"},
     }
 
 
@@ -695,26 +695,26 @@ def get_other_params():
     """For testing the create_param_help()"""
     args = EntryPointParameters(
         {
-            "arg1": dict(
-                flags="--arg1",
-                help="A help.",
-                default=1,
-            ),
-            "arg2": dict(
-                flags="--arg2",
-                help="More help.",
-                default=2,
-            ),
-            "arg3": dict(
-                flags="--arg3",
-                help="Even more...",
-                default=3,
-            ),
-            "arg4": dict(
-                flags="--arg4",
-                help="...heeeeeeeeelp.",
-                default=4,
-            ),
+            "arg1": {
+                "flags": "--arg1",
+                "help": "A help.",
+                "default": 1,
+            },
+            "arg2": {
+                "flags": "--arg2",
+                "help": "More help.",
+                "default": 2,
+            },
+            "arg3": {
+                "flags": "--arg3",
+                "help": "Even more...",
+                "default": 3,
+            },
+            "arg4": {
+                "flags": "--arg4",
+                "help": "...heeeeeeeeelp.",
+                "default": 4,
+            },
         }
     )
     return args

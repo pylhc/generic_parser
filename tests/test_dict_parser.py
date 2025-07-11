@@ -1,4 +1,3 @@
-
 import sys
 
 import pytest
@@ -111,7 +110,7 @@ def test_name_not_string():
         Parameter(name=5)
 
     with pytest.raises(ParameterError):
-        DictParser({5: dict()})
+        DictParser({5: {}})
 
 
 def test_name_not_key():

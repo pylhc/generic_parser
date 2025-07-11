@@ -43,4 +43,4 @@ def test_print_tree(simple_dict):
 
 @pytest.fixture()
 def simple_dict():
-    return dict(a=1, b="str", c=dict(e=[1, 2, 3]))
+    return {"a": 1, "b": "str", "c": {"e": [1, 2, 3]}}

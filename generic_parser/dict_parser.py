@@ -436,8 +436,7 @@ class Parameter:
 
         if self.subtype and not (self.type or self.type == list):
             raise ParameterError(
-                f"Parameter '{self.name:s}': "
-                 "field 'subtype' is only accepted if 'type' is list."
+                f"Parameter '{self.name:s}': field 'subtype' is only accepted if 'type' is list."
             )
 
         if self.nargs:
@@ -454,8 +453,7 @@ class Parameter:
 
             if not (self.type or self.type == list):
                 raise ParameterError(
-                    f"Parameter '{self.name:s}': "
-                     "'type' needs to be 'list' if 'nargs' is given."
+                    f"Parameter '{self.name:s}': 'type' needs to be 'list' if 'nargs' is given."
                 )
 
             if (
@@ -464,13 +462,13 @@ class Parameter:
                 if (self.nargs == argparse.ONE_OR_MORE) and not len(self.default):
                     raise ParameterError(
                         f"Parameter '{self.name:s}': "
-                         f"Empty list as default not allowed for nargs='{self.nargs}'."
+                        f"Empty list as default not allowed for nargs='{self.nargs}'."
                     )
 
                 if isinstance(self.nargs, int) and not (self.nargs == len(self.default)):
                     raise ParameterError(
                         f"Parameter '{self.name:s}': "
-                         f"Default value has wrong length (={len(self.default):d}) "
+                        f"Default value has wrong length (={len(self.default):d}) "
                         f"for given nargs={self.nargs:d}."
                     )
 
@@ -489,7 +487,7 @@ class Parameter:
                     if len(not_a_choice) > 0:
                         raise ParameterError(
                             f"Parameter '{self.name:s}': "
-                             f"Default value(s) '{str(not_a_choice)}'"
+                            f"Default value(s) '{str(not_a_choice)}'"
                             " not found in choices."
                         )
                 else:
@@ -509,12 +507,12 @@ class Parameter:
                         if not isinstance(choice, check):
                             raise ParameterError(
                                 f"Choice '{choice}' "
-                                 f"of parameter '{self.name:s}': "
-                                 f"is not of type '{check.__name__:s}'."
+                                f"of parameter '{self.name:s}': "
+                                f"is not of type '{check.__name__:s}'."
                             )
 
         if self.required and self.default is not None:
             LOG.warning(
                 f"Parameter '{self.name:s}': "
-                 "Value is required but default value is given. The latter will be ignored."
+                "Value is required but default value is given. The latter will be ignored."
             )
