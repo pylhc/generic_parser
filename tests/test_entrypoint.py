@@ -214,9 +214,8 @@ def test_as_config(tmp_path):
 
 
 def test_all_missing():
-    with pytest.raises(SystemExit):
-        with silence():
-            some_function()
+    with pytest.raises(SystemExit), silence():
+        some_function()
 
 
 def test_required_missing():
