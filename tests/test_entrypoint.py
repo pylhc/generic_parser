@@ -331,7 +331,7 @@ def test_save_and_cfg_load_with_none(tmp_path):
     _assert_dicts_equal(opt, opt_load)
     assert len(unknown) == 0
     assert len(unknown_load) == 0
-    assert all([val is None for val in opt.values()])
+    assert all(val is None for val in opt.values())
 
 
 def test_save_and_load_cfg_with_none_explicit(tmp_path):
@@ -344,7 +344,7 @@ def test_save_and_load_cfg_with_none_explicit(tmp_path):
     _assert_dicts_equal(opt, opt_load)
     assert len(unknown) == 0
     assert len(unknown_load) == 0
-    assert all([val is None for val in opt.values()])
+    assert all(val is None for val in opt.values())
 
 
 def test_string_cfg(tmp_path):

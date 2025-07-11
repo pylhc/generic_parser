@@ -137,7 +137,7 @@ class DictParser:
                             f"Help: {param.help:s}"
                         )
 
-            if param.choices and any([o for o in opt if o not in param.choices]):
+            if param.choices and any(o for o in opt if o not in param.choices):
                 raise ArgumentError(
                     f"All elements of '{key:s}' need to be one of "
                     f"'{param.choices}', instead the list was {opt}.\n"
