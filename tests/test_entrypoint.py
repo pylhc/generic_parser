@@ -179,9 +179,9 @@ def test_as_argv():  # almost identical to above
         assert len(unknown) > 0
 
 
-def test_as_config(tmp_path):
-    cfg_file = tmp_path / "config.ini"
-    Path(cfg_file).write_text(
+def test_as_config(tmp_path: Path):
+    cfg_file: Path = tmp_path / "config.ini"
+    cfg_file.write_text(
         "\n".join(
             [
                 "[Section]",
@@ -284,7 +284,7 @@ def test_required_parameter_does_not_accept_none():
 # Test Config read-write -------------------------------------------------------
 
 
-def test_save_options(tmp_path):
+def test_save_options(tmp_path: Path):
     opt, unknown = paramtest_function(
         name="myname",
         int=3,
@@ -292,7 +292,7 @@ def test_save_options(tmp_path):
         unknown="myfinalargument",
         unknoown=10,
     )
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -300,15 +300,15 @@ def test_save_options(tmp_path):
     _assert_dicts_equal(unknown, unknown_load)
 
 
-def test_save_cli_options_cfg(tmp_path):
+def test_save_cli_options_cfg(tmp_path: Path):
     opt, unknown = paramtest_function(
         ["--name", "myname", "--int", "3", "--list", "4", "5", "6", "--other"]
     )
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
-    content = Path(cfg_file).read_text()
+    content = cfg_file.read_text()
     assert "Unknown" in content
     assert "--other" in content
 
@@ -316,12 +316,12 @@ def test_save_cli_options_cfg(tmp_path):
     assert len(unknown_load) == 0
 
 
-def test_save_and_cfg_load_with_none(tmp_path):
+def test_save_and_cfg_load_with_none(tmp_path: Path):
     # use cli_args in case we run in test-wrapper (e.g. pycharm)
     with cli_args():  # name, int, list = None
         opt, unknown = paramtest_function()
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -331,10 +331,10 @@ def test_save_and_cfg_load_with_none(tmp_path):
     assert all(val is None for val in opt.values())
 
 
-def test_save_and_load_cfg_with_none_explicit(tmp_path):
+def test_save_and_load_cfg_with_none_explicit(tmp_path: Path):
     opt, unknown = paramtest_function(name=None, int=None, list=None)
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -344,19 +344,19 @@ def test_save_and_load_cfg_with_none_explicit(tmp_path):
     assert all(val is None for val in opt.values())
 
 
-def test_string_cfg(tmp_path):
+def test_string_cfg(tmp_path: Path):
     @entrypoint(EntryPointParameters({"name": {"type": str}}), strict=True)
     def fun(opt):
         return opt
 
-    cfg_quotes = tmp_path / "config_quotes.ini"
-    Path(cfg_quotes).write_text("[Section]\nname = 'My String with Spaces'")
+    cfg_quotes: Path = tmp_path / "config_quotes.ini"
+    cfg_quotes.write_text("[Section]\nname = 'My String with Spaces'")
 
-    cfg_doublequotes = tmp_path / "config_doublequotes.ini"
-    Path(cfg_doublequotes).write_text('[Section]\nname = "My String with Spaces"')
+    cfg_doublequotes: Path = tmp_path / "config_doublequotes.ini"
+    cfg_doublequotes.write_text('[Section]\nname = "My String with Spaces"')
 
-    cfg_noquotes = tmp_path / "config_noquotes.ini"
-    Path(cfg_noquotes).write_text("[Section]\nname = My String with Spaces")
+    cfg_noquotes: Path = tmp_path / "config_noquotes.ini"
+    cfg_noquotes.write_text("[Section]\nname = My String with Spaces")
 
     opt_quotes = fun(entry_cfg=cfg_quotes)
     opt_doublequotes = fun(entry_cfg=cfg_doublequotes)
@@ -366,26 +366,26 @@ def test_string_cfg(tmp_path):
     assert opt_quotes.name == opt_noquotes.name
 
 
-def test_string_with_break_cfg(tmp_path):
+def test_string_with_break_cfg(tmp_path: Path):
     @entrypoint(EntryPointParameters({"name": {"type": str}}), strict=True)
     def fun(opt):
         return opt
 
     opt = fun(name="this is\nmystring")
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt)
     opt_load = fun(entry_cfg=cfg_file)
 
     assert opt_load.name == opt.name
 
 
-def test_path_cfg(tmp_path):
+def test_path_cfg(tmp_path: Path):
     @entrypoint(EntryPointParameters({"path": {"type": Path}}), strict=True)
     def fun(opt):
         return opt
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     opt = fun(path=tmp_path)
 
     save_options_to_config(cfg_file, opt)
@@ -394,12 +394,12 @@ def test_path_cfg(tmp_path):
     _assert_dicts_equal(opt, opt_load)
 
 
-def test_list_cfg(tmp_path):
+def test_list_cfg(tmp_path: Path):
     @entrypoint(EntryPointParameters({"lst": {"type": int, "nargs": "*"}}), strict=True)
     def fun(opt):
         return opt
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     opt = fun(lst=[1, 2, 3, 4])
 
     save_options_to_config(cfg_file, opt)
