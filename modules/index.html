@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
@@ -5,20 +7,16 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Generic-Parser Modules &mdash; generic_parser 1.1.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=988d0652" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=58fbf978"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=58fbf978"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,9 +35,6 @@
             
               <img src="../_static/omc_logo.svg" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -135,12 +130,12 @@ the list.</p>
 <h3>Usage:<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>To be used as a decorator:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@entrypoint</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">unknown_options</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">some_function</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">unknown_options</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Using <strong>strict</strong> mode (see below):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@entrypoint</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">some_function</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>It is also possible to use the EntryPoint Class similar to a normal parser:</p>
@@ -229,7 +224,7 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">False</
 <p>Arguments to a decorated function can be passed in multiple ways.
 Let’s take the decorated example function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@entrypoint</span><span class="p">(</span><span class="n">EntryPointParameters</span><span class="p">({</span><span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="p">{}}),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">entry_function</span><span class="p">(</span><span class="n">opt</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">entry_function</span><span class="p">(</span><span class="n">opt</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -259,7 +254,7 @@ Let’s take the decorated example function:</p>
 </section>
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.entrypoint_parser.EntryPointParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entrypoint_parser.</span></span><span class="sig-name descname"><span class="pre">EntryPointParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entrypoint_parser.html#EntryPointParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entrypoint_parser.EntryPointParameters" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entrypoint_parser.</span></span><span class="sig-name descname"><span class="pre">EntryPointParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entrypoint_parser.html#EntryPointParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entrypoint_parser.EntryPointParameters" title="Link to this definition"></a></dt>
 <dd><p>Helps to build a simple dictionary structure via add_argument functions.
 You really don’t need that, but old habits die hard.</p>
 <dl class="py method">
@@ -278,7 +273,7 @@ You really don’t need that, but old habits die hard.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="generic_parser.entrypoint_parser.OptionsError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entrypoint_parser.</span></span><span class="sig-name descname"><span class="pre">OptionsError</span></span><a class="reference internal" href="../_modules/generic_parser/entrypoint_parser.html#OptionsError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entrypoint_parser.OptionsError" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entrypoint_parser.</span></span><span class="sig-name descname"><span class="pre">OptionsError</span></span><a class="reference internal" href="../_modules/generic_parser/entrypoint_parser.html#OptionsError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entrypoint_parser.OptionsError" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -326,7 +321,7 @@ create_parameter_help(amplitude_detuning_analysis, “_get_plot_params”)</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.entrypoint_parser.entrypoint">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entrypoint_parser.</span></span><span class="sig-name descname"><span class="pre">entrypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">argument_parser_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_printer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entrypoint_parser.html#entrypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entrypoint_parser.entrypoint" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entrypoint_parser.</span></span><span class="sig-name descname"><span class="pre">entrypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">argument_parser_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_printer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entrypoint_parser.html#entrypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entrypoint_parser.entrypoint" title="Link to this definition"></a></dt>
 <dd><p>Decorator extension of <cite>EntryPoint</cite>. Implements the <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method needed for decorating.
 Lowercase looks nicer if used as decorator.</p>
 </dd></dl>
@@ -392,12 +387,12 @@ remaining-arguments from entry point parsing, not on the actual arguments</p>
 </section>
 <dl class="py exception">
 <dt class="sig sig-object py" id="generic_parser.dict_parser.ArgumentError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">ArgumentError</span></span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#ArgumentError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.ArgumentError" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">ArgumentError</span></span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#ArgumentError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.ArgumentError" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.dict_parser.DictParser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">DictParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#DictParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.DictParser" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">DictParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#DictParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.DictParser" title="Link to this definition"></a></dt>
 <dd><p>Provides functions to parse a dictionary.</p>
 <p>First, build a dictionary structure with Parameters or Parameter-like dicts as leafs via
 <code class="docutils literal notranslate"><span class="pre">add_parameter</span></code> or on init. A similar structured option dictionary with the values as
@@ -476,13 +471,13 @@ keyword to the input.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.dict_parser.Parameter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#Parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.Parameter" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#Parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.Parameter" title="Link to this definition"></a></dt>
 <dd><p>Helper Class for DictParser.</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="generic_parser.dict_parser.ParameterError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">ParameterError</span></span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#ParameterError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.ParameterError" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.dict_parser.</span></span><span class="sig-name descname"><span class="pre">ParameterError</span></span><a class="reference internal" href="../_modules/generic_parser/dict_parser.html#ParameterError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.dict_parser.ParameterError" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <section id="entry-datatypes">
@@ -491,20 +486,20 @@ keyword to the input.</p>
 </section>
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.entry_datatypes.BoolOrList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entry_datatypes.</span></span><span class="sig-name descname"><span class="pre">BoolOrList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entry_datatypes.html#BoolOrList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entry_datatypes.BoolOrList" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entry_datatypes.</span></span><span class="sig-name descname"><span class="pre">BoolOrList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entry_datatypes.html#BoolOrList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entry_datatypes.BoolOrList" title="Link to this definition"></a></dt>
 <dd><p>A class that behaves like a boolean when possible, otherwise like a list.
 Hint: <code class="docutils literal notranslate"><span class="pre">list.__new__(list,</span> <span class="pre">value)</span></code> returns an empty list.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.entry_datatypes.BoolOrString">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entry_datatypes.</span></span><span class="sig-name descname"><span class="pre">BoolOrString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entry_datatypes.html#BoolOrString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entry_datatypes.BoolOrString" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entry_datatypes.</span></span><span class="sig-name descname"><span class="pre">BoolOrString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entry_datatypes.html#BoolOrString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entry_datatypes.BoolOrString" title="Link to this definition"></a></dt>
 <dd><p>A class that behaves like a boolean when possible, otherwise like a string.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.entry_datatypes.DictAsString">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entry_datatypes.</span></span><span class="sig-name descname"><span class="pre">DictAsString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entry_datatypes.html#DictAsString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entry_datatypes.DictAsString" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.entry_datatypes.</span></span><span class="sig-name descname"><span class="pre">DictAsString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/entry_datatypes.html#DictAsString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.entry_datatypes.DictAsString" title="Link to this definition"></a></dt>
 <dd><p>Use dicts in command line like {“key”:value}.</p>
 </dd></dl>
 
@@ -529,7 +524,7 @@ as they ‘always’ succeed).</p>
 </section>
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.tools.DotDict">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.tools.</span></span><span class="sig-name descname"><span class="pre">DotDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/tools.html#DotDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.tools.DotDict" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.tools.</span></span><span class="sig-name descname"><span class="pre">DotDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/tools.html#DotDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.tools.DotDict" title="Link to this definition"></a></dt>
 <dd><p>Make dict fields accessible by dot notation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="generic_parser.tools.DotDict.get_subdict">
@@ -541,7 +536,7 @@ as they ‘always’ succeed).</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="generic_parser.tools.TempStringLogger">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.tools.</span></span><span class="sig-name descname"><span class="pre">TempStringLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/tools.html#TempStringLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.tools.TempStringLogger" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">generic_parser.tools.</span></span><span class="sig-name descname"><span class="pre">TempStringLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/generic_parser/tools.html#TempStringLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#generic_parser.tools.TempStringLogger" title="Link to this definition"></a></dt>
 <dd><p>Temporarily log into a string that can be retrieved by <code class="docutils literal notranslate"><span class="pre">get_log</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
