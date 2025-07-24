@@ -1,24 +1,22 @@
-from io import StringIO
+import sys
 
 import pytest
-import sys
-import logging
 
-from generic_parser.dict_parser import ParameterError, Parameter, DictParser, ArgumentError
+from generic_parser.dict_parser import ArgumentError, DictParser, Parameter, ParameterError
 from generic_parser.tools import TempStringLogger
 
 
 def test_deep_dict():
-    parser = DictParser({
-        'sub': {'param': Parameter('param', type=int)},
-        'sub2': {'suub': {'param': Parameter("param", type=str)}}
-    }, strict=True)
+    parser = DictParser(
+        {
+            "sub": {"param": Parameter("param", type=int)},
+            "sub2": {"suub": {"param": Parameter("param", type=str)}},
+        },
+        strict=True,
+    )
 
     # parser.tree()
-    opt = {
-        'sub': {'param': 4},
-        'sub2': {'suub': {'param': "myString"}}
-    }
+    opt = {"sub": {"param": 4}, "sub2": {"suub": {"param": "myString"}}}
 
     opt = parser.parse_arguments(opt)
     assert opt.sub.param == 4
@@ -31,12 +29,16 @@ def test_add_param_loc():
     assert parser.dictionary["sub"]["suub"]["suuub"]["test"].name == "test"
     assert parser.dictionary["sub"]["suub"]["suuub"]["test"].default == "def"
 
+
 def test_non_string_outside_choices():
     parser = DictParser()
     parser.add_parameter(Parameter("test", choices=[1, 2]))
     with pytest.raises(ArgumentError):
-        parser.parse_arguments({'test': {'param': 4},})
-
+        parser.parse_arguments(
+            {
+                "test": {"param": 4},
+            }
+        )
 
 
 def test_add_param_loc2():
@@ -64,8 +66,8 @@ def test_add_parameter_dict():
 
 
 def test_most_basic_init():
-    p = Parameter(name='test')
-    assert p.name == 'test'
+    p = Parameter(name="test")
+    assert p.name == "test"
 
 
 def test_missing_name():
@@ -108,7 +110,7 @@ def test_name_not_string():
         Parameter(name=5)
 
     with pytest.raises(ParameterError):
-        DictParser({5: dict()})
+        DictParser({5: {}})
 
 
 def test_name_not_key():
@@ -127,7 +129,7 @@ def test_print_tree():
         parser.tree()
 
     text = log.get_log()
-    for l in loc.split("."):
-        assert l in text
+    for line in loc.split("."):
+        assert line in text
     for attr in ["name", "default", "required", "choices", "help"]:
         assert str(getattr(param, attr)) in text

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Generic-Parser documentation build configuration file, created by
 # sphinx-quickstart on Tue Feb  6 12:10:18 2018.
@@ -16,7 +15,6 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
 import pathlib
 import sys
 
@@ -26,9 +24,6 @@ import warnings
 
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
-
-
-sys.path.insert(0, os.path.abspath("../"))
 
 
 TOPLEVEL_DIR = pathlib.Path(__file__).parent.parent.absolute()
@@ -104,7 +99,7 @@ release = ABOUT_GENERIC_PARSER["__version__"]
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -126,14 +121,14 @@ todo_include_todos = True
 html_theme = "sphinx_rtd_theme"
 
 html_theme_options = {
-    'collapse_navigation': False,
-    'display_version': True,
-    'logo_only': True,
-    'navigation_depth': 2,
+    "collapse_navigation": False,
+    "version_selector": True,  # sphinx-rtd-theme>=3.0, formerly 'display_version'
+    "logo_only": True,
+    "navigation_depth": 2,
 }
 
-html_logo = '_static/img/omc_logo.svg'
-html_static_path = ['_static']
+html_logo = "_static/img/omc_logo.svg"
+html_static_path = ["_static"]
 html_css_files = ["css/custom.css"]
 
 smartquotes_action = "qe"  # renders only quotes and ellipses (...) but not dashes (option: D)
@@ -189,7 +184,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "generic-parser.tex", u"generic-parser Documentation", u"OMC-TEAM", "manual"),
+    (master_doc, "generic-parser.tex", "generic-parser Documentation", "OMC-TEAM", "manual"),
 ]
 
 
@@ -197,7 +192,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "generic-parser", u"Generic-Parser Documentation", [author], 1)]
+man_pages = [(master_doc, "generic-parser", "Generic-Parser Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output -------------------------------------------
@@ -209,7 +204,7 @@ texinfo_documents = [
     (
         master_doc,
         "generic-parser",
-        u"generic-parser Documentation",
+        "generic-parser Documentation",
         author,
         "OMC-TEAM",
         "One line description of project.",

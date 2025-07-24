@@ -3,17 +3,20 @@ import sys
 from pathlib import Path
 
 import pytest
+
+from generic_parser.dict_parser import ArgumentError, ParameterError
+from generic_parser.entry_datatypes import BoolOrList, BoolOrString, DictAsString, get_multi_class
+from generic_parser.entrypoint_parser import (
+    EntryPoint,
+    EntryPointParameters,
+    OptionsError,
+    create_parameter_help,
+    entrypoint,
+    save_options_to_config,
+    split_arguments,
+)
+from generic_parser.tools import TempStringLogger, print_dict_tree, silence
 from tests.conftest import cli_args
-
-from generic_parser.dict_parser import ParameterError, ArgumentError
-from generic_parser.entry_datatypes import get_multi_class, DictAsString, BoolOrString, BoolOrList
-from generic_parser.entrypoint_parser import (EntryPointParameters,
-                                              entrypoint, EntryPoint,
-                                              OptionsError, split_arguments,
-                                              create_parameter_help, save_options_to_config
-                                              )
-from generic_parser.tools import silence, print_dict_tree, TempStringLogger
-
 
 LOG = logging.getLogger(__name__)
 DEBUG = False
@@ -27,6 +30,7 @@ DEBUG = False
 
 def test_strict_wrapper_fail():
     with pytest.raises(OptionsError):
+
         @entrypoint(get_simple_params(), strict=True)
         def strict(opt, unknown):  # too many option-structures
             pass
@@ -34,7 +38,8 @@ def test_strict_wrapper_fail():
 
 def test_class_wrapper_fail():
     with pytest.raises(OptionsError):
-        class MyClass(object):
+
+        class MyClass:
             @entrypoint(get_simple_params())
             def fun(self, opt):  # too few option-structures
                 pass
@@ -42,13 +47,14 @@ def test_class_wrapper_fail():
 
 def test_normal_wrapper_fail():
     with pytest.raises(OptionsError):
+
         @entrypoint(get_simple_params())
         def fun(opt, unknown, more):  # too many option-structures
             pass
 
 
 def test_class_functions():
-    class MyClass(object):
+    class MyClass:
         @classmethod
         @entrypoint(get_simple_params())
         def fun(cls, opt, unknown):
@@ -56,7 +62,7 @@ def test_class_functions():
 
 
 def test_instance_functions():
-    class MyClass(object):
+    class MyClass:
         @entrypoint(get_simple_params())
         def fun(self, opt, unknown):
             pass
@@ -78,9 +84,15 @@ def test_wrong_param_creation_other():
 def test_choices_not_iterable():
     with pytest.raises((ParameterError, ValueError)):
         # Value error comes from argparse (would be caught in dict_parser as well)
-        EntryPoint([{"name": "test", "flags": "--flag",
-                     "choices": 3,
-                     }])
+        EntryPoint(
+            [
+                {
+                    "name": "test",
+                    "flags": "--flag",
+                    "choices": 3,
+                }
+            ]
+        )
 
 
 def test_empty_list_default_for_nargs_plus():
@@ -97,26 +109,30 @@ def test_missing_flag_replaced_by_name():
     ep = EntryPoint([{"name": "test"}])
 
     assert len(ep.parameter[0]) == 2
-    assert ep.parameter[0]['flags'] == ['--test']
-    assert ep.parameter[0]['name'] == 'test'
+    assert ep.parameter[0]["flags"] == ["--test"]
+    assert ep.parameter[0]["name"] == "test"
 
 
 def test_missing_flag_replaced_by_name_in_multiple_lists():
-    ep = EntryPoint([{"name": "test"},
-                     {"name": "thermos_coffee"},
-                     {"name": "tee_kessel", "flags": ['--tee_kessel']}])
+    ep = EntryPoint(
+        [
+            {"name": "test"},
+            {"name": "thermos_coffee"},
+            {"name": "tee_kessel", "flags": ["--tee_kessel"]},
+        ]
+    )
 
     assert len(ep.parameter[0]) == 2
-    assert ep.parameter[0]['flags'] == ['--test']
-    assert ep.parameter[0]['name'] == 'test'
+    assert ep.parameter[0]["flags"] == ["--test"]
+    assert ep.parameter[0]["name"] == "test"
 
     assert len(ep.parameter[1]) == 2
-    assert ep.parameter[1]['flags'] == ['--thermos_coffee']
-    assert ep.parameter[1]['name'] == 'thermos_coffee'
+    assert ep.parameter[1]["flags"] == ["--thermos_coffee"]
+    assert ep.parameter[1]["name"] == "thermos_coffee"
 
     assert len(ep.parameter[2]) == 2
-    assert ep.parameter[2]['flags'] == ['--tee_kessel']
-    assert ep.parameter[2]['name'] == 'tee_kessel'
+    assert ep.parameter[2]["flags"] == ["--tee_kessel"]
+    assert ep.parameter[2]["name"] == "tee_kessel"
 
 
 # Argument Tests
@@ -133,10 +149,7 @@ def test_strict_fail():
 
 def test_as_kwargs():
     opt, unknown = paramtest_function(
-        name="myname",
-        int=3,
-        list=[4, 5, 6],
-        unknown="myfinalargument"
+        name="myname", int=3, list=[4, 5, 6], unknown="myfinalargument"
     )
     assert opt.name == "myname"
     assert opt.int == 3
@@ -147,10 +160,7 @@ def test_as_kwargs():
 
 def test_as_string():
     opt, unknown = paramtest_function(
-        ["--name", "myname",
-         "--int", "3",
-         "--list", "4", "5", "6",
-         "--other"]
+        ["--name", "myname", "--int", "3", "--list", "4", "5", "6", "--other"]
     )
     assert opt.name == "myname"
     assert opt.int == 3
@@ -160,8 +170,7 @@ def test_as_string():
 
 
 def test_as_argv():  # almost identical to above
-    with cli_args("--name", "myname", "--int", "3", "--list", "4", "5", "6",
-                  "--other"):
+    with cli_args("--name", "myname", "--int", "3", "--list", "4", "5", "6", "--other"):
         opt, unknown = paramtest_function()
         assert opt.name == "myname"
         assert opt.int == 3
@@ -170,26 +179,25 @@ def test_as_argv():  # almost identical to above
         assert len(unknown) > 0
 
 
-def test_as_config(tmp_path):
-    cfg_file = tmp_path / "config.ini"
-    with open(cfg_file, "w") as f:
-        f.write("\n".join([
-            "[Section]",
-            "name = 'myname'",
-            "int = 3",
-            "list = [4, 5, 6]",
-            "unknown = 'other'",
-        ]))
+def test_as_config(tmp_path: Path):
+    cfg_file: Path = tmp_path / "config.ini"
+    cfg_file.write_text(
+        "\n".join(
+            [
+                "[Section]",
+                "name = 'myname'",
+                "int = 3",
+                "list = [4, 5, 6]",
+                "unknown = 'other'",
+            ]
+        )
+    )
 
     # test config as kwarg
-    opt1, unknown1 = paramtest_function(
-        entry_cfg=cfg_file, section="Section"
-    )
+    opt1, unknown1 = paramtest_function(entry_cfg=cfg_file, section="Section")
 
     # test config as commandline args
-    opt2, unknown2 = paramtest_function(
-        ["--entry_cfg", str(cfg_file), "--section", "Section"]
-    )
+    opt2, unknown2 = paramtest_function(["--entry_cfg", str(cfg_file), "--section", "Section"])
 
     assert opt1.name == "myname"
     assert opt1.int == 3
@@ -205,9 +213,8 @@ def test_as_config(tmp_path):
 
 
 def test_all_missing():
-    with pytest.raises(SystemExit):
-        with silence():
-            some_function()
+    with pytest.raises(SystemExit), silence():
+        some_function()
 
 
 def test_required_missing():
@@ -222,7 +229,7 @@ def test_wrong_choice():
 
 def test_wrong_type():
     with pytest.raises(ArgumentError):
-        some_function(accel="LHCB1", anint=3.)
+        some_function(accel="LHCB1", anint=3.0)
 
 
 def test_wrong_type_in_list():
@@ -236,7 +243,7 @@ def test_not_enough_length():
 
 
 def test_optional_parameter_no_default_accepts_none():
-    @entrypoint(dict(foo=dict(required=False)), strict=True)
+    @entrypoint({"foo": {"required": False}}, strict=True)
     def fun(opt):
         return opt
 
@@ -245,7 +252,7 @@ def test_optional_parameter_no_default_accepts_none():
 
 
 def test_optional_list_parameter_no_default_accepts_none():
-    @entrypoint(dict(foo=dict(required=False, nargs=3)), strict=True)
+    @entrypoint({"foo": {"required": False, "nargs": 3}}, strict=True)
     def fun(opt):
         return opt
 
@@ -254,19 +261,19 @@ def test_optional_list_parameter_no_default_accepts_none():
 
 
 def test_optional_parameter_default_accepts_none():
-    @entrypoint(dict(foo=dict(required=False, default='test')), strict=True)
+    @entrypoint({"foo": {"required": False, "default": "test"}}, strict=True)
     def fun(opt):
         return opt
 
     opt = fun({})
-    assert opt.foo == 'test'
+    assert opt.foo == "test"
 
     opt = fun(foo=None)
     assert opt.foo is None
 
 
 def test_required_parameter_does_not_accept_none():
-    @entrypoint(dict(foo=dict(required=True)), strict=True)
+    @entrypoint({"foo": {"required": True}}, strict=True)
     def fun(opt):
         return opt
 
@@ -276,7 +283,8 @@ def test_required_parameter_does_not_accept_none():
 
 # Test Config read-write -------------------------------------------------------
 
-def test_save_options(tmp_path):
+
+def test_save_options(tmp_path: Path):
     opt, unknown = paramtest_function(
         name="myname",
         int=3,
@@ -284,7 +292,7 @@ def test_save_options(tmp_path):
         unknown="myfinalargument",
         unknoown=10,
     )
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
@@ -292,70 +300,63 @@ def test_save_options(tmp_path):
     _assert_dicts_equal(unknown, unknown_load)
 
 
-def test_save_cli_options_cfg(tmp_path):
+def test_save_cli_options_cfg(tmp_path: Path):
     opt, unknown = paramtest_function(
-        ["--name", "myname",
-         "--int", "3",
-         "--list", "4", "5", "6",
-         "--other"]
+        ["--name", "myname", "--int", "3", "--list", "4", "5", "6", "--other"]
     )
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
-    with open(cfg_file, 'r') as f:
-        content = f.read()
-    assert 'Unknown' in content
-    assert '--other' in content
+    content = cfg_file.read_text()
+    assert "Unknown" in content
+    assert "--other" in content
 
     _assert_dicts_equal(opt, opt_load)
     assert len(unknown_load) == 0
 
 
-def test_save_and_cfg_load_with_none(tmp_path):
+def test_save_and_cfg_load_with_none(tmp_path: Path):
     # use cli_args in case we run in test-wrapper (e.g. pycharm)
     with cli_args():  # name, int, list = None
         opt, unknown = paramtest_function()
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
     _assert_dicts_equal(opt, opt_load)
     assert len(unknown) == 0
     assert len(unknown_load) == 0
-    assert all([val is None for val in opt.values()])
+    assert all(val is None for val in opt.values())
 
 
-def test_save_and_load_cfg_with_none_explicit(tmp_path):
+def test_save_and_load_cfg_with_none_explicit(tmp_path: Path):
     opt, unknown = paramtest_function(name=None, int=None, list=None)
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt, unknown)
     opt_load, unknown_load = paramtest_function(entry_cfg=cfg_file)
 
     _assert_dicts_equal(opt, opt_load)
     assert len(unknown) == 0
     assert len(unknown_load) == 0
-    assert all([val is None for val in opt.values()])
+    assert all(val is None for val in opt.values())
 
 
-def test_string_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(name={'type': str})), strict=True)
+def test_string_cfg(tmp_path: Path):
+    @entrypoint(EntryPointParameters({"name": {"type": str}}), strict=True)
     def fun(opt):
         return opt
 
-    cfg_quotes = tmp_path / "config_quotes.ini"
-    with open(cfg_quotes, "w") as f:
-        f.write("[Section]\nname = 'My String with Spaces'")
+    cfg_quotes: Path = tmp_path / "config_quotes.ini"
+    cfg_quotes.write_text("[Section]\nname = 'My String with Spaces'")
 
-    cfg_doublequotes = tmp_path / "config_doublequotes.ini"
-    with open(cfg_doublequotes, "w") as f:
-        f.write('[Section]\nname = "My String with Spaces"')
+    cfg_doublequotes: Path = tmp_path / "config_doublequotes.ini"
+    cfg_doublequotes.write_text('[Section]\nname = "My String with Spaces"')
 
-    cfg_noquotes = tmp_path / "config_noquotes.ini"
-    with open(cfg_noquotes, "w") as f:
-        f.write('[Section]\nname = My String with Spaces')
+    cfg_noquotes: Path = tmp_path / "config_noquotes.ini"
+    cfg_noquotes.write_text("[Section]\nname = My String with Spaces")
 
     opt_quotes = fun(entry_cfg=cfg_quotes)
     opt_doublequotes = fun(entry_cfg=cfg_doublequotes)
@@ -365,26 +366,26 @@ def test_string_cfg(tmp_path):
     assert opt_quotes.name == opt_noquotes.name
 
 
-def test_string_with_break_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(name={'type': str})), strict=True)
+def test_string_with_break_cfg(tmp_path: Path):
+    @entrypoint(EntryPointParameters({"name": {"type": str}}), strict=True)
     def fun(opt):
         return opt
 
     opt = fun(name="this is\nmystring")
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     save_options_to_config(cfg_file, opt)
     opt_load = fun(entry_cfg=cfg_file)
 
     assert opt_load.name == opt.name
 
 
-def test_path_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(path={'type': Path})), strict=True)
+def test_path_cfg(tmp_path: Path):
+    @entrypoint(EntryPointParameters({"path": {"type": Path}}), strict=True)
     def fun(opt):
         return opt
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     opt = fun(path=tmp_path)
 
     save_options_to_config(cfg_file, opt)
@@ -393,12 +394,12 @@ def test_path_cfg(tmp_path):
     _assert_dicts_equal(opt, opt_load)
 
 
-def test_list_cfg(tmp_path):
-    @entrypoint(EntryPointParameters(dict(lst={'type': int, 'nargs': "*"})), strict=True)
+def test_list_cfg(tmp_path: Path):
+    @entrypoint(EntryPointParameters({"lst": {"type": int, "nargs": "*"}}), strict=True)
     def fun(opt):
         return opt
 
-    cfg_file = tmp_path / "config.ini"
+    cfg_file: Path = tmp_path / "config.ini"
     opt = fun(lst=[1, 2, 3, 4])
 
     save_options_to_config(cfg_file, opt)
@@ -409,11 +410,12 @@ def test_list_cfg(tmp_path):
 
 # Special Classes --------------------------------------------------------------
 
+
 def test_multiclass_class():
     float_str = get_multi_class(float, str)
-    assert isinstance(1., float_str)
+    assert isinstance(1.0, float_str)
     assert isinstance("", float_str)
-    assert isinstance(float_str(1.), float)
+    assert isinstance(float_str(1.0), float)
     assert isinstance(float_str(1), float)
     assert not isinstance(float_str(1), int)
     assert float_str("myString") == "myString"
@@ -433,11 +435,11 @@ def test_dict_as_string_class():
 
 
 def test_bool_or_str_class():
-    assert isinstance(True, BoolOrString)
+    assert isinstance(True, BoolOrString)  # noqa FBT003 (isinstance takes no kwargs)
     assert isinstance("myString", BoolOrString)
     assert BoolOrString("True") is True
     assert BoolOrString("1") is True
-    assert BoolOrString(True) is True
+    assert BoolOrString(value=True) is True
     assert BoolOrString(1) is True
     assert BoolOrString("myString") == "myString"
     assert issubclass(bool, BoolOrString)
@@ -446,11 +448,11 @@ def test_bool_or_str_class():
 
 
 def test_bool_or_list_class():
-    assert isinstance(True, BoolOrList)
+    assert isinstance(True, BoolOrList)  # noqa FBT003 (isinstance takes no kwargs)
     assert isinstance([], BoolOrList)
     assert BoolOrList("False") is False
     assert BoolOrList("0") is False
-    assert BoolOrList(False) is False
+    assert BoolOrList(value=False) is False
     assert BoolOrList(0) is False
     assert BoolOrList("[1, 2]") == [1, 2]
     assert issubclass(bool, BoolOrList)
@@ -459,17 +461,17 @@ def test_bool_or_list_class():
 
 
 def test_multiclass():
-    IntOrStr = get_multi_class(int, str)
+    IntOrStr = get_multi_class(int, str)  # noqa N806 (this is a class)
 
-    @entrypoint([dict(flags="--ios", name="ios", type=IntOrStr)], strict=True)
+    @entrypoint([{"flags": "--ios", "name": "ios", "type": IntOrStr}], strict=True)
     def fun(opt):
         return opt
 
     opt = fun(ios=3)
     assert opt.ios == 3
 
-    opt = fun(ios='3')
-    assert opt.ios == '3'
+    opt = fun(ios="3")
+    assert opt.ios == "3"
 
     opt = fun(["--ios", "3"])
     assert opt.ios == 3
@@ -479,29 +481,29 @@ def test_multiclass():
 
 
 def test_dict_as_string():
-    @entrypoint([dict(flags="--dict", name="dict", type=DictAsString)], strict=True)
+    @entrypoint([{"flags": "--dict", "name": "dict", "type": DictAsString}], strict=True)
     def fun(opt):
         return opt
 
-    opt = fun(dict={'int': 5, 'str': 'hello'})
-    assert opt.dict['int'] == 5
-    assert opt.dict['str'] == 'hello'
+    opt = fun(dict={"int": 5, "str": "hello"})
+    assert opt.dict["int"] == 5
+    assert opt.dict["str"] == "hello"
 
     opt = fun(["--dict", "{'int': 5, 'str': 'hello'}"])
-    assert opt.dict['int'] == 5
-    assert opt.dict['str'] == 'hello'
+    assert opt.dict["int"] == 5
+    assert opt.dict["str"] == "hello"
 
 
 def test_bool_or_str(tmp_path):
-    @entrypoint([dict(flags="--bos", name="bos", type=BoolOrString)], strict=True)
+    @entrypoint([{"flags": "--bos", "name": "bos", "type": BoolOrString}], strict=True)
     def fun(opt):
         return opt
 
     opt = fun(bos=True)
     assert opt.bos is True
 
-    opt = fun(bos='myString')
-    assert opt.bos == 'myString'
+    opt = fun(bos="myString")
+    assert opt.bos == "myString"
 
     opt = fun(["--bos", "False"])
     assert opt.bos is False
@@ -513,28 +515,31 @@ def test_bool_or_str(tmp_path):
     assert opt.bos == "myString"
 
     cfg_file = tmp_path / "bos.ini"
-    with open(cfg_file, "w") as f:
-        f.write("[Section]\nbos = 'myString'")
+    Path(cfg_file).write_text("[Section]\nbos = 'myString'")
     opt = fun(entry_cfg=cfg_file)
     assert opt.bos == "myString"
 
 
 def test_bool_or_str_cfg(tmp_path):
-    @entrypoint([dict(flags="--bos1", name="bos1", type=BoolOrString),
-                 dict(flags="--bos2", name="bos2", type=BoolOrString)], strict=True)
+    @entrypoint(
+        [
+            {"flags": "--bos1", "name": "bos1", "type": BoolOrString},
+            {"flags": "--bos2", "name": "bos2", "type": BoolOrString},
+        ],
+        strict=True,
+    )
     def fun(opt):
         return opt
 
     cfg_file = tmp_path / "bos.ini"
-    with open(cfg_file, "w") as f:
-        f.write("[Section]\nbos1 = 'myString'\nbos2 = True")
+    Path(cfg_file).write_text("[Section]\nbos1 = 'myString'\nbos2 = True")
     opt = fun(entry_cfg=cfg_file)
-    assert opt.bos1 == 'myString'
+    assert opt.bos1 == "myString"
     assert opt.bos2 is True
 
 
 def test_bool_or_list():
-    @entrypoint([dict(flags="--bol", name="bol", type=BoolOrList)], strict=True)
+    @entrypoint([{"flags": "--bol", "name": "bol", "type": BoolOrList}], strict=True)
     def fun(opt):
         return opt
 
@@ -555,14 +560,18 @@ def test_bool_or_list():
 
 
 def test_bool_or_list_cfg(tmp_path):
-    @entrypoint([dict(flags="--bol1", name="bol1", type=BoolOrList),
-                 dict(flags="--bol2", name="bol2", type=BoolOrList)], strict=True)
+    @entrypoint(
+        [
+            {"flags": "--bol1", "name": "bol1", "type": BoolOrList},
+            {"flags": "--bol2", "name": "bol2", "type": BoolOrList},
+        ],
+        strict=True,
+    )
     def fun(opt):
         return opt
 
     cfg_file = tmp_path / "bol.ini"
-    with open(cfg_file, "w") as f:
-        f.write("[Section]\nbol1 = 1,2\nbol2 = True")
+    Path(cfg_file).write_text("[Section]\nbol1 = 1,2\nbol2 = True")
     opt = fun(entry_cfg=cfg_file)
     assert opt.bol1 == [1, 2]
     assert opt.bol2 is True
@@ -595,7 +604,7 @@ def test_create_param_help():
     with TempStringLogger(entrypoint_module) as log:
         create_parameter_help(this_module)
     text = log.get_log()
-    for name in get_params().keys():
+    for name in get_params():
         assert name in text
 
 
@@ -605,7 +614,7 @@ def test_create_param_help_other():
     with TempStringLogger(entrypoint_module) as log:
         create_parameter_help(this_module, "get_other_params")
     text = log.get_log()
-    for name in get_other_params().keys():
+    for name in get_other_params():
         assert name in text
 
 
@@ -613,62 +622,92 @@ def test_create_param_help_other():
 
 
 def get_simple_params():
-    """ Parameters as a list of dicts, to test this behaviour as well."""
-    return [{"name": "arg1", "flags": "--a1", },
-            {"name": "arg2", "flags": "--a2", }
-            ]
+    """Parameters as a list of dicts, to test this behaviour as well."""
+    return [
+        {
+            "name": "arg1",
+            "flags": "--a1",
+        },
+        {
+            "name": "arg2",
+            "flags": "--a2",
+        },
+    ]
 
 
 def get_testing_params():
-    """ Parameters as a dict of dicts, to test this behaviour as well."""
+    """Parameters as a dict of dicts, to test this behaviour as well."""
     return {
-        "name": dict(flags="--name", type=str),
-        "int": dict(flags="--int", type=int),
-        "list": dict(flags="--list", type=int, nargs="+")
+        "name": {"flags": "--name", "type": str},
+        "int": {"flags": "--int", "type": int},
+        "list": {"flags": "--list", "type": int, "nargs": "+"},
     }
 
 
 def get_params():
-    """ Parameters defined with EntryPointArguments (which is a dict *cough*) """
+    """Parameters defined with EntryPointArguments (which is a dict *cough*)"""
     args = EntryPointParameters()
-    args.add_parameter(name="accel",
-                       flags=["-a", "--accel"],
-                       help="Which accelerator: LHCB1 LHCB2 LHCB4? SPS RHIC TEVATRON",
-                       choices=["LHCB1", "LHCB2", "LHCB5"],
-                       required=True,
-                       )
-    args.add_parameter(name="anint",
-                       flags=["-i", "--int"],
-                       help="Just a number.",
-                       type=int,
-                       required=True,
-                       )
-    args.add_parameter(name="alist",
-                       flags=["-l", "--lint"],
-                       help="Just a number.",
-                       type=int,
-                       nargs="+",
-                       )
-    args.add_parameter(name="anotherlist",
-                       flags=["-k", "--alint"],
-                       help="list.",
-                       type=str,
-                       nargs=3,
-                       default=["a", "c", "f"],
-                       choices=["a", "b", "c", "d", "e", "f"],
-                       ),
+    args.add_parameter(
+        name="accel",
+        flags=["-a", "--accel"],
+        help="Which accelerator: LHCB1 LHCB2 LHCB4? SPS RHIC TEVATRON",
+        choices=["LHCB1", "LHCB2", "LHCB5"],
+        required=True,
+    )
+    args.add_parameter(
+        name="anint",
+        flags=["-i", "--int"],
+        help="Just a number.",
+        type=int,
+        required=True,
+    )
+    args.add_parameter(
+        name="alist",
+        flags=["-l", "--lint"],
+        help="Just a number.",
+        type=int,
+        nargs="+",
+    )
+    (
+        args.add_parameter(
+            name="anotherlist",
+            flags=["-k", "--alint"],
+            help="list.",
+            type=str,
+            nargs=3,
+            default=["a", "c", "f"],
+            choices=["a", "b", "c", "d", "e", "f"],
+        ),
+    )
     return args
 
 
 def get_other_params():
-    """ For testing the create_param_help()"""
-    args = EntryPointParameters({
-        "arg1": dict(flags="--arg1", help="A help.", default=1,),
-        "arg2": dict(flags="--arg2", help="More help.", default=2,),
-        "arg3": dict(flags="--arg3", help="Even more...", default=3,),
-        "arg4": dict(flags="--arg4", help="...heeeeeeeeelp.", default=4,),
-    })
-    return args
+    """For testing the create_param_help()"""
+    return EntryPointParameters(
+        {
+            "arg1": {
+                "flags": "--arg1",
+                "help": "A help.",
+                "default": 1,
+            },
+            "arg2": {
+                "flags": "--arg2",
+                "help": "More help.",
+                "default": 2,
+            },
+            "arg3": {
+                "flags": "--arg3",
+                "help": "Even more...",
+                "default": 3,
+            },
+            "arg4": {
+                "flags": "--arg4",
+                "help": "...heeeeeeeeelp.",
+                "default": 4,
+            },
+        }
+    )
 
 
 # Example Wrapped Functions ----------------------------------------------------
@@ -678,7 +717,7 @@ def get_other_params():
 def some_function(options, unknown_options):
     LOG.debug("Some Function")
     print_dict_tree(options, print_fun=LOG.debug)
-    LOG.debug("Unknown Options: \n {:s}".format(str(unknown_options)))
+    LOG.debug(f"Unknown Options: \n {str(unknown_options):s}")
     LOG.debug("\n")
 
 

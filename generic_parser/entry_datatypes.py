@@ -4,6 +4,7 @@ Entry Datatypes
 
 This module contains advanced datatypes to add as type to any entrypoint or parser.
 """
+
 import abc
 from array import array
 
@@ -16,12 +17,13 @@ FALSE_ITEMS = ["False", "0", False, 0]  # items that count as False
 
 def get_instance_faker_meta(*classes):
     """Returns the metaclass that fakes the ``isinstance()`` and ``issubclass()`` checks."""
+
     class FakeMeta(abc.ABCMeta):
         def __instancecheck__(cls, inst):
             return isinstance(inst, classes)
 
-        def __subclasscheck__(self, subclass):
-            return any([issubclass(c, subclass) for c in classes])
+        def __subclasscheck__(cls, subclass):
+            return any(issubclass(c, subclass) for c in classes)
 
     return FakeMeta
 
@@ -37,8 +39,8 @@ def get_multi_class(*classes):
     input to the classes in the given order (i.e. string-classes need to go to the end,
     as they 'always' succeed).
     """
-    class MultiClass(metaclass=get_instance_faker_meta(*classes)):
 
+    class MultiClass(metaclass=get_instance_faker_meta(*classes)):
         @classmethod
         def _convert_to_a_type(cls, value):
             for c in classes:
@@ -47,7 +49,7 @@ def get_multi_class(*classes):
                 except (ValueError, TypeError):
                     pass
             else:
-                cls_string = ','.join([c.__name__ for c in classes])
+                cls_string = ",".join([c.__name__ for c in classes])
                 raise ValueError(
                     f"The value '{value}' cant be converted to any of the classes '{cls_string:s}'"
                 )
@@ -65,11 +67,12 @@ def get_multi_class(*classes):
 
 class DictAsString(metaclass=get_instance_faker_meta(str, dict)):
     """Use dicts in command line like {"key":value}."""
+
     def __new__(cls, s):
         if isinstance(s, dict):
             return s
 
-        d = eval(s, {'nan': float('nan'), 'array':array})
+        d = eval(s, {"nan": float("nan"), "array": array})
         if not isinstance(d, dict):
             raise ValueError(f"'{s}' can't be converted to a dictionary.")
         return d
@@ -77,18 +80,18 @@ class DictAsString(metaclass=get_instance_faker_meta(str, dict)):
 
 class BoolOrString(metaclass=get_instance_faker_meta(bool, str)):
     """A class that behaves like a boolean when possible, otherwise like a string."""
+
     def __new__(cls, value):
         if isinstance(value, str):
-            value = value.strip("\'\"")  # behavior like dict-parser
+            value = value.strip("'\"")  # behavior like dict-parser
 
         if value in TRUE_ITEMS:
             return True
 
-        elif value in FALSE_ITEMS:
+        if value in FALSE_ITEMS:
             return False
 
-        else:
-            return str(value)
+        return str(value)
 
 
 class BoolOrList(metaclass=get_instance_faker_meta(bool, list)):
@@ -96,13 +99,13 @@ class BoolOrList(metaclass=get_instance_faker_meta(bool, list)):
     A class that behaves like a boolean when possible, otherwise like a list.
     Hint: ``list.__new__(list, value)`` returns an empty list.
     """
+
     def __new__(cls, value):
         if value in TRUE_ITEMS:
             return True
 
-        elif value in FALSE_ITEMS:
+        if value in FALSE_ITEMS:
             return False
-        else:
-            if isinstance(value, str):
-                value = eval(value)
-            return list(value)
+        if isinstance(value, str):
+            value = eval(value)
+        return list(value)
