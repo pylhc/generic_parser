@@ -65,6 +65,10 @@ changelog = "https://github.com/pylhc/generic_parser/blob/master/CHANGELOG.md"
 
 # ----- Testing ----- #
 
+[tool.pytest.ini_options]
+addopts = "--cov-report=xml --cov-report term-missing --cov-config=pyproject.toml --cov=generic_parser"
+testpaths = ["tests"]
+
 [tool.coverage.run]
 source = ["generic_parser/"]
 
