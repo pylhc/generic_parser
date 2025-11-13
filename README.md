@@ -15,18 +15,21 @@ See the [API documentation](https://pylhc.github.io/generic_parser/) for details
 ## Installing
 
 Installation is easily done via `pip`. The package is then used as `generic_parser`.
+
 ```bash
 python -m pip install generic-parser
 ```
 
 One can also install in a `conda` environment via the `conda-forge` channel with:
+
 ```bash
 conda install -c conda-forge generic_parser
 ```
 
-## Example Usage:
+## Example
 
 Content of `myscript.py`
+
 ```python
 from generic_parser import entrypoint, EntryPointParameters
 
@@ -63,7 +66,8 @@ if __name__ == '__main__':
 ### Commandline
 
 Calling that script with ``python myscript.py -f 1 -s "test"`` will result in:
-```
+
+```bash
 True
 False
 ```
@@ -73,14 +77,16 @@ It is assumed, that this is the standard mode of operation for your functions.
 #### Config File
 
 Further, one can also use a config file `config.ini` containing:
-```
+
+```ini
 [Section]
 first = 2
 second = "Hello"
 ```
 
 and run the script with `python myscript.py --entry_cfg config.ini` leading to
-```
+
+```bash
 False
 False
 ```
@@ -90,13 +96,15 @@ Especially the declaration of a `[DEFAULT]` section can be helpful.
 For further information about config files, check the python [Config Parser](https://docs.python.org/3/library/configparser.html).
 
 ### Python
+
 Or call the function directly from python code:
+
 ```python
 if __name__ == '__main__':
     main(first=1, second="World")
 ```
 
-```
+```python
 True
 False
 ```
@@ -110,4 +118,4 @@ which is not used in the `Entrypoint`, but can be handy in other use-cases.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
