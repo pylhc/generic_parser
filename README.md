@@ -1,7 +1,6 @@
 # Generic Parser
-[![Cron Testing](https://github.com/pylhc/generic_parser/workflows/Cron%20Testing/badge.svg)](https://github.com/pylhc/generic_parser/actions?query=workflow%3A%22Cron+Testing%22)
-[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
-[![Code Climate maintainability (percentage)](https://img.shields.io/codeclimate/maintainability-percentage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
+
+[![Tests](https://github.com/pylhc/generic_parser/actions/workflows/coverage.yml/badge.svg?branch=master)](https://github.com/pylhc/generic_parser/actions/workflows/coverage.yml)
 <!-- [![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/) -->
 [![PyPI Version](https://img.shields.io/pypi/v/generic_parser?label=PyPI&logo=pypi)](https://pypi.org/project/generic_parser/)
 [![GitHub release](https://img.shields.io/github/v/release/pylhc/generic_parser?logo=github)](https://github.com/pylhc/generic_parser/)
