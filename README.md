@@ -1,8 +1,7 @@
 # Generic Parser
-[![Cron Testing](https://github.com/pylhc/generic_parser/workflows/Cron%20Testing/badge.svg)](https://github.com/pylhc/generic_parser/actions?query=workflow%3A%22Cron+Testing%22)
-[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
-[![Code Climate maintainability (percentage)](https://img.shields.io/codeclimate/maintainability-percentage/pylhc/generic_parser.svg?style=popout)](https://codeclimate.com/github/pylhc/generic_parser)
-<!-- [![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/) -->
+
+[![Tests](https://github.com/pylhc/generic_parser/actions/workflows/coverage.yml/badge.svg?branch=master)](https://github.com/pylhc/generic_parser/actions/workflows/coverage.yml)
+[![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/)
 [![PyPI Version](https://img.shields.io/pypi/v/generic_parser?label=PyPI&logo=pypi)](https://pypi.org/project/generic_parser/)
 [![GitHub release](https://img.shields.io/github/v/release/pylhc/generic_parser?logo=github)](https://github.com/pylhc/generic_parser/)
 [![Conda-forge Version](https://img.shields.io/conda/vn/conda-forge/generic_parser?color=orange&logo=anaconda)](https://anaconda.org/conda-forge/generic_parser)
@@ -16,18 +15,21 @@ See the [API documentation](https://pylhc.github.io/generic_parser/) for details
 ## Installing
 
 Installation is easily done via `pip`. The package is then used as `generic_parser`.
+
 ```bash
 python -m pip install generic-parser
 ```
 
 One can also install in a `conda` environment via the `conda-forge` channel with:
+
 ```bash
 conda install -c conda-forge generic_parser
 ```
 
-## Example Usage:
+## Example
 
 Content of `myscript.py`
+
 ```python
 from generic_parser import entrypoint, EntryPointParameters
 
@@ -64,7 +66,8 @@ if __name__ == '__main__':
 ### Commandline
 
 Calling that script with ``python myscript.py -f 1 -s "test"`` will result in:
-```
+
+```bash
 True
 False
 ```
@@ -74,14 +77,16 @@ It is assumed, that this is the standard mode of operation for your functions.
 #### Config File
 
 Further, one can also use a config file `config.ini` containing:
-```
+
+```ini
 [Section]
 first = 2
 second = "Hello"
 ```
 
 and run the script with `python myscript.py --entry_cfg config.ini` leading to
-```
+
+```bash
 False
 False
 ```
@@ -91,13 +96,15 @@ Especially the declaration of a `[DEFAULT]` section can be helpful.
 For further information about config files, check the python [Config Parser](https://docs.python.org/3/library/configparser.html).
 
 ### Python
+
 Or call the function directly from python code:
+
 ```python
 if __name__ == '__main__':
     main(first=1, second="World")
 ```
 
-```
+```python
 True
 False
 ```
@@ -111,4 +118,4 @@ which is not used in the `Entrypoint`, but can be handy in other use-cases.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.

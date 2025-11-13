@@ -24,17 +24,18 @@ authors = [
 ]
 license = "MIT"
 dynamic = ["version"]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
@@ -62,6 +63,22 @@ homepage = "https://github.com/pylhc/generic_parser"
 repository = "https://github.com/pylhc/generic_parser"
 documentation = "https://pylhc.github.io/generic_parser/"
 changelog = "https://github.com/pylhc/generic_parser/blob/master/CHANGELOG.md"
+
+# ----- Testing ----- #
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:",  # do not count if TYPE_CHECKING block imports (ignored at runtime) for coverage
+  "except ImportError:",  # do not count missing optional dependencies set to None, we monkeypatch and test that
+]
 
 # ----- Dev Tools Configuration ----- #
 
