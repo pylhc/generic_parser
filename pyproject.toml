@@ -67,15 +67,14 @@ changelog = "https://github.com/pylhc/generic_parser/blob/master/CHANGELOG.md"
 # ----- Testing ----- #
 
 [tool.pytest.ini_options]
-addopts = "--cov-report=xml --cov-report term-missing --cov-config=pyproject.toml --cov=generic_parser"
-testpaths = ["tests"]
+addopts = [
+    "--import-mode=importlib",
+]
 
 [tool.coverage.run]
-source = ["generic_parser/"]
+relative_files = true
 
 [tool.coverage.report]
-precision = 2
-ignore_errors = true
 exclude_also = [
   "if TYPE_CHECKING:",  # do not count if TYPE_CHECKING block imports (ignored at runtime) for coverage
   "except ImportError:",  # do not count missing optional dependencies set to None, we monkeypatch and test that
