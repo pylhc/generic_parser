@@ -1,7 +1,7 @@
 # Generic Parser
 
 [![Tests](https://github.com/pylhc/generic_parser/actions/workflows/coverage.yml/badge.svg?branch=master)](https://github.com/pylhc/generic_parser/actions/workflows/coverage.yml)
-<!-- [![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/) -->
+[![GitHub last commit](https://img.shields.io/github/last-commit/pylhc/generic_parser.svg?style=popout)](https://github.com/pylhc/generic_parser/)
 [![PyPI Version](https://img.shields.io/pypi/v/generic_parser?label=PyPI&logo=pypi)](https://pypi.org/project/generic_parser/)
 [![GitHub release](https://img.shields.io/github/v/release/pylhc/generic_parser?logo=github)](https://github.com/pylhc/generic_parser/)
 [![Conda-forge Version](https://img.shields.io/conda/vn/conda-forge/generic_parser?color=orange&logo=anaconda)](https://anaconda.org/conda-forge/generic_parser)
